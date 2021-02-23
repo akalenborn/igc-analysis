@@ -1,0 +1,263 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <title>IGC Analysis Tool</title>
+    <link rel="stylesheet" href="igcViewer.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css"/>
+    <!-- Async CSS loading -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"
+          media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="//unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css" type="text/css"
+          media="print" onload="this.media='all'">
+
+<!--    Add Leaflet Gesture Handling and Maps-->
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="//unpkg.com/leaflet-gesture-handling"></script>
+    <script defer src="http://igc-analysis.com/lib/leaflet.awesome-markers.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script defer src="lib/moment.min.js"></script>
+    <script defer src="lib/moment-timezone-with-data.min.js"></script>
+</head>
+
+<body>
+<div id="igc-analysis">
+    <h1>IGC Analysis Tool</h1>
+    <p>
+        A free browser-based tool to view and analyze GPS tracks and barograph traces from gliding loggers using the
+        IGC data format. Nothing is uploaded to any server – processing happens with JavaScript on your local device.
+    </p>
+
+    <div id="runtime-info" class="modal" style="display: none">
+        <!--    This modal is only shown when the algorithms are expected to need much time. -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Please note: The analysis of the IGC file heavily uses your CPU.
+                This may not let you use this browser window while the calculations are still running.</p>
+            <p>You can continue browsing in a different browser window without slowing down the calculations by
+                much.</p>
+            <button id="keep-calculation-speed" onclick="closeRuntimeInfoModal()">OK</button>
+        </div>
+    </div>
+
+    <div id="drop_zone" ondrop="dropHandler(event, handleFileInput);" ondragover="dragOverHandler(event);">
+
+        <div id="igc-content-wrapper">
+            <div id="analysis-output">
+
+                <p id="drag-and-drop-paragraph">Drop an IGC file here or:</p>
+
+                <div class="file-selection">
+                    <label for="file-control" id="open-file" class="blue-button">Select an IGC file</label>
+                    <input id="file-control" type="file" style="display: none"/>
+                    <button type="button" id="display-default-file" class="white-button" onclick="displayDefaultFile()">Display a default file!</button>
+                </div>
+
+                <div class="circle-detection">
+                    <label for="circle-progress">running circle detection:</label>
+                    <progress id="circle-progress" value="0" max="100"> 0%</progress>
+                    <p id="time-spent-circles"></p>
+                </div>
+
+            </div>
+            <div id="info-preferences">
+                <div id="preferences" class="igc-info-content">
+                    <h2> Preferences </h2>
+
+                    <div class="preferences-option">
+                        <label for="select-altitude-units">Altitude units:</label>
+                        <select id="select-altitude-units" autocomplete="off">
+                            <option value="metres">Metres</option>
+                            <option value="feet">Feet</option>
+                        </select>
+                    </div>
+
+                    <div class="preferences-option">
+                        <label for="select-time-zone">Time zone:</label>
+                        <select id="select-time-zone"></select>
+                    </div>
+
+                    <div class="preferences-option">
+                        <label for="select-curve-algorithm">Curve detection:</label>
+                        <select id="select-curve-algorithm" autocomplete="off">
+                            <option value="optimal">Optimal search</option>
+                            <option value="theta">Fast theta search</option>
+                        </select>
+                    </div>
+
+                    <div class="preferences-option">
+                        <label for="select-circle-algorithm">Circle detection:</label>
+                        <select id="select-circle-algorithm" autocomplete="off">
+                            <option value="optimal">Optimal search</option>
+                            <option value="theta">Fast theta search</option>
+                        </select>
+                    </div>
+
+                    <div class="preferences-option">
+                        <label for="select-triangle-opt">Triangle Calc Points:</label>
+                        <select id="select-triangle-opt" autocomplete="off">
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                            <option value="300">300</option>
+                            <option value="400">400</option>
+                            <option value="500">500</option>
+                        </select>
+                    </div>
+
+                    <label class="preferences-option">Which geometric shapes should be highlighted?</label>
+                    <div id="checkbox-container" class="preferences-option">
+                        <div class="checkbox">
+                            <input type="checkbox" id="curve-90" name="scales">
+                            <label for="curve-90" class="checkbox-label"> 90° curves</label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="curve-180" name="scales">
+                            <label for="curve-180" class="checkbox-label"> 180° curves</label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="circle-checkbox" name="scales">
+                            <label for="circle-checkbox" class="checkbox-label"> circles</label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="eight-checkbox" name="scales">
+                            <label for="eight-checkbox" class="checkbox-label"> eights</label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="triangle-checkbox" name="scales">
+                            <label for="triangle-checkbox" class="checkbox-label"> triangle</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="igc-info-container" class="igc-info-content" style="display: none">
+                    <h2> Flight Information </h2>
+
+                    <table id="headerInfo">
+                        <tbody></tbody>
+                    </table>
+
+                    <div id="task">
+                        <h2> Task </h2>
+                        <ul></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p>&nbsp;</p>
+        <div id="triangle-info-container">
+
+        </div>
+        <div id="triangle-runtime">
+            <p id="opt-points"></p>
+            <p id="cand-search"></p>
+            <p id="opt-cand-search"></p>
+        </div>
+        <div id="errorMessage"></div>
+
+
+        <div id="igc-file-display">
+            <div>
+                <h2> Flight graph </h2>
+                <div id="mapWrapper" class="clearfix">
+                    <div id="map"></div>
+                    <div id="slider">
+                        <label for="timeSlider">Time:</label>
+                        <button id="timeBack"><span class="fa fa-caret-left"></span></button>
+                        <input type="range" id="timeSlider" step="1" value="0" min="0" max="100"/>
+                        <button id="timeForward"><span class="fa fa-caret-right"></span></button>
+                        <p id="timePositionDisplay"></p>
+                    </div>
+                    <div id="clear"></div>
+                </div>
+            </div>
+
+            <div>
+                <h2> Barogram data </h2>
+                <div id="barogram-chart">
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <!--    Import of source files:    -->
+        <!-- Added because of missing libraries in default master version -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+        <link rel="stylesheet" href="igcViewer.css"/>
+
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/lvoogdt/Leaflet.awesome-markers@2.0.2/dist/leaflet.awesome-markers.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+        <!--    For a production environment, bundling these files could reduce page load times    -->
+        <script src="src/shared/globalVariables.js"></script>
+        <script src="src/shared/config.js"></script>
+        <script src="src/shared/UIControl.js"></script>
+        <script src="src/shared/modal.js"></script>
+        <script src="src/shared/chart.js"></script>
+        <script src="lib/utils/latAndLong.js"></script>
+        <script src="lib/utils/readFile.js"></script>
+        <script src="lib/utils/dropFile.js"></script>
+        <script src="lib/utils/wait.js"></script>
+        <script src="lib/utils/distance.js"></script>
+        <script src="src/shared/errorHandler.js"></script>
+        <script src="lib/utils/arrays.js"></script>
+        <script src="src/parseIGC.js"></script>
+        <script src="src/keyFigures.js"></script>
+        <script src="src/mapControl.js"></script>
+        <script src="src/igcViewer.js"></script>
+        <script src="src/analyzeIGC.js"></script>
+        <script src="src/algorithms/curve.js"></script>
+        <script src="src/algorithms/circle.js"></script>
+        <script src="src/algorithms/eight.js"></script>
+        <script src="src/algorithms/triangle.js"></script>
+        <script src="src/algorithms/thetaTurning.js"></script>
+        <script src="src/displayResults.js"></script>
+        <script src="index.js"></script>
+    </div>
+
+    <div id="igc-file-standard">
+        <h1>The IGC file standard</h1>
+        <p>
+            Many aerial sports use IGC files to record a flight route and metadata of a flight.
+            The IGC data file format is provided by the
+            <a href="https://www.fai.org/page/igc-free-software">International Gliding Commission</a>.
+        </p>
+        <p>
+            Aerial sports where IGC files are often used include gliding and paragliding.
+            These sports often require flying geometric shapes in different scenarios from a flight school to
+            competitions (e.g. the <a href="https://www.xcontest.org/world/en/">World XContest</a>),
+            where geometric shapes are evaluated afterward to provide a competition score.
+        </p>
+
+    </div>
+
+    <div id="about">
+        <h1>About IGC Analysis</h1>
+        <p>
+            IGC Analysis dynamically analyzes an IGC file, calculates key figures and detects geometric shapes in the flight graph.
+            The web application is built upon the <a href="https://github.com/alistairmgreen/jsigc">jsIGC GitHub Repository</a>.
+            All code is open-source and available <a href="https://github.com/kettemann/igc-analysis">here</a>.
+        </p>
+
+        <h2>Credits</h2>
+        <p>This software is made available to you with help of these open-source projects:</p>
+        <ul>
+            <li><a href="https://github.com/alistairmgreen/jsigc">jsIGC</a> (GitHub project)</li>
+            <li><a href="https://leafletjs.com/" target="_blank">Leaflet.js</a></li>
+            <li><a href="https://stamen.com/">Stamen Tiles</a></li>
+            <li><a href="https://OpenStreetMap.org">OpenStreetMap</a></li>
+            <li><a href="https://www.chartjs.org/">Chart.js charting library</a></li>
+            <li><a href="http://momentjs.com/timezone">Moment Timezone library</a></li>
+        </ul>
+
+    </div>
+</div>
+</body>
+
+</html>
