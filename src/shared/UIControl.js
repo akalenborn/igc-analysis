@@ -8,13 +8,13 @@ function setCircleDetectionOutput(timeSpent, circlesCount) {
         msg = "no circles were detected";
     }
 
-    circlesTimeSpent.textContent = "circle detection finished in " + timeSpent + " seconds: " + msg;
+    //circlesTimeSpent.textContent = "circle detection finished in " + timeSpent + " seconds: " + msg;
     showProgress(latLong.length);
 }
 
 function applyCircleDetectionProgress(value) {
-    circleAlgorithmProgressBar.value = value;
-    circleDetectionContainer.style.display = 'block';
+    //circleAlgorithmProgressBar.value = value;
+    //circleDetectionContainer.style.display = 'block';
 }
 
 function setCheckboxValue(checkbox, value) { checkbox.checked = value; }
@@ -29,8 +29,8 @@ function showCheckboxes() {
 
 function showInfoContainers() {
     igcInfoContainer.style.display = "block";
-    outputContainer.style.display = "block";
-    dragAndDropParagraph.style.display = "none";
+    //outputContainer.style.display = "block";
+    //dragAndDropParagraph.style.display = "none";
 }
 
 function setTimelineValue(timeIndex) {
@@ -95,7 +95,7 @@ function showIGCTasks(){
     if (igcFile.task.coordinates.length > 0) {
         //eliminate anything with empty start line coordinates
         if (igcFile.task.coordinates[0][0] !== 0) {
-            taskElement.style.display = 'block';
+            //taskElement.style.display = 'block';
             //Now add TP numbers.  Change to unordered list
             if (igcFile.task.takeoff.length > 0) {
                 taskListElement.innerHTML = '<li>' + 'Takeoff: ' + igcFile.task.takeoff + '</li>';
@@ -118,7 +118,7 @@ function showIGCTasks(){
             mapControl.addTask(igcFile.task.coordinates, igcFile.task.names);
         }
     } else {
-        taskElement.style.display = 'none';
+        //taskElement.style.display = 'none';
     }
 
 }

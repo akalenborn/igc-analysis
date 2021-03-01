@@ -4,7 +4,9 @@
     <list default="true" id="85f0a4ee-ab9f-4813-b48b-887e036e2037" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/igcViewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/igcViewer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/UIControl.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/UIControl.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/globalVariables.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/globalVariables.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +22,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1odoD4wtnIt0tJBYmMsa2q6KJbe" />
   <component name="ProjectViewState">
@@ -46,7 +56,8 @@
       <workItem from="1614084425476" duration="6777000" />
       <workItem from="1614091510071" duration="856000" />
       <workItem from="1614280065100" duration="1181000" />
-      <workItem from="1614606692369" duration="6604000" />
+      <workItem from="1614606692369" duration="7634000" />
+      <workItem from="1614615060741" duration="601000" />
     </task>
     <servers />
   </component>

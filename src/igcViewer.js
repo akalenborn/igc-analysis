@@ -14,8 +14,8 @@ async function handleFileInput(file) {
 
             /* Map wird initialisiert */
             await displayIgc(mapControl);
-            /* Algorithmen werden gestartet */
 
+            /* Algorithmen werden gestartet */
             await runAlgorithms(igcFile);
             plotBarogramChart(igcFile);
             return resolve();
