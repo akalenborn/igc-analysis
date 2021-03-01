@@ -1,14 +1,5 @@
-const fileURL = 'https://api.igc.onestudies.com/api/igc/getFile.php';
+const fileURL = ''/*'https://api.igc.onestudies.com/api/igc/getFile.php'*/;
 
-
-/* Standard Programm Ablauf startet hier:
-Nutzer wählt Datei ->
-Datei wird in handleFileInpute geladen
--> file wird in parseIGC übertragen, dort werden alle Informationen aus der
-Datei entzogen
--> anschließend wird die Map dargestellt displayIGC(mapControl)
--> dann werden Algorithmen ausgeführt runAlgorithms(igcfile)
- */
 document.addEventListener("DOMContentLoaded", async () => {
     const res = await fetch(fileURL);
     const blob = await res.blob();
