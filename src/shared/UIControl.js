@@ -95,7 +95,7 @@ function showIGCTasks(){
     if (igcFile.task.coordinates.length > 0) {
         //eliminate anything with empty start line coordinates
         if (igcFile.task.coordinates[0][0] !== 0) {
-            //taskElement.style.display = 'block';
+            taskElement.style.display = 'block';
             //Now add TP numbers.  Change to unordered list
             if (igcFile.task.takeoff.length > 0) {
                 taskListElement.innerHTML = '<li>' + 'Takeoff: ' + igcFile.task.takeoff + '</li>';
@@ -118,7 +118,7 @@ function showIGCTasks(){
             mapControl.addTask(igcFile.task.coordinates, igcFile.task.names);
         }
     } else {
-        //taskElement.style.display = 'none';
+        taskElement.style.display = 'none';
     }
 
 }
