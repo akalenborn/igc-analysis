@@ -6,7 +6,7 @@ function getKeyFigures() {
         minAltitude: getMinAltitude(),
         maxAltitude: getMaxAltitude(),
         maxAltitudeAboveStart: getMaxAltitudeAboveStart(),
-        totalAltitudeGain: getTotalAltitudeGain(),
+        gainInAltitude: getGainInAltitude(),
         startLocation: getStartLocation(),
         landingLocation: getLandingLocation(),
         startLandingDistance: getStartLandingDistanceKM()
@@ -62,7 +62,7 @@ function getMaxAltitudeAboveStart() {
     return getMaxAltitude() - igcFile.gpsAltitude[0];
 }
 
-function getTotalAltitudeGain(){
+function getGainInAltitude(){
     let totalAltitude = 0;
     let altitudeDiff;
     for (let i = 1; i < igcFile.gpsAltitude.length; i++) {

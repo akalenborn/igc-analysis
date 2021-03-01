@@ -68,7 +68,7 @@ function displayKeyFigures(keyFigures){
         {name: "Maximum altitude", value: getAltitudeString(keyFigures.maxAltitude)},
         {name: "Minimum altitude", value: getAltitudeString(keyFigures.minAltitude)},
         {name: "Maximum altitude above start", value: getAltitudeString(keyFigures.maxAltitudeAboveStart)},
-        {name: "Total altitude gain", value: getAltitudeString(keyFigures.totalAltitudeGain)},
+        {name: "Total altitude gain", value: getAltitudeString(keyFigures.gainInAltitude)},
         {name: "Start location", value: getPositionString(keyFigures.startLocation)},
         {name: "Landing location", value: getPositionString(keyFigures.landingLocation)},
         {name: "Distance from start to landing", value: getDistanceString(keyFigures.startLandingDistance)}
