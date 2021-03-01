@@ -43,10 +43,10 @@ Changes: 01/03/2021
     -> added: {name: "Total altitude gain", value: getAltitudeString(keyFigures.gainInAltitude)},
 
 *keyFigures.js
-    - changes to returned object in function getKeyFigures()
+    - changes to returned object in function getKeyFigures() (o)
     -> added: gainInAltitude: getGainInAltitude(),
 
-    - added function getGainInAltitude()
+    - added function getGainInAltitude() (o)
         function getGainInAltitude(){
             let totalAltitude = 0;
             let altitudeDiff;
