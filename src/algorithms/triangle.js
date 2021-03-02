@@ -4,7 +4,7 @@ let count = 1;
 
 
 async function triangleDetection(){
-    optLatLong = await getOptLatLong(triangleOptSelect.value);
+    optLatLong = await getOptLatLong(triangleAlgorithm.value);
     setStartTime();
     _triangle = await findTriangle();
 
@@ -56,7 +56,7 @@ async function findTriangle(){
     }
 
     let candSearchEnd =(window.performance.now() - candSearchStart)/1000;
-    document.getElementById("opt-points").innerHTML = "Points considered: " + triangleOptSelect.value;
+    document.getElementById("opt-points").innerHTML = "Points considered: " + triangleAlgorithm.value;
     document.getElementById("cand-search").innerHTML = "Searching Candidates finished in: " + candSearchEnd;
 
     let sortedArr =  await sortArr(faiTriangle);

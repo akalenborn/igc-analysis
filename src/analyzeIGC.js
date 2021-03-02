@@ -1,18 +1,56 @@
 'use strict';
 
-async function runAlgorithms(track) {
-    await initAlgorithmVariables(track);
+document.getElementById("startAnalysis").addEventListener("click", async () => {
+    await resetMap();
+    await displayIgc(mapControl);
+    hideTriangleContainer();
+
+    await runAlgorithms(igcFile, getAnalysisPreferences());
+});
+
+async function runAlgorithms(track, activeAlgorithms) {
+    //await initAlgorithmVariables(track);
+    //await resetMap();
+    //await displayIgc(mapControl);
     showCheckboxes();
-    const curves = await curveDetection(track.latLong, distances, 0.3);
+    let curves;
+    for(let i = 0; i < activeAlgorithms.length; i++){
+        switch (activeAlgorithms[i].name) {
+            case "curve90":
+            case "curve180":
+
+                if(curves == null){
+                    curves = await curveDetection(track.latLong, distances, 0.3);
+                    getResultObject(curves);
+                }
+                break;
+            case "circle":
+                results.shapeDetection.circle = await circleDetection();
+                setCircleDetectionOutput(getCurrentRuntime(), _circles.length);
+                algorithms[2].result = results.shapeDetection.circle;
+                break;
+            case "eight":
+                results.shapeDetection.eight = await eightDetection();
+                algorithms[3].result = results.shapeDetection.eight;
+                break;
+            case "triangle":
+                results.shapeDetection.triangle = await triangleDetection();
+                algorithms[4].result = results.shapeDetection.triangle;
+                break;
+            default:
+        }
+    }
+    /*
+    //const curves = await curveDetection(track.latLong, distances, 0.3);
     getResultObject(curves);
-    await displayKeyFigures(results.additionalData);
+    //await displayKeyFigures(getKeyFigures());
     results.shapeDetection.circle = await circleDetection();
     setCircleDetectionOutput(getCurrentRuntime(), _circles.length);
     results.shapeDetection.eight = await eightDetection();
-    results.shapeDetection.triangle = await triangleDetection();
+    results.shapeDetection.triangle = await algorithms[4].getResults();
     algorithms[2].result = results.shapeDetection.circle;
     algorithms[3].result = results.shapeDetection.eight;
-    algorithms[4].result = results.shapeDetection.triangle;
+    algorithms[4].result = results.shapeDetection.triangle;*/
     await displayResults(results, mapControl);
     closeRuntimeInfoModal();
     return results;

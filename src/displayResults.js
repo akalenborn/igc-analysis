@@ -5,7 +5,7 @@ let curve90 = [],
 async function displayResults(results) {
     curve90 = results.shapeDetection.curve90;
     curve180 = results.shapeDetection.curve180;
-    setDisabledProperty();
+    //setDisabledProperty();
     /* für jeden Algorithmus wird die Shape auf Basis der
     Ergebnisse gezeichnet
      */
@@ -35,8 +35,8 @@ function displayTriangle(algorithm){
         mapControl.addMarkerTo(algorithm.name, algorithm.result.startP);
         mapControl.addMarkerTo(algorithm.name, algorithm.result.endP);
         mapControl.addTriangle(algorithm, algorithm.color);
-    }
 
+    }
     displayTriangleInfo();
 }
 
@@ -79,18 +79,23 @@ function displayTriangleInfo(){
         '<td>' + results.shapeDetection.triangle.distStartEnd + "km" + '</td>'+
         '</tr>'+
         '</tbody>' +'</table>';
+
+    triangleInfoContainer.style.display = "block";
+    document.querySelector("#triangle-runtime").style.display = "block";
 }
 
 function displayShape(algorithm) {
     /* algorithm.result beinhaltet alle Werte der ermittelten Formen */
-    for (const shape of algorithm.result) {
+    if (algorithm.checkbox.checked){
+        for (const shape of algorithm.result) {
         /* shape bzw. algorithm.result beinhaltet alle Indizes an deren Stelle in dem latLong
         Array die gefundenen shape Punkte liegen -> Marker wird an der ersten Indize Stelle gesetzt
          */
-        if (algorithm.checkbox.checked) mapControl.addMarkerTo(algorithm.name, latLong[shape[0]]);
-        /* Shape wird aus der Gesamtstrecke gesliced um als eigene Strecke der Map hinzugefügt zu werden */
-        const points = latLong.slice(shape[0], lastElementOfArray(shape) + 1);
-        mapControl.addShape(points, algorithm.color);
+            mapControl.addMarkerTo(algorithm.name, latLong[shape[0]]);
+            /* Shape wird aus der Gesamtstrecke gesliced um als eigene Strecke der Map hinzugefügt zu werden */
+            const points = latLong.slice(shape[0], lastElementOfArray(shape) + 1);
+            mapControl.addShape(points, algorithm.color);
+        }
     }
 }
 
@@ -122,22 +127,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     /* EventListener für dropdown Select - Auswahl und Ausführung des Algorithmus */
     curveAlgorithm.addEventListener('change', () => {
         storePreference("curveAlgorithm", curveAlgorithm.value);
-        resetMap();
-        displayIgc(mapControl);
-        runAlgorithms(igcFile);
+        //resetMap();
+        //displayIgc(mapControl);
+        //runAlgorithms(igcFile);
     });
 
     circleAlgorithm.addEventListener('change', () => {
         storePreference("circleAlgorithm", circleAlgorithm.value);
-        resetMap();
-        displayIgc(mapControl);
-        runAlgorithms(igcFile);
+        //resetMap();
+        //displayIgc(mapControl);
+        //runAlgorithms(igcFile);
     });
 
-    triangleOptSelect.addEventListener('change', () => {
-        resetMap();
-        displayIgc(mapControl);
-        runAlgorithms(igcFile);
+    triangleAlgorithm.addEventListener('change', () => {
+        storePreference("triangleAlgorithm", triangleAlgorithm.value);
+        //resetMap();
+        //displayIgc(mapControl);
+        //runAlgorithms(igcFile);
     });
 
 });

@@ -68,6 +68,7 @@ function createMapControl(elementName) {
         layerGroups = {};
         layerGroup = L.layerGroup().addTo(map);
 
+
         return map;
     }
 

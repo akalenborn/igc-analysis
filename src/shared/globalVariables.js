@@ -1,4 +1,5 @@
 const checkboxContainer = document.querySelector('#checkbox-container');
+const preferenceContainer = document.querySelector('#preferences');
 const curve90Checkbox = document.querySelector('#curve-90');
 const curve180Checkbox = document.querySelector('#curve-180');
 const circleCheckbox = document.querySelector('#circle-checkbox');
@@ -26,7 +27,7 @@ const errorMessageElement = document.querySelector('#errorMessage');
 const timeBackButton = document.querySelector('#timeBack');
 const timeForwardButton = document.querySelector('#timeForward');
 const fileControl = document.querySelector('#file-control');
-const triangleOptSelect = document.querySelector('#select-triangle-opt');
+const triangleAlgorithm = document.querySelector('#select-triangle-algorithm');
 
 
 let igcFile;

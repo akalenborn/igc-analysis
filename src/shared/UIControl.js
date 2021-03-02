@@ -23,6 +23,10 @@ function getTimeLineValue() {
     return parseInt(timeSliderElement.value, 10);
 }
 
+function showAnalysisPreferences(){
+    preferenceContainer.style.display = "block";
+}
+
 function showCheckboxes() {
     checkboxContainer.style.display = "block";
 }
@@ -31,6 +35,11 @@ function showInfoContainers() {
     igcInfoContainer.style.display = "block";
     //outputContainer.style.display = "block";
     //dragAndDropParagraph.style.display = "none";
+}
+
+function hideTriangleContainer(){
+    triangleInfoContainer.style.display = "none";
+    document.querySelector("#triangle-runtime").style.display = "none";
 }
 
 function setTimelineValue(timeIndex) {
@@ -42,11 +51,12 @@ function setTimelineValue(timeIndex) {
 /* Initialisiert Ausgabe zusätzlicher Flug Informationen */
 function initFlightInformation(){
     displayIGCHeader();
-    displayKeyFigures(results.additionalData);
+    displayKeyFigures(getKeyFigures());
 }
 
 function displayIGCHeader(){
     showInfoContainers();
+    hideTriangleContainer();
     const displayDate = moment(igcFile.recordTime[0]).format('LL');
     headerTableElement.innerHTML = '<tr></tr>' + '<th>Date</th>'
         + '<td>' + displayDate + '</td>';

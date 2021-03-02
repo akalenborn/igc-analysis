@@ -1,3 +1,7 @@
+body{
+    line-height: 1.2;
+}
+
 html {
     font-size: 16px;
     font-family: sans-serif;
@@ -98,6 +102,7 @@ table#headerInfo {
 #headerInfo th {
     text-align: left;
     font-weight: bold;
+    padding-right: 5px;
 }
 
 table#triangleInfo{
@@ -107,6 +112,14 @@ table#triangleInfo{
 #triangleInfo th{
     text-align: left;
     font-weight: bold;
+}
+
+#triangle-info-container{
+    display: none;
+}
+
+#preferences{
+    display:none;
 }
 
 .preferences-option, .checkbox {
@@ -225,6 +238,10 @@ table#triangleInfo{
 #about {
     margin-bottom: 150px;
 }
+
+#igc-analysis {
+    padding: 8px;
+}
 /* Fix the time and position display on mobile */
 @media screen and (max-width: 560px) {
     #timePositionDisplay {
@@ -243,20 +260,18 @@ table#triangleInfo{
         margin: 20px 30px 0 30px;
     }
 
-    #info-preferences {
-        width: -moz-fit-content; /* Firefox */
-        width: fit-content;
-        min-height: 300px;
-        display: -webkit-flex; /* Safari */
-        display: flex; /* Standard syntax */
-        flex-direction: row-reverse; /* Flight info on the left and Preferences on the right */
-    }
-
+    /*#info-preferences {
+        width: -moz-fit-content;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: row-reverse;
+    }*/
+    /*
     .igc-info-content {
-        -webkit-flex: 1; /* Safari */
-        -ms-flex: 1; /* IE 10 */
-        flex: 1 auto; /* Standard syntax */
-    }
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1 auto;
+    }*/
 
     #mapWrapper, #barogram-chart {
         width: calc(100% - 2em);

@@ -14,10 +14,15 @@ async function handleFileInput(file) {
 
             /* Map wird initialisiert */
             await displayIgc(mapControl);
+            await displayIGCHeader();
+            await initAlgorithmVariables(igcFile);
+            await displayKeyFigures(getKeyFigures());
 
             /* Algorithmen werden gestartet */
-            await runAlgorithms(igcFile);
+            //await runAlgorithms(igcFile);
+            showAnalysisPreferences();
             plotBarogramChart(igcFile);
+
             return resolve();
         };
         reader.readAsText(file);
@@ -72,7 +77,7 @@ function storePreference(name, value) {
 }
 
 function displayIgc(mapControl) {
-    displayIGCHeader();
+    //displayIGCHeader();
     showIGCTasks();
 
     // Reveal the map and graph. Necessary before setting the zoom level of the map or plotting the graph.
@@ -130,9 +135,22 @@ function getPreferences() {
         if (storedCurveAlgorithm) curveAlgorithm.value = storedCurveAlgorithm;
         const storedCircleAlgorithm = localStorage.getItem('circleAlgorithm');
         if (storedCircleAlgorithm) circleAlgorithm.value = storedCircleAlgorithm;
+        const storedTriangleAlgorithm = localStorage.getItem('triangleAlgorithm');
+        if (storedTriangleAlgorithm) triangleAlgorithm.value = storedTriangleAlgorithm;
     } catch (e) {
         // If permission is denied, ignore the error.
     }
+}
+
+function getAnalysisPreferences(){
+    let chosenAlgs = [];
+    for (const algorithm of algorithms) {
+        if(algorithm.checkbox.checked){
+            chosenAlgs.push(algorithm);
+        }
+    }
+
+    return chosenAlgs;
 }
 
 function setTimeZone(timeZone) {
