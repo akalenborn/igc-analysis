@@ -14,6 +14,7 @@ async function runAlgorithms(track, activeAlgorithms) {
     //await displayIgc(mapControl);
     showCheckboxes();
     let curves;
+
     for(let i = 0; i < activeAlgorithms.length; i++){
         switch (activeAlgorithms[i].name) {
             case "curve90":
