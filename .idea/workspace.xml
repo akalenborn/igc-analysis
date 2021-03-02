@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="85f0a4ee-ab9f-4813-b48b-887e036e2037" name="Default Changelist" comment="" />
+    <list default="true" id="85f0a4ee-ab9f-4813-b48b-887e036e2037" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/keyFigures.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/keyFigures.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/UIControl.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/UIControl.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,6 +55,7 @@
       <workItem from="1614280065100" duration="1181000" />
       <workItem from="1614606692369" duration="7634000" />
       <workItem from="1614615060741" duration="1172000" />
+      <workItem from="1614682445850" duration="326000" />
     </task>
     <servers />
   </component>
