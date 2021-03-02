@@ -8,7 +8,10 @@ function getKeyFigures() {
         maxAltitudeAboveStart: getMaxAltitudeAboveStart(),
         gainInAltitude: getGainInAltitude(),
         startLocation: getStartLocation(),
+        startAltitude: getStartAltitude(),
+        startTime: getStartTime(),
         landingLocation: getLandingLocation(),
+        landingAltitude: getLandingAltitude(),
         startLandingDistance: getStartLandingDistanceKM()
     }
 }
@@ -74,6 +77,19 @@ function getGainInAltitude(){
 
 function getStartLocation() {
     return latLong[0];
+}
+
+function getStartAltitude() {
+    return igcFile.gpsAltitude[0];
+}
+
+function getStartTime() {
+    return moment(igcFile.recordTime[0]).format('HH:mm:ss');
+}
+
+
+function getLandingAltitude() {
+    return igcFile.gpsAltitude[igcFile.gpsAltitude.length-1];
 }
 
 function getLandingLocation() {
