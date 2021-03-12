@@ -180,65 +180,65 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
 ###  analyzeIGC.js
 
 - ***added EventListener for startAnalysis button (r)***
-      - prepares DOM for start of algorithms
-      - resets map and route info
-      - initiates algorithms   
-      <details>
-      
-      ```js
-      document.getElementById("startAnalysis").addEventListener("click", async () => {
-          await resetMap();
-          await displayIgc(mapControl);
-          hideTriangleContainer();
-      
-          await runAlgorithms(igcFile, getAnalysisPreferences());
-      });
-      ```
-      </details>
+    - prepares DOM for start of algorithms
+    - resets map and route info
+    - initiates algorithms   
+  <details>
+  
+  ```js
+  document.getElementById("startAnalysis").addEventListener("click", async () => {
+      await resetMap();
+      await displayIgc(mapControl);
+      hideTriangleContainer();
+  
+      await runAlgorithms(igcFile, getAnalysisPreferences());
+  });
+  ```
+  </details>
 
 
 - ***changes to function runAlgorithms (r)***
-      - now only runs algorithms that are selected by the user
-        <details>
-    
-        ```js
-        async function runAlgorithms(track, activeAlgorithms) {
-        showCheckboxes();
-        let curves;
-    
-        for(let i = 0; i < activeAlgorithms.length; i++){
-            switch (activeAlgorithms[i].name) {
-                case "curve90":
-                case "curve180":
-    
-                    if(curves == null){
-                        curves = await curveDetection(track.latLong, distances, 0.3);
-                        getResultObject(curves);
-                    }
-                    break;
-                case "circle":
-                    results.shapeDetection.circle = await circleDetection();
-                    setCircleDetectionOutput(getCurrentRuntime(), _circles.length);
-                    algorithms[2].result = results.shapeDetection.circle;
-                    break;
-                case "eight":
-                    results.shapeDetection.eight = await eightDetection();
-                    algorithms[3].result = results.shapeDetection.eight;
-                    break;
-                case "triangle":
-                    results.shapeDetection.triangle = await triangleDetection();
-                    algorithms[4].result = results.shapeDetection.triangle;
-                    break;
-                default:
-            }
+  - now only runs algorithms that are selected by the user
+    <details>
+
+    ```js
+    async function runAlgorithms(track, activeAlgorithms) {
+    showCheckboxes();
+    let curves;
+
+    for(let i = 0; i < activeAlgorithms.length; i++){
+        switch (activeAlgorithms[i].name) {
+            case "curve90":
+            case "curve180":
+
+                if(curves == null){
+                    curves = await curveDetection(track.latLong, distances, 0.3);
+                    getResultObject(curves);
+                }
+                break;
+            case "circle":
+                results.shapeDetection.circle = await circleDetection();
+                setCircleDetectionOutput(getCurrentRuntime(), _circles.length);
+                algorithms[2].result = results.shapeDetection.circle;
+                break;
+            case "eight":
+                results.shapeDetection.eight = await eightDetection();
+                algorithms[3].result = results.shapeDetection.eight;
+                break;
+            case "triangle":
+                results.shapeDetection.triangle = await triangleDetection();
+                algorithms[4].result = results.shapeDetection.triangle;
+                break;
+            default:
         }
-      
-        await displayResults(results, mapControl);
-        closeRuntimeInfoModal();
-        return results;
-        }
-        ```
-        </details>
+    }
+  
+    await displayResults(results, mapControl);
+    closeRuntimeInfoModal();
+    return results;
+    }
+    ```
+    </details>
 
 
 ###  UIControl.js
@@ -279,20 +279,20 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
 
 
 - ***changes to displayIGCHeader (r)***
-      - added hideTriangleContainer();
-      <details>
-      
-      ```js
-      function displayIGCHeader(){
-          showInfoContainers();
-          hideTriangleContainer();
-          const displayDate = moment(igcFile.recordTime[0]).format('LL');
-          headerTableElement.innerHTML = '<tr></tr>' + '<th>Date</th>'
-              + '<td>' + displayDate + '</td>';
-          addToTable(igcFile.headers);
-      }
-      ```
-      </details>
+  - added hideTriangleContainer();
+  <details>
+  
+  ```js
+  function displayIGCHeader(){
+      showInfoContainers();
+      hideTriangleContainer();
+      const displayDate = moment(igcFile.recordTime[0]).format('LL');
+      headerTableElement.innerHTML = '<tr></tr>' + '<th>Date</th>'
+          + '<td>' + displayDate + '</td>';
+      addToTable(igcFile.headers);
+  }
+  ```
+  </details>
     
 
 ### globalVariables.js
