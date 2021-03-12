@@ -180,26 +180,25 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
 ###  analyzeIGC.js
 
 - ***added EventListener for startAnalysis button (r)***
-    - prepares DOM for start of algorithms
-    - resets map and route info
-    - initiates algorithms
-    
-    <details>
-    
-    ```js
-    document.getElementById("startAnalysis").addEventListener("click", async () => {
-        await resetMap();
-        await displayIgc(mapControl);
-        hideTriangleContainer();
-    
-        await runAlgorithms(igcFile, getAnalysisPreferences());
-    });
-    ```
-    </details>
+  - prepares DOM for start of algorithms
+  - resets map and route info
+  - initiates algorithms   
+  <details>
+  
+  ```js
+  document.getElementById("startAnalysis").addEventListener("click", async () => {
+      await resetMap();
+      await displayIgc(mapControl);
+      hideTriangleContainer();
+  
+      await runAlgorithms(igcFile, getAnalysisPreferences());
+  });
+  ```
+  </details>
 
 
 - ***changes to function runAlgorithms (r)***
-    - now only runs algorithms that are selected by the user
+  - now only runs algorithms that are selected by the user
     <details>
 
     ```js
@@ -268,7 +267,6 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
 
 
 - ***changes to function initFlightInformation (r)***
-
     <details>
 
     ```js
@@ -281,20 +279,20 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
 
 
 - ***changes to displayIGCHeader (r)***
-    - added hideTriangleContainer();
-    <details>
-
-    ```js
-    function displayIGCHeader(){
-        showInfoContainers();
-        hideTriangleContainer();
-        const displayDate = moment(igcFile.recordTime[0]).format('LL');
-        headerTableElement.innerHTML = '<tr></tr>' + '<th>Date</th>'
-            + '<td>' + displayDate + '</td>';
-        addToTable(igcFile.headers);
-    }
-    ```
-    </details>
+  - added hideTriangleContainer();
+  <details>
+  
+  ```js
+  function displayIGCHeader(){
+      showInfoContainers();
+      hideTriangleContainer();
+      const displayDate = moment(igcFile.recordTime[0]).format('LL');
+      headerTableElement.innerHTML = '<tr></tr>' + '<th>Date</th>'
+          + '<td>' + displayDate + '</td>';
+      addToTable(igcFile.headers);
+  }
+  ```
+  </details>
     
 
 ### globalVariables.js
