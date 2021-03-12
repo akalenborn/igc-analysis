@@ -9,7 +9,6 @@ async function handleFileInput(file) {
         const reader = new FileReader();
         reader.onload = async () => {
             await resetMap();
-            /*---- Resultate aus der parseIGC werden in igcFile geladen ----*/
             igcFile = parseIGC(reader.result);
 
             /* Map wird initialisiert */
@@ -18,8 +17,9 @@ async function handleFileInput(file) {
             await initAlgorithmVariables(igcFile);
             await displayKeyFigures(getKeyFigures());
 
-            /* Algorithmen werden gestartet */
-            //await runAlgorithms(igcFile);
+            //activate to allow analysis immediately after file upload
+            //await runAlgorithms(igcFile, getAnalysisPreferences());
+
             showAnalysisPreferences();
             plotBarogramChart(igcFile);
 

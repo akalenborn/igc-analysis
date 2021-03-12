@@ -23,6 +23,8 @@ function getTimeLineValue() {
     return parseInt(timeSliderElement.value, 10);
 }
 
+
+//set preferenceContainer in igcViewer.css to block to allow algorithm selection prior to file upload
 function showAnalysisPreferences(){
     preferenceContainer.style.display = "block";
 }
