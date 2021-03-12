@@ -16,15 +16,15 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
 
 ### igcViewer.css
 
-- several changes and additions 
+- ***several changes and additions*** 
   - changes only required if bootstrap changes are adopted
 
 ### index.html
 
-- renamed div #select-triangle-opt to #select-triangle-algorithm
+- ***renamed div #select-triangle-opt to #select-triangle-algorithm***
   
 
-- added bootstrap styling to following divs: (o)
+- ***added bootstrap styling to following divs: (o)***
     <details>
     
     ``` html
@@ -117,7 +117,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
     </details>
   
 
-- added button to initiate Analysis (already included in code excerpt above): (r)
+- ***added button to initiate Analysis (already included in code excerpt above): (r)***
     <details>
     
     ``` html
@@ -129,7 +129,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
 
 ###  igcViewer.js
 
-- changes to function handleFileInput (r)
+- ***changes to function handleFileInput (r)***
     <details>
     
     ```js
@@ -161,7 +161,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
     </details>
 
 
-- added function getAnalysisPreferences (r)
+- ***added function getAnalysisPreferences (r)***
     <details>
     
     ``` js
@@ -179,7 +179,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
 
 ###  analyzeIGC.js
 
-- added EventListener for startAnalysis button (r)
+- ***added EventListener for startAnalysis button (r)***
     - prepares DOM for start of algorithms
     - resets map and route info
     - initiates algorithms
@@ -198,7 +198,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
     </details>
 
 
-- changes to function runAlgorithms (r)
+- ***changes to function runAlgorithms (r)***
     - now only runs algorithms that are selected by the user
     <details>
 
@@ -244,7 +244,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
 
 ###  UIControl.js
 
-- added function showAnalysisPreferences (r)
+- ***added function showAnalysisPreferences (r)***
   <details>
   
   ```js
@@ -256,7 +256,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
   </details>
 
 
-- added function hideTriangleContainer (r)
+- ***added function hideTriangleContainer (r)***
     <details>
     
     ```js
@@ -267,7 +267,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
     </details>
 
 
-- changes to function initFlightInformation (r)
+- ***changes to function initFlightInformation (r)***
 
     <details>
 
@@ -280,7 +280,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
     </details>
 
 
-- changes to displayIGCHeader (r)
+- ***changes to displayIGCHeader (r)***
     - added hideTriangleContainer();
     <details>
 
@@ -299,7 +299,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
 
 ### globalVariables.js
 
-- added new variable
+- ***added new variable***
     <details>
   
     ```js
@@ -308,7 +308,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
     </details>
 
 
-- changed variable const triangleOptSelect to triangleAlgorithm
+- ***changed variable const triangleOptSelect to triangleAlgorithm***
     <details>
   
     ```js
@@ -322,11 +322,12 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
 <summary><strong>01/03/2021</strong></summary>
 
 ## New Files added:
- - triangle.js - contains algorithm for triangle detection (r)
+- ***triangle.js***
+  - contains algorithm for triangle detection (r)
 
 ## File changes:
 ### index.html
-- added preference option for triangle algorithm (r)  
+- ***added preference option for triangle algorithm (r)*** 
   &rarr; at line 100 - 110 (below other preferences-option containers)
     <details>
   
@@ -345,11 +346,11 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
     </details>      
 
             
-- added triangle-info-container: shows details of the detected triangle (o)  
+- ***added triangle-info-container: shows details of the detected triangle (o)***  
     &rarr; at line 150 (below igc-info-container)  
 
 
-- added triangle-runtime: display runtime information of triangle detection algorithm (o)  
+- ***added triangle-runtime: display runtime information of triangle detection algorithm (o)***  
     &rarr; at line 152 (below triangle-info-container)
   <details>
   
@@ -363,24 +364,24 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
   </details>
               
 
-- include triangle.js script (r)  
+- ***include triangle.js script (r)***  
     &rarr; at line 216
     ```js 
     <script src="src/algorithms/triangle.js"></script>
     ```
 
 ### UIControl.js
-- changes to function displayKeyFigures() (o)
+- ***changes to function displayKeyFigures() (o)***
 ```js
   {name: "Total altitude gain", value: getAltitudeString(keyFigures.gainInAltitude)},
 ```
 
 ### keyFigures.js
-- changes to returned object in function getKeyFigures() (o)  
+- ***changes to returned object in function getKeyFigures() (o)***  
     &rarr; added: gainInAltitude: getGainInAltitude(),
 
 
-- added function getGainInAltitude() (o)
+- ***added function getGainInAltitude() (o)***
   <details>
   
   ```js 
@@ -399,7 +400,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
 
 
 ### globalVariables.js
-- added new Variables (r)
+- ***added new Variables (r)***
     <details>
     
     ```js 
@@ -411,7 +412,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
     </details>
           
 
-- changes to existing Variables (r)
+- ***changes to existing Variables (r)***
   <details>
   
   ```js 
@@ -438,7 +439,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
   
 
 ### mapControl.js
-- added new function
+- ***added new function***
   - required to display/remove triangle on map (r)
     <details>
     
@@ -454,7 +455,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
     
 
 ### analyzeIGC.js
-- added init for triangle algorithm (r)  
+- ***added init for triangle algorithm (r)***  
   <details>
   
   ```js
@@ -464,7 +465,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
   </details>
 
 ### displayResults.js
-- changed function displayResults(results) (r)
+- ***changed function displayResults(results) (r)***
     <details>
   
     ```js 
@@ -486,20 +487,22 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
     </details>
 
 
-- changed function setDisabledProperty() (r)
+- ***changed function setDisabledProperty() (r)***
     <details>
-
-        function setDisabledProperty() {
-            for (const algorithm of algorithms) {
-                if(algorithm.name!="triangle") {
-                    algorithm.checkbox.disabled = arrayIsEmpty(algorithm.result);
+    
+    ```js
+    function setDisabledProperty() {
+                for (const algorithm of algorithms) {
+                    if(algorithm.name!="triangle") {
+                        algorithm.checkbox.disabled = arrayIsEmpty(algorithm.result);
+                    }
                 }
             }
-        }
+    ```
     </details>
 
 
-- changes to document.addEventListener (r)
+- ***changes to document.addEventListener (r)***
   - changes to if(algorithm.checkbox.checked) (r):
     <details>
 
@@ -518,7 +521,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
     </details>
 
 
-- added triangleOptSelect.addEventListener (r):
+- ***added triangleOptSelect.addEventListener (r):***
   <details>
 
     ```js
@@ -531,7 +534,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
   </details>
   
 
-- added new function displayTriangle() (r)
+- ***added new function displayTriangle() (r)***
   <details>
   
     ```js
@@ -548,7 +551,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
   </details>
 
 
-- added new function displayTriangleInfo() (r)
+- ***added new function displayTriangleInfo() (r)***
   <details>
   
     ```js
