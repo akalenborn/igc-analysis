@@ -180,7 +180,6 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
 ###  analyzeIGC.js
 
 - added EventListener for startAnalysis button (r)
-
     - prepares DOM for start of algorithms
     - resets map and route info
     - initiates algorithms
