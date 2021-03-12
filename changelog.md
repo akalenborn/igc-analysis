@@ -5,20 +5,22 @@
 <details>
 <summary><strong>12/03/2021</strong></summary>
 
-##Added Bootstrap
+## Added Bootstrap
 
 ``` html
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" 
 integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
 ```
     
-##File changes:
+## File changes:
 
-###igcViewer.css
+### igcViewer.css
+
 - several changes and additions 
   - changes only required if bootstrap changes are adopted
 
-###index.html
+### index.html
+
 - renamed div #select-triangle-opt to #select-triangle-algorithm
   
 
@@ -125,7 +127,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
     ```
     </details>
 
-### igcViewer.js
+###  igcViewer.js
 
 - changes to function handleFileInput (r)
     <details>
@@ -175,7 +177,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
     ```
     </details>
 
-###analyzeIGC.js
+###  analyzeIGC.js
 
 - added EventListener for startAnalysis button (r)
 
@@ -241,7 +243,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
     </details>
 
 
-###UIControl.js
+###  UIControl.js
 
 - added function showAnalysisPreferences (r)
   <details>
@@ -296,7 +298,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
     </details>
     
 
-###globalVariables.js
+### globalVariables.js
 
 - added new variable
     <details>
@@ -320,11 +322,11 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
 <details>
 <summary><strong>01/03/2021</strong></summary>
 
-##New Files added:
+## New Files added:
  - triangle.js - contains algorithm for triangle detection (r)
 
-##File changes:
-###index.html
+## File changes:
+### index.html
 - added preference option for triangle algorithm (r)  
   &rarr; at line 100 - 110 (below other preferences-option containers)
     <details>
@@ -368,13 +370,13 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
     <script src="src/algorithms/triangle.js"></script>
     ```
 
-###UIControl.js
+### UIControl.js
 - changes to function displayKeyFigures() (o)
 ```js
   {name: "Total altitude gain", value: getAltitudeString(keyFigures.gainInAltitude)},
 ```
 
-###keyFigures.js
+### keyFigures.js
 - changes to returned object in function getKeyFigures() (o)  
     &rarr; added: gainInAltitude: getGainInAltitude(),
 
@@ -397,7 +399,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
   </details>
 
 
-###globalVariables.js
+### globalVariables.js
 - added new Variables (r)
     <details>
     
@@ -436,7 +438,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
   </details>
   
 
-###mapControl.js
+### mapControl.js
 - added new function
   - required to display/remove triangle on map (r)
     <details>
@@ -452,7 +454,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
     </details>
     
 
-###analyzeIGC.js
+### analyzeIGC.js
 - added init for triangle algorithm (r)  
   <details>
   
@@ -462,7 +464,7 @@ integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOn
   ``` 
   </details>
 
-###displayResults.js
+### displayResults.js
 - changed function displayResults(results) (r)
     <details>
   
