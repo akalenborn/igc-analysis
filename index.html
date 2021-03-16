@@ -19,10 +19,11 @@
 <!--    Add Leaflet Gesture Handling and Maps-->
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
     <script src="//unpkg.com/leaflet-gesture-handling"></script>
-    <script defer src="http://igc-analysis.com/lib/leaflet.awesome-markers.js"></script>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js></script>
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script defer src="lib/moment.min.js"></script>
     <script defer src="lib/moment-timezone-with-data.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
 </head>
 
@@ -47,7 +48,7 @@
     </div>
 
     <div id="drop_zone" ondrop="dropHandler(event, handleFileInput);" ondragover="dragOverHandler(event);">
-
+        
         <div id="igc-content-wrapper">
             <div id="analysis-output">
 
@@ -196,21 +197,6 @@
         </div>
         <!-- End: Required for integration -->
 
-        <!--    Import of source files:    -->
-        <!-- Added because of missing libraries in default master version -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css"/>
-        <link rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
-        <link rel="stylesheet" href="igcViewer.css"/>
-        <link rel="stylesheet" href="//unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css" type="text/css">
-
-
-        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-        <script src="//unpkg.com/leaflet-gesture-handling"></script>
-        <script src="https://cdn.jsdelivr.net/gh/lvoogdt/Leaflet.awesome-markers@2.0.2/dist/leaflet.awesome-markers.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-        <link rel="stylesheet" href="//unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css" type="text/css">
-
         <!--    For a production environment, bundling these files could reduce page load times    -->
         <script src="src/shared/globalVariables.js"></script>
         <script src="src/shared/config.js"></script>
@@ -236,7 +222,6 @@
         <script src="src/algorithms/thetaTurning.js"></script>
         <script src="src/displayResults.js"></script>
         <script src="index.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     </div>
 
     <div id="igc-file-standard">
@@ -277,5 +262,4 @@
     </div>
 </div>
 </body>
-
 </html>

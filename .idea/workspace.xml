@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="85f0a4ee-ab9f-4813-b48b-887e036e2037" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/igc-analysis-master.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/igc-analysis-master.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/algorithms/triangle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/algorithms/triangle.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +74,7 @@
       <workItem from="1615647852652" duration="17000" />
       <workItem from="1615858350584" duration="19000" />
       <workItem from="1615858655528" duration="1218000" />
-      <workItem from="1615872264183" duration="2251000" />
+      <workItem from="1615872264183" duration="2516000" />
     </task>
     <servers />
   </component>
