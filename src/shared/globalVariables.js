@@ -28,6 +28,8 @@ const timeBackButton = document.querySelector('#timeBack');
 const timeForwardButton = document.querySelector('#timeForward');
 const fileControl = document.querySelector('#file-control');
 const triangleAlgorithm = document.querySelector('#select-triangle-algorithm');
+const triangleAlgorithmType = document.querySelector('#select-triangle-algorithm-type');
+
 
 
 let igcFile;

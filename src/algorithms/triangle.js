@@ -1,14 +1,150 @@
 let _triangle = [];
+let _optTriangle = [];
 let count = 1;
-
+let optCount = 1;
+let tempmax;
+let solutionIndex = [];
+let endresult;
 
 
 async function triangleDetection(){
     optLatLong = await getOptLatLong(triangleAlgorithm.value);
     setStartTime();
-    _triangle = await findTriangle();
 
-    return _triangle;
+    if(triangleAlgorithmType.value == "standard"){
+        _triangle = await findTriangle();
+        return _triangle;
+
+    }
+    else if(triangleAlgorithmType.value == "optTest"){
+        _optTriangle = await optTriangleSearch();
+        return _optTriangle;
+    }
+
+}
+
+async function optTriangleSearch(){
+    var faiTriangle = [];
+    let candSearchStart = window.performance.now();
+
+    for(var i = 0; i < optLatLong.length-1;i++){
+        if(getCurrentRuntimeMilliseconds() > domUpdateInterval*count) {
+            await domUpdate();
+            count++;
+        }
+        for(var j = i + 1; j < optLatLong.length; j++){
+            let d = distanceBetweenCoordinates(optLatLong[i],optLatLong[j]);
+            let maxPossible = d / 0.28;
+            let maxTriangles = [i, j, d, maxPossible];
+            // i index p1, j index p2, d distance between p1 and p2, maxpossible max possible triangle distance
+
+            faiTriangle.push(maxTriangles);
+        }
+    }
+
+    faiTriangle.sort(function(a, b) {
+        return b[3] - a[3];
+    });
+
+    let optTriangle = await getOptFaiTriangle(faiTriangle);
+
+    let finalMaxFai = {
+        startP: optLatLong[optTriangle[0]],
+        type: "Triangle",
+        w1: optLatLong[optTriangle[0]],
+        w12: distanceBetweenCoordinates(optLatLong[optTriangle[0]], optLatLong[optTriangle[4]]),
+        w1prcnt: (distanceBetweenCoordinates(optLatLong[optTriangle[0]], optLatLong[optTriangle[4]])/optTriangle[3]*100).toFixed(2),
+        w2: optLatLong[optTriangle[4]],
+        w23: distanceBetweenCoordinates(optLatLong[optTriangle[4]], optLatLong[optTriangle[1]]),
+        w2prcnt: (distanceBetweenCoordinates(optLatLong[optTriangle[4]], optLatLong[optTriangle[1]])/optTriangle[3]*100).toFixed(2),
+        w3: optLatLong[optTriangle[1]],
+        w31: distanceBetweenCoordinates(optLatLong[optTriangle[0]], optLatLong[optTriangle[1]]),
+        w3prcnt: (distanceBetweenCoordinates(optLatLong[optTriangle[0]], optLatLong[optTriangle[1]])/optTriangle[3]*100).toFixed(2),
+        endP: optLatLong[optTriangle[1]],
+        distTotal: optTriangle[2],
+        distStartEnd: optTriangle[3]-optTriangle[2],
+        flightScore: optTriangle[2] * 2
+    }
+
+    let candSearchEnd =(window.performance.now() - candSearchStart)/1000;
+    document.getElementById("cand-search").innerHTML = "Opt FAI detection finished in: " + candSearchEnd;
+
+    return new Promise( resolve => {
+        resolve(finalMaxFai);
+    });
+}
+
+async function getOptFaiTriangle(triArray){
+    let currOpt = 0;
+    let currOptPoints = [];
+    let maxFaiTriangle;
+
+    let optStart, optW1, optW2, optW3, optEnd;
+
+    for(let i = 0; i < triArray.length; i++){
+        let tempArr = [];
+        if(getCurrentRuntimeMilliseconds() > domUpdateInterval*count) {
+            await domUpdate();
+            count++;
+        }
+
+        if(currOpt > triArray[i][3]){
+            break;
+        }
+
+        for(let j = 0; j < optLatLong.length; j++){
+            let d1 = distanceBetweenCoordinates(optLatLong[j], optLatLong[triArray[i][0]]);
+            let d2 = distanceBetweenCoordinates(optLatLong[j], optLatLong[triArray[i][1]]);
+            let dsum = d1 + d2 + triArray[i][2];
+
+            let isFai = getTriangleType([d1, d2, triArray[i][2]], dsum);
+
+            let pointOrder = [j, triArray[i][0], triArray[i][1]];
+            pointOrder.sort((a, b) => a - b);
+
+            let w1 = pointOrder[0];
+            let w2 = pointOrder[1];
+            let w3 = pointOrder[2];
+
+            if(isFai){
+                tempArr.push([w1,w3,dsum,w2]);
+            }
+        }
+
+        if(tempArr.length != 0){
+            if(tempArr[0][2] > currOpt){
+                tempArr.sort(function(a, b) {
+                    return b[2] - a[2];
+                });
+
+                let currTempOpt=0;
+                for(let k = 0; k < tempArr.length; k++){
+                    //alert("Schenkel: "+ i + " index k: " + k + " Curr Temp best: " + currTempOpt + " min Dist:" + tempArr[tempArr.length-1][2] + " max Dist: " + tempArr[0][2]);
+                    if(currTempOpt > tempArr[k][2]){
+                        break;
+                    }
+
+                    tempMax = await getStartEnd(tempArr[k][0],tempArr[k][1], tempArr[k][2]);
+                    if(tempMax[1] > currTempOpt){
+                        currTempOpt = tempMax[1];
+                        solutionIndex = k;
+                        //Start, W1, W2, W3, End, DistanceTotal, Leg1, Leg2, Leg3
+                        //currOptPoints = [tempMax[0][0], tempArr[k][0],tempArr[k][1],tempArr[k][2], tempMax[0][1], tempArr[k][3], tempArr[k][4], tempArr[k][5], tempArr[k][6], tempMax[2]];
+
+                    }
+                }
+
+                if(currTempOpt > currOpt){
+                    currOpt = currTempOpt;
+                    endresult = [tempArr[solutionIndex][0],tempArr[solutionIndex][1],tempMax[1],tempArr[solutionIndex][2],tempArr[solutionIndex][3]];
+                    //maxFaiTriangle = getMaxFaiTriangleInfo(currOptPoints);
+
+                }
+            }
+        }
+    }
+
+    return endresult;
 }
 
 async function findTriangle(){
@@ -56,8 +192,8 @@ async function findTriangle(){
     }
 
     let candSearchEnd =(window.performance.now() - candSearchStart)/1000;
-    document.getElementById("opt-points").innerHTML = "Points considered: " + triangleAlgorithm.value;
-    document.getElementById("cand-search").innerHTML = "Searching Candidates finished in: " + candSearchEnd;
+    document.getElementById("opt-points").innerHTML = "Points considered: " + triangleAlgorithm.value ;
+    document.getElementById("cand-search").innerHTML = "Default triangle detection finished in: " + candSearchEnd + " <br />";
 
     let sortedArr =  await sortArr(faiTriangle);
     maxFaiTriangle = await getMaxFaiTriangle(sortedArr);
@@ -135,6 +271,26 @@ function sortArr(triangleArr){
     });
 }
 
+async function getStartEnd(p1,p3, currTriDist){
+    let currMin = Number.MAX_VALUE;
+    let currStartEnd = [];
+
+    for(let i = 0; i<=p1;i++){
+        for(let j = p3; j<optLatLong.length; j++){
+            let startEnd = distanceBetweenCoordinates(optLatLong[i], optLatLong[j]);
+            if(startEnd <= currTriDist*0.2 && startEnd < currMin){
+                currMin = startEnd;
+                currStartEnd = [i,j];
+
+            }
+        }
+    }
+
+    return [currStartEnd, currTriDist - currMin];
+
+
+}
+
 function getTriangleType(distAll, triangleDistance){
     let faiCond = triangleDistance * 0.28;
     let isFai = true;
@@ -147,6 +303,26 @@ function getTriangleType(distAll, triangleDistance){
 
     return isFai;
 }
+
+/*function getMaxFaiTriangleInfo(faiResultArr){
+    return {
+        type: "FAI-Triangle",
+        startP: optLatLong[faiResultArr[0]],
+        w1: optLatLong[faiResultArr[1]],
+        w12: faiResultArr[6],
+        w1prcnt: (faiResultArr[6]/faiResultArr[5]*100).toFixed(2),
+        w2: optLatLong[faiResultArr[2]],
+        w23: faiResultArr[7],
+        w2prcnt: (faiResultArr[7]/faiResultArr[5]*100).toFixed(2),
+        w3: optLatLong[faiResultArr[3]],
+        w31: faiResultArr[8],
+        w3prcnt: (faiResultArr[8]/faiResultArr[5]*100).toFixed(2),
+        endP: faiResultArr[4],
+        distTotal: faiResultArr[5].toFixed(2),
+        distStartEnd: faiResultArr[9].toFixed(2),
+        flightScore: faiResultArr[5] * 2
+    };
+}*/
 
 async function getOptLatLong(maxPoints){
     let latlongInt = Math.round(latLong.length/maxPoints);
