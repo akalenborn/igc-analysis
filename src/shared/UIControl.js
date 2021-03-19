@@ -108,6 +108,7 @@ function getDistanceString(distance){
 function showIGCTasks(){
     // Show the task declaration if it is present.
     if (igcFile.task.coordinates.length > 0) {
+        taskListElement.innerHTML = "";
         //eliminate anything with empty start line coordinates
         if (igcFile.task.coordinates[0][0] !== 0) {
             taskElement.style.display = 'block';
