@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="85f0a4ee-ab9f-4813-b48b-887e036e2037" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/algorithms/triangle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/algorithms/triangle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/globalVariables.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/globalVariables.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +40,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../igc-ba-project" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/igc-analysis-v2-master" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -76,6 +74,9 @@
       <workItem from="1615858655528" duration="1218000" />
       <workItem from="1615872264183" duration="2516000" />
       <workItem from="1615874907583" duration="14806000" />
+      <workItem from="1615890174650" duration="983000" />
+      <workItem from="1616090710393" duration="22547000" />
+      <workItem from="1616113815011" duration="773000" />
     </task>
     <servers />
   </component>

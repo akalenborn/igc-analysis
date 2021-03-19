@@ -6,6 +6,10 @@ let tempmax;
 let solutionIndex = [];
 let endresult;
 
+let distTable = [];
+
+
+
 
 async function triangleDetection(){
     optLatLong = await getOptLatLong(triangleAlgorithm.value);
@@ -26,6 +30,7 @@ async function triangleDetection(){
 async function optTriangleSearch(){
     var faiTriangle = [];
     let candSearchStart = window.performance.now();
+    let legDistances = [];
 
     for(var i = 0; i < optLatLong.length-1;i++){
         if(getCurrentRuntimeMilliseconds() > domUpdateInterval*count) {
@@ -39,7 +44,9 @@ async function optTriangleSearch(){
             // i index p1, j index p2, d distance between p1 and p2, maxpossible max possible triangle distance
 
             faiTriangle.push(maxTriangles);
+            legDistances.push(d);
         }
+        distTable.push(legDistances);
     }
 
     faiTriangle.sort(function(a, b) {
@@ -78,8 +85,19 @@ async function getOptFaiTriangle(triArray){
     let currOpt = 0;
     let currOptPoints = [];
     let maxFaiTriangle;
+    let tempMax;
 
-    let optStart, optW1, optW2, optW3, optEnd;
+    let test = 95;
+
+    /*
+    for(let s = 0; s < triArray.length; s++){
+        if(test > triArray[s][3]){
+            alert("fertig nach " + s +"/" + triArray.length);
+            break;
+        }
+
+    }
+    */
 
     for(let i = 0; i < triArray.length; i++){
         let tempArr = [];
@@ -97,8 +115,6 @@ async function getOptFaiTriangle(triArray){
             let d2 = distanceBetweenCoordinates(optLatLong[j], optLatLong[triArray[i][1]]);
             let dsum = d1 + d2 + triArray[i][2];
 
-            let isFai = getTriangleType([d1, d2, triArray[i][2]], dsum);
-
             let pointOrder = [j, triArray[i][0], triArray[i][1]];
             pointOrder.sort((a, b) => a - b);
 
@@ -106,13 +122,23 @@ async function getOptFaiTriangle(triArray){
             let w2 = pointOrder[1];
             let w3 = pointOrder[2];
 
+            if(w1!=w2 && w2!=w3){
+                var d1test = distTable[w1][w2-w1-1];
+                var d2test = distTable[w2][w3-w2-1];
+                var d3test = distTable[w1][w3-w1-1];
+                var sumOpt = d1test + d2test + d3test;
+            }
+
+            let isFai = await getTriangleType([d1, d2, triArray[i][2]], dsum);
+
             if(isFai){
-                tempArr.push([w1,w3,dsum,w2]);
+                if(dsum > currOpt){
+                    tempArr.push([w1,w3,dsum,w2]);
+                }
             }
         }
 
         if(tempArr.length != 0){
-            if(tempArr[0][2] > currOpt){
                 tempArr.sort(function(a, b) {
                     return b[2] - a[2];
                 });
@@ -128,19 +154,13 @@ async function getOptFaiTriangle(triArray){
                     if(tempMax[1] > currTempOpt){
                         currTempOpt = tempMax[1];
                         solutionIndex = k;
-                        //Start, W1, W2, W3, End, DistanceTotal, Leg1, Leg2, Leg3
-                        //currOptPoints = [tempMax[0][0], tempArr[k][0],tempArr[k][1],tempArr[k][2], tempMax[0][1], tempArr[k][3], tempArr[k][4], tempArr[k][5], tempArr[k][6], tempMax[2]];
-
                     }
                 }
 
                 if(currTempOpt > currOpt){
                     currOpt = currTempOpt;
-                    endresult = [tempArr[solutionIndex][0],tempArr[solutionIndex][1],tempMax[1],tempArr[solutionIndex][2],tempArr[solutionIndex][3]];
-                    //maxFaiTriangle = getMaxFaiTriangleInfo(currOptPoints);
-
+                    endresult = [tempArr[solutionIndex][0],tempArr[solutionIndex][1],currOpt,tempArr[solutionIndex][2],tempArr[solutionIndex][3]];
                 }
-            }
         }
     }
 
