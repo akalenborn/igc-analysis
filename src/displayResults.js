@@ -127,23 +127,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     /* EventListener für dropdown Select - Auswahl und Ausführung des Algorithmus */
     curveAlgorithm.addEventListener('change', () => {
         storePreference("curveAlgorithm", curveAlgorithm.value);
-        //resetMap();
-        //displayIgc(mapControl);
-        //runAlgorithms(igcFile);
     });
 
     circleAlgorithm.addEventListener('change', () => {
         storePreference("circleAlgorithm", circleAlgorithm.value);
-        //resetMap();
-        //displayIgc(mapControl);
-        //runAlgorithms(igcFile);
     });
 
     triangleAlgorithm.addEventListener('change', () => {
         storePreference("triangleAlgorithm", triangleAlgorithm.value);
-        //resetMap();
-        //displayIgc(mapControl);
-        //runAlgorithms(igcFile);
     });
 
 });
