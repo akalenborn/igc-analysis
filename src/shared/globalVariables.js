@@ -5,6 +5,7 @@ const curve180Checkbox = document.querySelector('#curve-180');
 const circleCheckbox = document.querySelector('#circle-checkbox');
 const eightCheckbox = document.querySelector('#eight-checkbox');
 const triangleCheckbox = document.querySelector('#triangle-checkbox');
+const optTriangleCheckbox = document.querySelector('#triangle-opt-checkbox');
 const igcInfoContainer = document.querySelector('#igc-info-container');
 const triangleInfoContainer = document.querySelector('#triangle-info-container');
 //const outputContainer = document.querySelector('#analysis-output');
