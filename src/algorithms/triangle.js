@@ -137,7 +137,7 @@ async function getFastFaiTriangle(faiArray){
 
 //optimizes main detection result
 async function getAccurateFaiTriangle(initTriangleResult, radius){
-    let higherAccRoute = await getOptLatLong(Math.min(5000,latLong.length));
+    let higherAccRoute = await getOptLatLong(Math.min(4000,latLong.length));
     let accTriangle = await getPointsInRadius(initTriangleResult, higherAccRoute, radius);
     let finalFaiTriangle = [];
 
@@ -147,8 +147,8 @@ async function getAccurateFaiTriangle(initTriangleResult, radius){
             count++;
         }
 
-        for(let j = i + 1; j < accTriangle[2].length; j++){
-            for(let k = j + 1; k < accTriangle[3].length; k++){
+        for(let j = 0; j < accTriangle[2].length; j++){
+            for(let k = 0; k < accTriangle[3].length; k++){
 
                 //Check chronological order of indices
                 if(accTriangle[1][i].index < accTriangle[2][j].index < accTriangle[3][k].index){
@@ -157,7 +157,12 @@ async function getAccurateFaiTriangle(initTriangleResult, radius){
                     let d2 = distanceBetweenCoordinates(accTriangle[2][j].point,accTriangle[3][k].point);
                     let d3 = distanceBetweenCoordinates(accTriangle[3][k].point, accTriangle[1][i].point);
                     let distArray = [d1,d2,d3];
+
+
                     distanceSum +=  d1 + d2 + d3;
+                    if(distArray>126.7){
+                        alert(getTriangleType(distArray,distanceSum));
+                    }
 
                     let tempTriangle = [i,j,k, distanceSum,d1,d2,d3];
                     let triangleType = getTriangleType(distArray,distanceSum);
