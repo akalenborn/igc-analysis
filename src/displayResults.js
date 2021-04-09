@@ -38,11 +38,11 @@ function displayTriangle(algorithm){
 
     }
     displayTriangleInfo();
+    displayRuntimeInfo();
 }
 
 function displayTriangleInfo(){
     triangleInfoContainer.innerHTML =
-        '<h2>Scoring Information</h2>' +
         '<table id="triangleInfo">' +
         '<tbody>' +
         '<tr>' +
@@ -81,8 +81,32 @@ function displayTriangleInfo(){
         '</tbody>' +'</table>';
 
     triangleInfoContainer.style.display = "block";
-    document.querySelector("#triangle-runtime").style.display = "block";
+
 }
+
+function displayRuntimeInfo(){
+    triangleRuntimeContainer.innerHTML =
+        '<table id="triangleInfo">' +
+        '<tbody>' +
+        '<tr>' +
+        '<th>Detection finished in:</th>' +
+        '<td>' + results.shapeDetection.triangle.runtimeInfo + '</td>'+
+        '</tr>'+
+        '<tr>' +
+        '<tr>' +
+        '<th>Points considered:</th>' +
+        '<td>' + results.shapeDetection.triangle.totalPoints + '</td>'+
+        '</tr>'+
+        '<tr>' +
+        '<th>Radius Accuracy:</th>' +
+        '<td>' + results.shapeDetection.triangle.radiusAcc  + '</td>'+
+        '</tr>'+
+        '</tbody>' +'</table>';
+
+    triangleRuntimeContainer.style.display = "block";
+    document.querySelector("#infoAccordion").style.display = "block";
+}
+
 
 function displayShape(algorithm) {
     /* algorithm.result beinhaltet alle Werte der ermittelten Formen */

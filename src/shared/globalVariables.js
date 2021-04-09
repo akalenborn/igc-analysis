@@ -8,6 +8,7 @@ const triangleCheckbox = document.querySelector('#triangle-checkbox');
 const optTriangleCheckbox = document.querySelector('#triangle-opt-checkbox');
 const igcInfoContainer = document.querySelector('#igc-info-container');
 const triangleInfoContainer = document.querySelector('#triangle-info-container');
+const triangleRuntimeContainer = document.querySelector('#triangle-runtime');
 //const outputContainer = document.querySelector('#analysis-output');
 //const circleDetectionContainer = document.querySelector('.circle-detection');
 //const dragAndDropParagraph = document.querySelector('#drag-and-drop-paragraph');

@@ -118,6 +118,10 @@ table#triangleInfo{
     display: none;
 }
 
+#infoAccordion{
+    display: none;
+}
+
 #preferences{
     display:none;
 }

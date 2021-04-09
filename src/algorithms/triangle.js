@@ -4,10 +4,12 @@ let count = 1;
 let solutionIndex = [];
 let endresult;
 let distTable = [];
+let runtime = 0;
 
 async function triangleDetection(){
     optLatLong = await getOptLatLong(triangleAlgorithm.value);
     setStartTime();
+    runtime = 0;
 
     if(triangleAlgorithmType.value == "standard"){
         _triangle = await getFastTriangle();
@@ -64,9 +66,7 @@ async function getFastTriangle(){
         }
     }
 
-    let candSearchEnd =(window.performance.now() - candSearchStart)/1000;
-    document.getElementById("opt-points").innerHTML = "Points considered: " + triangleAlgorithm.value ;
-    document.getElementById("cand-search").innerHTML = "Default triangle detection finished in: " + candSearchEnd + " <br />";
+    runtime +=(window.performance.now() - candSearchStart)/1000;
 
     let sortedArr =  await sortArr(faiTriangle);
     maxFaiTriangle = await getFastFaiTriangle(sortedArr);
@@ -120,6 +120,8 @@ async function getFastFaiTriangle(faiArray){
                             distTotal: faiArray[s][3].toFixed(2),
                             distStartEnd: minDistance.toFixed(2),
                             flightScore: currMaxFaiTriangle * 2,
+                            totalPoints: optLatLong.length,
+                            radiusAcc: "Not supported in Fast Search!",
                             listIndex: s,
                             lastIndex: 0
                         };
@@ -127,10 +129,10 @@ async function getFastFaiTriangle(faiArray){
                 }
             }
         }
-
     }
-    let optCandSearchEnd = (window.performance.now() - optCandSearchStart)/1000;
-    document.getElementById("opt-cand-search").innerHTML = "Optimal Candidate found after: " + optCandSearchEnd;
+
+    runtime += (window.performance.now() - optCandSearchStart)/1000;
+    maxFai.runtimeInfo = runtime.toFixed(4) + " seconds";
 
     return maxFai;
 }
@@ -140,6 +142,9 @@ async function getAccurateFaiTriangle(initTriangleResult, radius){
     let higherAccRoute = await getOptLatLong(Math.min(4000,latLong.length));
     let accTriangle = await getPointsInRadius(initTriangleResult, higherAccRoute, radius);
     let finalFaiTriangle = [];
+    let candSearchStart = window.performance.now();
+
+    //alert("start bucket: " + accTriangle[0].length + " w1: " + accTriangle[1].length + " w2: " + accTriangle[2].length + " w3: " + accTriangle[3].length + " End: " + accTriangle[4].length);
 
     for(let i = 0; i < accTriangle[1].length; i++){
         if (getCurrentRuntimeMilliseconds() > domUpdateInterval*count){
@@ -157,31 +162,25 @@ async function getAccurateFaiTriangle(initTriangleResult, radius){
                     let d2 = distanceBetweenCoordinates(accTriangle[2][j].point,accTriangle[3][k].point);
                     let d3 = distanceBetweenCoordinates(accTriangle[3][k].point, accTriangle[1][i].point);
                     let distArray = [d1,d2,d3];
-
-
                     distanceSum +=  d1 + d2 + d3;
-                    if(distArray>126.7){
-                        alert(getTriangleType(distArray,distanceSum));
-                    }
 
                     let tempTriangle = [i,j,k, distanceSum,d1,d2,d3];
                     let triangleType = getTriangleType(distArray,distanceSum);
 
-                    if(triangleType){
+                    if(triangleType && distanceSum > initTriangleResult.distTotal){
                         finalFaiTriangle.push(tempTriangle);
                     }
                 }
             }
         }
     }
-
     let sortedArr =  await sortArr(finalFaiTriangle);
-    let currMin = 10000000000000;
+    let currMin = Number.MAX_VALUE;
     let currStartEnd;
 
     for(let z = 0; z < accTriangle[0].length; z++){
         for(let x = 0; x < accTriangle[4].length; x++){
-            if(accTriangle[0][z].index < accTriangle[1][sortedArr[0][0]].index && accTriangle[4][x].index > accTriangle[3][sortedArr[0][2]].index){
+            if(accTriangle[0][z].index <= accTriangle[1][sortedArr[0][0]].index && accTriangle[4][x].index >= accTriangle[3][sortedArr[0][2]].index){
                 let startEnd = distanceBetweenCoordinates(accTriangle[0][z].point, accTriangle[4][x].point);
                 if(startEnd < currMin){
                     currMin = startEnd;
@@ -191,6 +190,7 @@ async function getAccurateFaiTriangle(initTriangleResult, radius){
         }
     }
 
+    runtime +=(window.performance.now() - candSearchStart)/1000;
     let resultTriangle = {
         type: "FAI-Triangle",
         startP: accTriangle[0][currStartEnd[0]].point,
@@ -206,7 +206,10 @@ async function getAccurateFaiTriangle(initTriangleResult, radius){
         endP: accTriangle[4][currStartEnd[1]].point,
         distTotal: sortedArr[0][3].toFixed(2),
         distStartEnd: currMin.toFixed(2),
-        flightScore: (sortedArr[0][3] - currMin) * 2
+        flightScore: (sortedArr[0][3] - currMin) * 2,
+        runtimeInfo: runtime.toFixed(4) + " seconds",
+        totalPoints: higherAccRoute.length,
+        radiusAcc: radius + "m"
     };
 
     return resultTriangle;
@@ -229,7 +232,6 @@ async function getExperimentalFaiTriangle(){
             let maxPossible = d / 0.28;
             // i index p1, j index p2, d distance between p1 and p2, maxpossible max possible triangle distance
             let maxTriangles = [i, j, d, maxPossible];
-
 
             faiTriangle.push(maxTriangles);
             legDistances.push(d);
@@ -260,7 +262,6 @@ async function getExperimentalFaiTriangle(){
         flightScore: optTriangle[2] * 2
     }
     let candSearchEnd =(window.performance.now() - candSearchStart)/1000;
-    document.getElementById("cand-search").innerHTML = "Experimental Method finished detection in: " + candSearchEnd;
 
     return new Promise( resolve => {
         resolve(finalMaxFai);
@@ -405,7 +406,28 @@ async function getPointsInRadius(initTriangleResult, higherAccRoute, radius){
         }
     }
 
-    return [start, w1, w2, w3, end];
+    return await checkBucketItemCount([initTriangleResult.startP,initTriangleResult.w1,initTriangleResult.w2,initTriangleResult.w3,initTriangleResult.endP], [start, w1, w2, w3, end], radius);
+}
+
+async function checkBucketItemCount(initArr, bucketArr, radius){
+    let tempRadius = radius;
+    let tempBucket = [];
+
+    for(let i = 0; i < bucketArr.length; i++){
+        tempBucket = bucketArr[i];
+        while(tempBucket.length > 300){
+            tempBucket = [];
+            tempRadius -= 50;
+            for(let j = 0; j < bucketArr[i].length; j++){
+                if(distanceBetweenCoordinates(bucketArr[i][j].point , initArr[i]) <= tempRadius/1000){
+                    tempBucket.push(bucketArr[i][j]);
+                }
+            }
+        }
+        bucketArr[i] = tempBucket;
+    }
+
+    return bucketArr;
 }
 
 async function getBucketItem(point, index){
