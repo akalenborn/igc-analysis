@@ -95,6 +95,10 @@ function displayRuntimeInfo(){
         '<tr>' +
         '<tr>' +
         '<th>Points considered:</th>' +
+        '<td>' + results.shapeDetection.triangle.consideredPoints + '</td>'+
+        '</tr>'+
+        '<tr>' +
+        '<th>Total Track Points:</th>' +
         '<td>' + results.shapeDetection.triangle.totalPoints + '</td>'+
         '</tr>'+
         '<tr>' +

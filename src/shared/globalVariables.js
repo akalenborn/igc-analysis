@@ -5,7 +5,6 @@ const curve180Checkbox = document.querySelector('#curve-180');
 const circleCheckbox = document.querySelector('#circle-checkbox');
 const eightCheckbox = document.querySelector('#eight-checkbox');
 const triangleCheckbox = document.querySelector('#triangle-checkbox');
-const optTriangleCheckbox = document.querySelector('#triangle-opt-checkbox');
 const igcInfoContainer = document.querySelector('#igc-info-container');
 const triangleInfoContainer = document.querySelector('#triangle-info-container');
 const triangleRuntimeContainer = document.querySelector('#triangle-runtime');
@@ -30,9 +29,6 @@ const timeBackButton = document.querySelector('#timeBack');
 const timeForwardButton = document.querySelector('#timeForward');
 const fileControl = document.querySelector('#file-control');
 const triangleAlgorithm = document.querySelector('#select-triangle-algorithm');
-const triangleAlgorithmType = document.querySelector('#select-triangle-algorithm-type');
-
-
 
 let igcFile;
 let mapControl;
