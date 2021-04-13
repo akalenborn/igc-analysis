@@ -125,7 +125,7 @@ async function getFastFaiTriangle(faiArray){
                             endP: optLatLong[j],
                             distTotal: faiArray[s][3].toFixed(2),
                             distStartEnd: minDistance.toFixed(2),
-                            flightScore: currMaxFaiTriangle * 2,
+                            flightScore: (currMaxFaiTriangle * 2).toFixed(2),
                             consideredPoints: maxFastSearchPoints,
                             totalPoints: latLong.length,
                             radiusAcc: "Not supported in Fast Search!"
@@ -227,7 +227,7 @@ async function getAccurateFaiTriangle(initTriangleResult, radius){
         endP: accTriangle[4][startEndIndex[1]].point,
         distTotal: maxTri[3].toFixed(2),
         distStartEnd: startEndDistance.toFixed(2),
-        flightScore: (maxTri[3] - startEndDistance) * 2,
+        flightScore: ((maxTri[3] - startEndDistance) * 2).toFixed(2),
         runtimeInfo: runtime.toFixed(2) + " seconds",
         consideredPoints: higherAccRoute.length,
         totalPoints: latLong.length,
