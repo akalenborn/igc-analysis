@@ -9,9 +9,6 @@ document.getElementById("startAnalysis").addEventListener("click", async () => {
 });
 
 async function runAlgorithms(track, activeAlgorithms) {
-    //await initAlgorithmVariables(track);
-    //await resetMap();
-    //await displayIgc(mapControl);
     showCheckboxes();
     let curves;
 
@@ -40,17 +37,7 @@ async function runAlgorithms(track, activeAlgorithms) {
             default:
         }
     }
-    /*
-    //const curves = await curveDetection(track.latLong, distances, 0.3);
-    getResultObject(curves);
-    //await displayKeyFigures(getKeyFigures());
-    results.shapeDetection.circle = await circleDetection();
-    setCircleDetectionOutput(getCurrentRuntime(), _circles.length);
-    results.shapeDetection.eight = await eightDetection();
-    results.shapeDetection.triangle = await algorithms[4].getResults();
-    algorithms[2].result = results.shapeDetection.circle;
-    algorithms[3].result = results.shapeDetection.eight;
-    algorithms[4].result = results.shapeDetection.triangle;*/
+
     await displayResults(results, mapControl);
     closeRuntimeInfoModal();
     return results;

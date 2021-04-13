@@ -52,7 +52,6 @@ async function getFastTriangle(){
         }
         for(let j = i + 1; j < optLatLong.length-1; j++){
             for(let k = j + 1; k < optLatLong.length;k++){
-
                 let distanceSum = 0;
                 let d1 = distanceBetweenCoordinates(optLatLong[i],optLatLong[j]);
                 let d2 = distanceBetweenCoordinates(optLatLong[j],optLatLong[k]);
@@ -96,13 +95,12 @@ async function getFastFaiTriangle(faiArray){
             count++;
         }
         //loop stops when the current MaxTriangleScore is bigger or equal than the TotalDist of current loop entry
-      if(faiArray[s][3]<currMaxFaiTriangle){
+        if(faiArray[s][3]<currMaxFaiTriangle){
             break;
         }
         //checken ob index der betrachteten dreieckspunkte im vgl zu vorherigen durchlauf und gefundenem startend min unterscheiden
         //finds the shortest start-end Distance for the current loop triangle
         for(let i = faiArray[s][0]; i>=0;i--){
-
             for(let j = faiArray[s][2]; j<optLatLong.length; j++){
                 let tempStartEnd = distanceBetweenCoordinates(optLatLong[i],optLatLong[j]);
                 if(tempStartEnd < minDistance){
@@ -192,7 +190,7 @@ async function getAccurateFaiTriangle(initTriangleResult, radius){
     for(let y = 0; y < sortedArr.length; y++) {
         let currTri = sortedArr[y][3] - min;
         //alert("curr max " + currMaxTriangle + " curr tri max" + currTri);
-        if(sortedArr[y][3] - min  <= currMaxTriangle){
+        if(sortedArr[y][3] - min  <= currMaxTriangle || (window.performance.now() - candSearchStart)/1000 > timeLimit){
             break;
         }
         for (let z = 0; z < accTriangle[0].length; z++) {

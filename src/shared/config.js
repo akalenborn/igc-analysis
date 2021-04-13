@@ -13,9 +13,10 @@ const eightDiameterMaxDeviation = 0.4; // This parameter is used for a custom ci
 
 // --- Triangle parameters ---
 const maxFastSearchPoints = 200;
-const maxImprovedSearchPoints = 10000;
+const maxImprovedSearchPoints = 3000;
 const maxRadius = 1000;
 const maxBucketSize = 100;
+const timeLimit = 10;
 
 // The angle θ between two subsequent vectors in a turn needs to fit between the below defined min and max angles.
 // e.g. for a circle of 10 vectors (11 different points) the average angle should be 36° (360 / 10)
