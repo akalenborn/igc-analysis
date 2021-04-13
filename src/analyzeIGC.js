@@ -19,7 +19,6 @@ async function runAlgorithms(track, activeAlgorithms) {
         switch (activeAlgorithms[i].name) {
             case "curve90":
             case "curve180":
-
                 if(curves == null){
                     curves = await curveDetection(track.latLong, distances, 0.3);
                     getResultObject(curves);

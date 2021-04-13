@@ -6,6 +6,12 @@ let endresult;
 let distTable = [];
 let runtime = 0;
 
+//Priorität für Optimum des Ergebnisses für diesen Algorithmus
+//Preprocessing > #Streckenpunkte > Radius > Bucketgröße
+
+//Globale Variablen für Radius und Streckenpunkte definieren -> in config?
+//Ablauf gesamt, dann Ablaufdiagramm bezogen auf Triangle Erkennung -> dann genauer auf einzelne Teile des Ablaufdiagramms eingehen
+
 async function triangleDetection(){
     optLatLong = await getOptLatLong(triangleAlgorithm.value);
     setStartTime();
@@ -14,7 +20,7 @@ async function triangleDetection(){
     if(triangleAlgorithmType.value == "standard"){
         _triangle = await getFastTriangle();
         if(optTriangleCheckbox.checked){
-            _triangle = await getAccurateFaiTriangle(_triangle, Math.min(latLong.length/10, 1000));
+            _triangle = await getAccurateFaiTriangle(_triangle, Math.min(Math.max(_triangle.w12,_triangle.w23, _triangle.w31)*1000/8, 1000));
         }
         return _triangle;
     }
@@ -22,7 +28,6 @@ async function triangleDetection(){
         _optTriangle = await getExperimentalFaiTriangle();
         return _optTriangle;
     }
-
 }
 
 //main detection
@@ -139,12 +144,12 @@ async function getFastFaiTriangle(faiArray){
 
 //optimizes main detection result
 async function getAccurateFaiTriangle(initTriangleResult, radius){
-    let higherAccRoute = await getOptLatLong(Math.min(4000,latLong.length));
+    let higherAccRoute = await getOptLatLong(Math.min(10000,latLong.length));
     let accTriangle = await getPointsInRadius(initTriangleResult, higherAccRoute, radius);
     let finalFaiTriangle = [];
     let candSearchStart = window.performance.now();
 
-    //alert("start bucket: " + accTriangle[0].length + " w1: " + accTriangle[1].length + " w2: " + accTriangle[2].length + " w3: " + accTriangle[3].length + " End: " + accTriangle[4].length);
+    alert("start bucket: " + accTriangle[0].length + " w1: " + accTriangle[1].length + " w2: " + accTriangle[2].length + " w3: " + accTriangle[3].length + " End: " + accTriangle[4].length);
 
     for(let i = 0; i < accTriangle[1].length; i++){
         if (getCurrentRuntimeMilliseconds() > domUpdateInterval*count){
@@ -415,9 +420,12 @@ async function checkBucketItemCount(initArr, bucketArr, radius){
 
     for(let i = 0; i < bucketArr.length; i++){
         tempBucket = bucketArr[i];
-        while(tempBucket.length > 300){
+        tempRadius = radius;
+        while(tempBucket.length > 100){
+            //alert(i + " bucket length " + tempBucket.length + " Radius: " + tempRadius)
             tempBucket = [];
-            tempRadius -= 50;
+            //Sonderfall, Punktemenge reduziert sich erst bei minimalem Radius
+            tempRadius = Math.max(tempRadius-10, 1);
             for(let j = 0; j < bucketArr[i].length; j++){
                 if(distanceBetweenCoordinates(bucketArr[i][j].point , initArr[i]) <= tempRadius/1000){
                     tempBucket.push(bucketArr[i][j]);

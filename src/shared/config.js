@@ -10,6 +10,7 @@ let circleMaxGap = 0.01; // maximum distance between start- and endPoint
 let circleDiameterMaxDeviation = 0.25;
 const maxEightGapPercentage = 0.1;
 const eightDiameterMaxDeviation = 0.4; // This parameter is used for a custom circle detection in eight.js
+// --- Triangle parameters ---
 
 // The angle θ between two subsequent vectors in a turn needs to fit between the below defined min and max angles.
 // e.g. for a circle of 10 vectors (11 different points) the average angle should be 36° (360 / 10)
