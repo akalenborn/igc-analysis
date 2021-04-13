@@ -149,7 +149,7 @@ async function getAccurateFaiTriangle(initTriangleResult, radius){
     let finalFaiTriangle = [];
     let candSearchStart = window.performance.now();
 
-    alert("start bucket: " + accTriangle[0].length + " w1: " + accTriangle[1].length + " w2: " + accTriangle[2].length + " w3: " + accTriangle[3].length + " End: " + accTriangle[4].length);
+    //alert("start bucket: " + accTriangle[0].length + " w1: " + accTriangle[1].length + " w2: " + accTriangle[2].length + " w3: " + accTriangle[3].length + " End: " + accTriangle[4].length);
 
     for(let i = 0; i < accTriangle[1].length; i++){
         if (getCurrentRuntimeMilliseconds() > domUpdateInterval*count){
