@@ -14,7 +14,7 @@ function createMapControl(elementName) {
 
     function createMap() {
         if (map) map.remove();
-        map = L.map(elementName, {gestureHandling: true});
+        map = L.map(elementName, {gestureHandling: false});
         const attribution = '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>';
         mapLayers = {
             positron: L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
