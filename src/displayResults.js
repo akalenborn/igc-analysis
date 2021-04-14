@@ -32,10 +32,11 @@ function setDisabledProperty() {
 
 function displayTriangle(algorithm){
     if (algorithm.checkbox.checked){
+        if(!isNaN(algorithm.result.distTotal)){
         mapControl.addMarkerTo(algorithm.name, algorithm.result.startP);
         mapControl.addMarkerTo(algorithm.name, algorithm.result.endP);
         mapControl.addTriangle(algorithm, algorithm.color);
-
+        }
     }
     displayTriangleInfo();
     displayRuntimeInfo();
