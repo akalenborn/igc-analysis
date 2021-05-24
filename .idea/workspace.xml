@@ -2,8 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="85f0a4ee-ab9f-4813-b48b-887e036e2037" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/utils/analysis.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/changelog.md" beforeDir="false" afterPath="$PROJECT_DIR$/changelog.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/igcViewer.css" beforeDir="false" afterPath="$PROJECT_DIR$/igcViewer.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/algorithms/triangle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/algorithms/triangle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mapControl.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/mapControl.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/analyzeIGC.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/analyzeIGC.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/displayResults.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayResults.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/igcViewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/igcViewer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/UIControl.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/UIControl.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/globalVariables.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/globalVariables.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/modal.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,9 +24,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="HTML File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -40,11 +51,14 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/igc-analysis-v2-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\sebad\Desktop\igc-analysis-v2\src" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\sebad\Documents\GitHub\igc-analysis-v2" />
     </key>
@@ -87,6 +101,11 @@
       <workItem from="1618321031828" duration="13482000" />
       <workItem from="1618407379701" duration="9605000" />
       <workItem from="1618417014966" duration="3386000" />
+      <workItem from="1620048657786" duration="1905000" />
+      <workItem from="1621353704348" duration="664000" />
+      <workItem from="1621529956915" duration="1934000" />
+      <workItem from="1621580271985" duration="2005000" />
+      <workItem from="1621810246603" duration="24612000" />
     </task>
     <servers />
   </component>
