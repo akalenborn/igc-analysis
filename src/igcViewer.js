@@ -8,6 +8,7 @@ async function handleFileInput(file) {
     return new Promise(resolve => {
         const reader = new FileReader();
         reader.onload = async () => {
+            resetResults();
             await resetMap();
             igcFile = parseIGC(reader.result);
 
@@ -18,7 +19,7 @@ async function handleFileInput(file) {
             await displayKeyFigures(getKeyFigures());
 
             //activate to allow analysis immediately after file upload
-            //await runAlgorithms(igcFile, getAnalysisPreferences());
+            await runAlgorithms(igcFile, getDefaultAnalysisPreferences());
 
             showAnalysisPreferences();
             plotBarogramChart(igcFile);
@@ -142,8 +143,22 @@ function getPreferences() {
     }
 }
 
+function getDefaultAnalysisPreferences(){
+    let chosenAlgs = [];
+
+    for (const algorithm of algorithms) {
+        if(algorithm.default){
+            if("alg" in algorithm) algorithm.alg.value = algorithm.default;
+            chosenAlgs.push(algorithm);
+        }
+    }
+
+    return chosenAlgs;
+}
+
 function getAnalysisPreferences(){
     let chosenAlgs = [];
+
     for (const algorithm of algorithms) {
         if(algorithm.checkbox.checked){
             chosenAlgs.push(algorithm);
@@ -152,6 +167,8 @@ function getAnalysisPreferences(){
 
     return chosenAlgs;
 }
+
+
 
 function setTimeZone(timeZone) {
     timeZoneSelect.value = timeZone;

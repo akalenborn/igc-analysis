@@ -2,6 +2,13 @@
 let domUpdateInterval = 200; // At least every n milliseconds, the DOM needs to be updated. Example: 100
 const runtimeModalTimeout = 4000; // The runtime info modal will be shown after this timeout, if the algorithms are still running
 
+// --- Default Algorithms --- // defines algorithms that are run by default after loading a igc file
+let defaultCurve = false; //false, optimal, theta
+let defaultCircle = false; //false, optimal, theta
+let defaultEight = false; //false, true
+let defaultTriangle = false; //false, fast, improved, experimental
+
+
 // --- Algorithm parameters ---
 const curveMaxDeviation = 0.1;
 const curve180MaxGap = 0.2;

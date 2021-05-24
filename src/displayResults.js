@@ -6,16 +6,15 @@ async function displayResults(results) {
     curve90 = results.shapeDetection.curve90;
     curve180 = results.shapeDetection.curve180;
     //setDisabledProperty();
-    /* für jeden Algorithmus wird die Shape auf Basis der
-    Ergebnisse gezeichnet
-     */
+
     for (const algorithm of algorithms) {
-            if(algorithm.name!="triangle") {
+        if (algorithm.result){
+            if (algorithm.name != "triangle") {
                 displayShape(algorithm);
-            }
-            else{
+            } else {
                 displayTriangle(algorithm);
             }
+        }
     }
 }
 
@@ -108,8 +107,9 @@ function displayRuntimeInfo(){
         '</tr>'+
         '</tbody>' +'</table>';
 
-    triangleRuntimeContainer.style.display = "block";
-    document.querySelector("#infoAccordion").style.display = "block";
+    triangleResultContainer.style.display = "flex";
+    //triangleRuntimeContainer.style.display = "block";
+    //document.querySelector("#infoAccordion").style.display = "block";
 }
 
 
@@ -129,8 +129,7 @@ function displayShape(algorithm) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-    for (const algorithm of algorithms) {
-
+    for (let algorithm of algorithms) {
         /* EventListener um Änderungen in Checkboxen abzufangen
         bei einer Änderung wird die Änderung lokal gespeichert
         -> storePreference

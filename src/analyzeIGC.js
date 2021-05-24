@@ -10,6 +10,8 @@ document.getElementById("startAnalysis").addEventListener("click", async () => {
 
 async function runAlgorithms(track, activeAlgorithms) {
     showCheckboxes();
+    showPendingBox();
+
     let curves;
 
     for(let i = 0; i < activeAlgorithms.length; i++){
@@ -39,7 +41,9 @@ async function runAlgorithms(track, activeAlgorithms) {
     }
 
     await displayResults(results, mapControl);
+    closePendingBox(results);
     closeRuntimeInfoModal();
+
     return results;
 }
 
