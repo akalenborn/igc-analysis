@@ -13,7 +13,6 @@ async function triangleDetection(){
     switch (triangleAlgorithm.value) {
         case "fast":
             _triangle = await getInitFaiTriangle();
-            _triangle = await getFastTriangle(_triangle);
             return _triangle;
             break;
         case "improved":
@@ -230,7 +229,7 @@ async function getFastFaiTriangleStartEnd(faiArray){
     return maxFai;
 }
 
-//optimizes main detection result - Accurate Search
+//optimizes main detection result - Improved Search
 async function getAccurateFaiTriangle(initTriangleResult, radius){
     let higherAccRoute = await getOptLatLong(Math.min(maxImprovedSearchPoints,latLong.length));
     let accTriangle = await getPointsInRadius(initTriangleResult, higherAccRoute, radius);
@@ -239,8 +238,6 @@ async function getAccurateFaiTriangle(initTriangleResult, radius){
     let currMaxTriangle = initTriangleResult.distTotal - initTriangleResult.distStartEnd;
     let min = await getMinStartEnd(accTriangle);
     let sortedArr;
-
-    //alert("start bucket: " + accTriangle[0].length + " w1: " + accTriangle[1].length + " w2: " + accTriangle[2].length + " w3: " + accTriangle[3].length + " End: " + accTriangle[4].length);
 
     for(let i = 0; i < accTriangle[1].length; i++){
         if (getCurrentRuntimeMilliseconds() > domUpdateInterval*count){
@@ -557,7 +554,6 @@ async function checkBucketItemCount(initArr, bucketArr, radius){
         tempBucket = bucketArr[i];
         tempRadius = radius;
         while(tempBucket.length > maxBucketSize){
-            //alert(i + " bucket length " + tempBucket.length + " Radius: " + tempRadius)
             tempBucket = [];
             //Sonderfall, Punktemenge reduziert sich erst bei minimalem Radius
             tempRadius = Math.max(tempRadius-10, 1);
