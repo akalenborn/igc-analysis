@@ -30,6 +30,7 @@ function showPendingBox(){
     pendingMsg.innerHTML = "Calculating results - Please wait...";
     pendingSpinner.style.display = "inline-block";
     pendingTxt.style.display = "block";
+    document.getElementById("startAnalysis").disabled = true;
 }
 
 function minimizePendingBox(){
@@ -40,18 +41,18 @@ function closePendingBox(result){
     if(analysisIsEmpty(result)){
         pendingBox.style.background = "#219521";
         pendingMsg.innerHTML = "Calculation finished successfully!";
-        pendingSpinner.style.display = "none";
-        pendingTxt.style.display = "none";
     }
     else{
         pendingBox.style.background = "#ca1111";
         pendingMsg.innerHTML = "Calculation finished with no results!";
-        pendingSpinner.style.display = "none";
-        pendingTxt.style.display = "none";
     }
 
+    pendingSpinner.style.display = "none";
+    pendingTxt.style.display = "none";
+
     setTimeout(function(){
+        document.getElementById("startAnalysis").disabled = false;
         pendingBox.style.display = "none";
-    },3000)
+    },1500)
 }
 
