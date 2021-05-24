@@ -38,13 +38,13 @@ function minimizePendingBox(){
 
 function closePendingBox(result){
     if(analysisIsEmpty(result)){
-        pendingBox.style.background = "green";
+        pendingBox.style.background = "#219521";
         pendingMsg.innerHTML = "Calculation finished successfully!";
         pendingSpinner.style.display = "none";
         pendingTxt.style.display = "none";
     }
     else{
-        pendingBox.style.background = "red";
+        pendingBox.style.background = "#ca1111";
         pendingMsg.innerHTML = "Calculation finished with no results!";
         pendingSpinner.style.display = "none";
         pendingTxt.style.display = "none";
