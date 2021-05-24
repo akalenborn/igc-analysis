@@ -13,7 +13,6 @@ async function triangleDetection(){
     switch (triangleAlgorithm.value) {
         case "fast":
             _triangle = await getInitFaiTriangle();
-            _triangle = await getFastTriangle(_triangle);
             return _triangle;
             break;
         case "improved":
@@ -62,7 +61,7 @@ async function getInitFaiTriangle(){
             }
         }
     }
-    //alert(faiTriangle.length)
+
     runtime +=(window.performance.now() - candSearchStart)/1000;
 
     if(faiTriangle.length !== 0){
@@ -114,6 +113,7 @@ async function getFastTriangle(initTriangleResult){
         }
         for(let j = i + 1; j < optLatLong.length-1; j++){
             let d1 = distanceBetweenCoordinates(optLatLong[i],optLatLong[j]);
+            //0.28 in Variable
             if(d1/0.28 > initTriangleResult.distTotal){
                 for(let k = j + 1; k < optLatLong.length;k++){
                     let distanceSum = 0;
