@@ -13,7 +13,7 @@ async function triangleDetection(){
     switch (triangleAlgorithm.value) {
         case "fast":
             _triangle = await getInitFaiTriangle();
-            //_triangle = await getFastTriangle(_triangle);
+            _triangle = await getFastTriangle(_triangle);
             return _triangle;
             break;
         case "improved":
@@ -62,7 +62,7 @@ async function getInitFaiTriangle(){
             }
         }
     }
-    //alert(faiTriangle.length)
+
     runtime +=(window.performance.now() - candSearchStart)/1000;
 
     if(faiTriangle.length !== 0){
