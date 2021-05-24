@@ -1,7 +1,89 @@
 (r) - required for the analysis/display of algorithms to work properly  
 (o) - change optional, not required for analysis (contains mostly additional information)
 <hr>
+<details>
+<summary><strong>20/05/2021</strong></summary>
 
+## File changes: 
+
+### index.html
+
+- ***changes to triangle algorithm selection***
+  - algorithm selection instead of points selection
+  - removed checkboxes for triangle algorithm selection
+<details>
+
+``` html
+<div class="preferences-option">
+                            <label for="select-triangle-algorithm">Triangle detection:</label>
+                            <select id="select-triangle-algorithm" autocomplete="off" class="form-select form-select-sm">
+                                <option value="fast">Fast Search</option>
+                                <option value="improved">Improved Search</option>
+                                <option value="experimental">Experimental</option>
+                            </select>
+                        </div>
+```
+</details>
+
+- ***added bootstrap accordion functionality to algorithm results***
+  - enables toggling display of results
+<details>
+  
+  
+
+``` html
+<div class="accordion" id="infoAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        <h3>Scoring Information</h3>
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div id="triangle-info-container"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <h3>Runtime Information</h3>
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div id="triangle-runtime"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+```
+
+</details>
+
+
+### igcViewer.css
+
+- ***hide info accordion***
+<details>
+
+```html
+
+#infoAccordion{
+    display: none;
+}
+
+```
+
+</details>
+
+### triangle.js
+
+- ***
+
+</details>
+<hr>
 <details>
 <summary><strong>12/03/2021</strong></summary>
 
