@@ -40,9 +40,7 @@ function showInfoContainers() {
 }
 
 function hideTriangleContainer(){
-    document.querySelector("#infoAccordion").style.display = "none";
-    triangleInfoContainer.style.display = "none";
-    document.querySelector("#triangle-runtime").style.display = "none";
+    triangleResultContainer.style.display = "none";
 }
 
 function setTimelineValue(timeIndex) {
