@@ -33,18 +33,14 @@ function showPendingBox(){
     document.getElementById("startAnalysis").disabled = true;
 }
 
-function minimizePendingBox(){
-
-}
-
 function closePendingBox(result){
     if(analysisIsEmpty(result)){
         pendingBox.style.background = "#219521";
         pendingMsg.innerHTML = "Calculation finished successfully!";
     }
     else{
-        pendingBox.style.background = "#ca1111";
-        pendingMsg.innerHTML = "Calculation finished with no results!";
+        pendingBox.style.background = "#219521";
+        pendingMsg.innerHTML = "Loading Data finished successfully!";
     }
 
     pendingSpinner.style.display = "none";

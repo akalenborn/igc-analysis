@@ -8,11 +8,10 @@ async function handleFileInput(file) {
     return new Promise(resolve => {
         const reader = new FileReader();
         reader.onload = async () => {
-            resetResults();
+            await resetResults();
             await resetMap();
             igcFile = parseIGC(reader.result);
 
-            /* Map wird initialisiert */
             await displayIgc(mapControl);
             await displayIGCHeader();
             await initAlgorithmVariables(igcFile);
@@ -57,14 +56,13 @@ async function resetMap() {
         if (mapControl) {
             mapControl.initMap();
         } else {
-
-            /* Initialisiert die Map an der Stelle id = "map" */
             mapControl = await createMapControl('map');
         }
         timeSliderElement.value = 0;
     } catch (ex) {
         errorHandler(ex);
     }
+
     return mapControl;
 }
 

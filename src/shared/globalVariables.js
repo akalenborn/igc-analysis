@@ -33,6 +33,7 @@ const fileControl = document.querySelector('#file-control');
 const pendingBox = document.querySelector('#algorithm-processing-container');
 
 let igcFile;
+let eventListeners = [];
 let mapControl;
 let altitudeConversionFactor = 1.0; // Convert from metres to required units
 let latLong = [];

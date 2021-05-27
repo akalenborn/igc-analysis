@@ -2,6 +2,8 @@
 
 document.getElementById("startAnalysis").addEventListener("click", async () => {
     await resetMap();
+    await resetResults();
+
     await displayIgc(mapControl);
     hideTriangleContainer();
 
@@ -9,9 +11,7 @@ document.getElementById("startAnalysis").addEventListener("click", async () => {
 });
 
 async function runAlgorithms(track, activeAlgorithms) {
-    showCheckboxes();
     showPendingBox();
-
     let curves;
 
     for(let i = 0; i < activeAlgorithms.length; i++){
@@ -40,7 +40,10 @@ async function runAlgorithms(track, activeAlgorithms) {
         }
     }
 
+    results.igcHeader = getIGCHeader();
+    results.additionalData = getKeyFigures();
     await displayResults(results, mapControl);
+    initCheckboxes(algorithms);
     closePendingBox(results);
     closeRuntimeInfoModal();
 
@@ -48,8 +51,6 @@ async function runAlgorithms(track, activeAlgorithms) {
 }
 
 function getResultObject(curves) {
-    results.igcHeader = getIGCHeader();
-    results.additionalData = getKeyFigures();
     results.shapeDetection.curve90 = curves[0];
     results.shapeDetection.curve180 = curves[1];
     algorithms[0].result = curves[0];
