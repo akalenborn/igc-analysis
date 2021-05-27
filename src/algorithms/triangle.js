@@ -32,7 +32,7 @@ async function triangleDetection(){
 async function getInitFaiTriangle(){
     let triangleType;
     let tempTriangle = [];
-    let maxFaiTriangle;
+    let maxInitFaiTriangle;
     let faiTriangle = [];
     let candSearchStart = window.performance.now();
 
@@ -45,13 +45,12 @@ async function getInitFaiTriangle(){
         }
         for(let j = i + 1; j < optLatLong.length-1; j++){
             for(let k = j + 1; k < optLatLong.length;k++){
-                let distanceSum = 0;
                 let d1 = distanceBetweenCoordinates(optLatLong[i],optLatLong[j]);
                 let d2 = distanceBetweenCoordinates(optLatLong[j],optLatLong[k]);
                 let d3 = distanceBetweenCoordinates(optLatLong[k], optLatLong[i]);
                 let distArray = [d1,d2,d3];
+                let distanceSum =  d1 + d2 + d3;
 
-                distanceSum +=  d1 + d2 + d3;
                 tempTriangle = [i,j,k, distanceSum,d1,d2,d3];
                 triangleType = getTriangleType(distArray,distanceSum);
 
@@ -66,8 +65,8 @@ async function getInitFaiTriangle(){
 
     if(faiTriangle.length !== 0){
         let sortedArr =  await sortArr(faiTriangle);
-        maxFaiTriangle = await getFastFaiTriangleStartEnd(sortedArr);
-        return maxFaiTriangle;
+        maxInitFaiTriangle = await getFastFaiTriangleStartEnd(sortedArr);
+        return maxInitFaiTriangle;
     }
     else{
         return maxFaiTriangle = {
@@ -98,7 +97,7 @@ async function getInitFaiTriangle(){
 async function getFastTriangle(initTriangleResult){
     let triangleType;
     let tempTriangle = [];
-    let maxFaiTriangle;
+    let maxFastFaiTriangle;
     let faiTriangle = [];
     let sortedArr;
     let candSearchStart = window.performance.now();
@@ -113,15 +112,14 @@ async function getFastTriangle(initTriangleResult){
         }
         for(let j = i + 1; j < optLatLong.length-1; j++){
             let d1 = distanceBetweenCoordinates(optLatLong[i],optLatLong[j]);
-            //0.28 in Variable
-            if(d1/0.28 > initTriangleResult.distTotal){
+            //faiMinLegDistance defined in config.js
+            if(d1/faiMinLegDistance > initTriangleResult.distTotal){
                 for(let k = j + 1; k < optLatLong.length;k++){
-                    let distanceSum = 0;
-                    let d2 = distanceBetweenCoordinates(optLatLong[j],optLatLong[k]);
+                    let d2 = distanceBetweenCoordinates(optLatLong[j], optLatLong[k]);
                     let d3 = distanceBetweenCoordinates(optLatLong[k], optLatLong[i]);
                     let distArray = [d1,d2,d3];
+                    let distanceSum =  d1 + d2 + d3;
 
-                    distanceSum +=  d1 + d2 + d3;
                     tempTriangle = [i,j,k, distanceSum,d1,d2,d3];
                     triangleType = getTriangleType(distArray,distanceSum);
 
@@ -142,9 +140,9 @@ async function getFastTriangle(initTriangleResult){
         return initTriangleResult;
     }
 
-    maxFaiTriangle = await getFastFaiTriangleStartEnd(sortedArr);
+    maxFastFaiTriangle = await getFastFaiTriangleStartEnd(sortedArr);
 
-    return maxFaiTriangle;
+    return maxFastFaiTriangle;
 }
 
 //Start End Point detection for Initial and Fast Search
@@ -231,10 +229,10 @@ async function getFastFaiTriangleStartEnd(faiArray){
 
 //optimizes main detection result - Improved Search
 async function getAccurateFaiTriangle(initTriangleResult, radius){
+    let candSearchStart = window.performance.now();
     let higherAccRoute = await getOptLatLong(Math.min(maxImprovedSearchPoints,latLong.length));
     let accTriangle = await getPointsInRadius(initTriangleResult, higherAccRoute, radius);
     let finalFaiTriangle = [];
-    let candSearchStart = window.performance.now();
     let currMaxTriangle = initTriangleResult.distTotal - initTriangleResult.distStartEnd;
     let min = await getMinStartEnd(accTriangle);
     let sortedArr;
@@ -247,15 +245,14 @@ async function getAccurateFaiTriangle(initTriangleResult, radius){
         for(let j = 0; j < accTriangle[2].length; j++){
             if(accTriangle[1][i].index < accTriangle[2][j].index){
                 let d1 = distanceBetweenCoordinates(accTriangle[1][i].point,accTriangle[2][j].point);
-                if(d1/0.28 >= initTriangleResult.distTotal){
+                if(d1/faiMinLegDistance >= initTriangleResult.distTotal){
                     for(let k = 0; k < accTriangle[3].length; k++){
-                        //Check chronological order of indices
+                        //check chronological order of waypoints
                         if(accTriangle[1][i].index < accTriangle[2][j].index < accTriangle[3][k].index){
-                            let distanceSum = 0;
                             let d2 = distanceBetweenCoordinates(accTriangle[2][j].point,accTriangle[3][k].point);
                             let d3 = distanceBetweenCoordinates(accTriangle[3][k].point, accTriangle[1][i].point);
                             let distArray = [d1,d2,d3];
-                            distanceSum +=  d1 + d2 + d3;
+                            let distanceSum =  d1 + d2 + d3;
                             let tempTriangle = [i,j,k, distanceSum,d1,d2,d3];
                             let triangleType = getTriangleType(distArray,distanceSum);
 
@@ -361,7 +358,7 @@ async function getExperimentalFaiTriangle(){
         }
         for(var j = i + 1; j < optLatLong.length; j++){
             let d = distanceBetweenCoordinates(optLatLong[i],optLatLong[j]);
-            let maxPossible = d / 0.28;
+            let maxPossible = d / faiMinLegDistance;
             // i index p1, j index p2, d distance between p1 and p2, maxpossible max possible triangle distance
             let maxTriangles = [i, j, d, maxPossible];
 
@@ -494,7 +491,7 @@ async function getExperimentalStartEnd(p1,p3, currTriDist){
 }
 
 function getTriangleType(distAll, triangleDistance){
-    let faiCond = triangleDistance * 0.28;
+    let faiCond = triangleDistance * faiMinLegDistance;
     let isFai = true;
 
     distAll.forEach(function(dist){
