@@ -3,7 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="85f0a4ee-ab9f-4813-b48b-887e036e2037" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/igcViewer.css" beforeDir="false" afterPath="$PROJECT_DIR$/igcViewer.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils/analysis.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/analysis.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/algorithms/triangle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/algorithms/triangle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/analyzeIGC.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/analyzeIGC.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/displayResults.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayResults.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/igcViewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/igcViewer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/globalVariables.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/globalVariables.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/shared/modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/modal.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -97,7 +104,11 @@
       <workItem from="1621580271985" duration="2005000" />
       <workItem from="1621810246603" duration="24612000" />
       <workItem from="1621835109702" duration="3233000" />
-      <workItem from="1621841682512" duration="300000" />
+      <workItem from="1621841682512" duration="838000" />
+      <workItem from="1621845652617" duration="336000" />
+      <workItem from="1621846215217" duration="1341000" />
+      <workItem from="1621942183310" duration="2241000" />
+      <workItem from="1622111145653" duration="14083000" />
     </task>
     <servers />
   </component>
