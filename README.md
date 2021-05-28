@@ -1,4 +1,4 @@
-# igc-analysis-v2
+# igc-analysis
 This repository is build on the [IGC Analysis Repository](https://github.com/kettemann/igc-analysis) and aims to extend its features. 
 
 # jsIGC
