@@ -142,13 +142,22 @@
                                             <input type="checkbox" id="triangle-checkbox" name="scales" class="form-check-input">
                                             <label for="triangle-checkbox" class="form-check-label"> triangle</label>
                                         </div>
+                                        <div class="form-check">
+                                            <input type="checkbox" id="freeFlight-checkbox" name="scales" class="form-check-input">
+                                            <label for="freeFlight-checkbox" class="form-check-label"> free flight</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="mt-4 text-center"><button id="startAnalysis" type="button" class="btn btn-primary">Start Analysis</button></div>
                             </div>
                         </div>
                     </div>
-
+                    <div id="freeFlight-result-container" class="row">
+                        <div class="col-sm-6">
+                            <h3>Scoring Information</h3>
+                            <div id="freeFlight-info-container"></div>
+                        </div>
+                    </div>
                     <div id="triangle-result-container" class="row">
                         <div class="col-sm-6">
                             <h3>Scoring Information</h3>
@@ -269,6 +278,7 @@
         <script src="src/algorithms/triangle.js"></script>
         <script src="src/algorithms/thetaTurning.js"></script>
         <script src="src/displayResults.js"></script>
+        <script src="src/algorithms/freeFlight.js"></script>
         <!--<script src="index.js"></script>-->
     </body>
 </html>
