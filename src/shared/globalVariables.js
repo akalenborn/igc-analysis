@@ -6,8 +6,11 @@ const curve180Checkbox = document.querySelector('#curve-180');
 const circleCheckbox = document.querySelector('#circle-checkbox');
 const eightCheckbox = document.querySelector('#eight-checkbox');
 const triangleCheckbox = document.querySelector('#triangle-checkbox');
+const freeFlightCheckbox = document.querySelector('#freeFlight-checkbox');
 const triangleResultContainer = document.querySelector('#triangle-result-container');
 const triangleInfoContainer = document.querySelector('#triangle-info-container');
+const freeFlightResultContainer = document.querySelector('#freeFlight-result-container');
+const freeFlightInfoContainer = document.querySelector('#freeFlight-info-container');
 const triangleRuntimeContainer = document.querySelector('#triangle-runtime-container');
 //const outputContainer = document.querySelector('#analysis-output');
 //const circleDetectionContainer = document.querySelector('.circle-detection');
@@ -26,6 +29,7 @@ const timeZoneSelect = document.querySelector('#select-time-zone');
 const curveAlgorithm = document.querySelector('#select-curve-algorithm');
 const circleAlgorithm = document.querySelector('#select-circle-algorithm');
 const triangleAlgorithm = document.querySelector('#select-triangle-algorithm');
+const freeFlightAlgorithm = document.querySelector('#select-freeFlight-algorithm');
 const errorMessageElement = document.querySelector('#errorMessage');
 const timeBackButton = document.querySelector('#timeBack');
 const timeForwardButton = document.querySelector('#timeForward');
@@ -50,7 +54,8 @@ let results = {
         curve180: null,
         circle: null,
         eight: null,
-        triangle: null
+        triangle: null,
+        freeFlight: null
     }
 };
 
@@ -59,5 +64,6 @@ let algorithms = [
     {name: "curve180", result: results.shapeDetection.curve180, checkbox: curve180Checkbox, default: defaultCurve, alg: curveAlgorithm, color: "#00FF00"},
     {name: "circle", result: results.shapeDetection.circle, checkbox: circleCheckbox, default: defaultCircle, alg: circleAlgorithm, color: "blue"},
     {name: "eight", result: results.shapeDetection.eight, checkbox: eightCheckbox, default: defaultEight, color: "yellow"},
-    {name: "triangle", result: results.shapeDetection.triangle, checkbox: triangleCheckbox, default: defaultTriangle, alg: triangleAlgorithm, color: "green"}
+    {name: "triangle", result: results.shapeDetection.triangle, checkbox: triangleCheckbox, default: defaultTriangle, alg: triangleAlgorithm, color: "green"},
+    {name: "freeFlight", result: results.shapeDetection.freeFlight, checkbox: freeFlightCheckbox, default: defaultFreeFlight, alg: freeFlightAlgorithm, color:"green"}
 ];
