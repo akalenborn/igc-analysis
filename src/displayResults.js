@@ -9,10 +9,11 @@ async function displayResults(results) {
 
     for (const algorithm of algorithms) {
         if (algorithm.result){
-            if (algorithm.name != "triangle") {
+            if (algorithm.name != "triangle" && algorithm.name != "freeFlight") {
                 displayShape(algorithm);
             } else {
-                displayTriangle(algorithm);
+                if (algorithm.name == "triangle") displayTriangle(algorithm);
+                if (algorithm.name == "freeFlight") displayFreeFlight(algorithm)
             }
         }
     }
@@ -35,6 +36,83 @@ function displayTriangle(algorithm){
 
     displayTriangleInfo();
     displayRuntimeInfo();
+}
+
+//display markers for startpoint, endpoint and waypoints
+//display a line between all the points
+function displayFreeFlight (algorithm){
+    console.log(algorithm.result.points);
+    displayMarkers(algorithm.name, algorithm.result.points);
+    mapControl.addLine(algorithm.result.points, algorithm.color);
+    displayFreeFlightInfo();
+}
+
+// displays the markers for the given points
+function displayMarkers ( name , points ) {
+    for ( let point = 0; point < points.length; point++ ) {
+        mapControl.addMarkerTo(name, points[point]);
+    }
+}
+
+function displayFreeFlightInfo(){
+    // if (results.shapeDetection.freeFlight.waypoints.length == 0) {
+    freeFlightInfoContainer.innerHTML =
+        '<table id="freeFlightInfo" class="table table-sm">' +
+        '<tbody>'+
+        displayFlightscore(results.shapeDetection.freeFlight.flightScore)+
+        displayFlightType(results.shapeDetection.freeFlight.type)+
+        displayTotalDistance(results.shapeDetection.freeFlight.totalDistance)+
+        displayDistanceBetweenPoints(results.shapeDetection.freeFlight)+
+        '</tbody>' +'</table>';
+    // }
+    freeFlightInfoContainer.style.display = "block";
+
+}
+
+function displayDistanceBetweenPoints (flightParameters) {
+    if ( flightParameters.waypoints.length == 0){
+        return ('<tr><th>Distance between start and end:</th>' +
+            '<td>' + flightParameters.distanceBetweenPoints[0] + '</td>'+
+            '</tr>');
+    }
+
+    if (flightParameters.waypoints.length != 0) {
+
+        let output ="";
+        output = '<tr><th>Distance between start and waypoint1:</th>' +
+            '<td>' + flightParameters.distanceBetweenPoints[0] + '</td>'+
+            '</tr>';
+        for (let waypoint = 1; waypoint < flightParameters.waypoints.length; waypoint++) {
+            output = output + '<tr><th>Distance between waypoint'+(waypoint)+
+                'and waypoint'+(waypoint+1)+':</th>' +
+                '<td>' + flightParameters.distanceBetweenPoints[waypoint] + '</td>'+
+                '</tr>';
+        }
+        output = output + '<tr><th>Distance between waypoint'+flightParameters.waypoints.length+
+            'and end:</th>' +
+            '<td>' + flightParameters.distanceBetweenPoints[flightParameters.distanceBetweenPoints.length-1] + '</td>'+
+            '</tr>';
+        return output;
+    }
+}
+
+
+function displayFlightscore (score) {
+    return ('<tr><th>Flight Score:</th>' +
+        '<td>' + score + '</td>'+
+        '</tr>');
+}
+
+function displayFlightType (type) {
+    return ('<tr><th>Type:</th>' +
+        '<td>' + type + '</td>'+
+        '</tr>');
+}
+
+function displayTotalDistance (distance) {
+    return ('<tr><th>Total Distance:</th>' +
+        '<td>' + distance + "km" + '</td>'+
+        '</tr>');
 }
 
 function displayTriangleInfo(){
