@@ -36,6 +36,10 @@ async function runAlgorithms(track, activeAlgorithms) {
                 results.shapeDetection.triangle = await triangleDetection();
                 algorithms[4].result = results.shapeDetection.triangle;
                 break;
+            case "freeFlight":
+                results.shapeDetection.freeFlight = await freeFlightDetection();
+                algorithms[5].result = results.shapeDetection.freeFlight;
+                break;
             default:
         }
     }
