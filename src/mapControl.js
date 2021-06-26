@@ -170,6 +170,15 @@ function createMapControl(elementName) {
             L.polygon([triObj.result.w1, triObj.result.w2, triObj.result.w3], {color: color}).addTo(layerGroups[triObj.name]);
         },
 
+        addLine: (points, color) => {
+            let firstpolyline = new L.polyline(points, {
+                color: color,
+                weight: 3
+            });
+            firstpolyline.addTo(map);
+        },
+
+
         addTask: (coordinates, names) => {
             //Clearer if we don't show track to and from start line and finish line, as we are going to show lines
             const taskLayers = [L.polyline(coordinates, {color: 'blue', weight: 3})];
