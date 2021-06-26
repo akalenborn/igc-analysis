@@ -7,7 +7,7 @@ let defaultCurve = false; //false, optimal, theta
 let defaultCircle = false; //false, optimal, theta
 let defaultEight = false; //false, true
 let defaultTriangle = false; //false, fast, improved, experimental
-
+let defaultFreeFlight = false;
 
 // --- Algorithm parameters ---
 const curveMaxDeviation = 0.1;
