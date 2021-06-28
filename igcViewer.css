@@ -69,6 +69,16 @@ canvas {
      display: none;
      margin-top: 30px;
  }
+#triangle-result-container{
+    display: none;
+    margin-top: 30px;
+}
+
+#freeFlight-result-container{
+    display: none;
+    margin-top: 30px;
+}
+
 
 #preferences{
     display:none;
