@@ -219,11 +219,11 @@ function handleCheckboxes(algorithm){
 
     if (algorithm.checkbox.checked) {
         if(algorithm.result){
-            if(algorithm.name!="triangle"){
+            if(algorithm.name!="faiTriangle"){
                 displayShape(algorithm);
             }
             else{
-                displayTriangle(algorithm);
+                displayFaiTriangle(algorithm);
             }
         }
     } else {
