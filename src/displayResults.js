@@ -9,11 +9,12 @@ async function displayResults(results) {
 
     for (const algorithm of algorithms) {
         if (algorithm.result){
-            if (algorithm.name != "faiTriangle" && algorithm.name != "freeFlight") {
+            if (algorithm.name != "faiTriangle" && algorithm.name != "freeFlight" && algorithm.name != "triangle") {
                 displayShape(algorithm);
             } else {
-                if (algorithm.name == "faiTriangle") displayfaiTriangle(algorithm);
+                if (algorithm.name == "faiTriangle") displayFaiTriangle(algorithm);
                 if (algorithm.name == "freeFlight") displayFreeFlight(algorithm)
+                if (algorithm.name == "triangle") displayTriangle(algorithm);
             }
         }
     }
@@ -27,7 +28,7 @@ function setDisabledProperty() {
     }
 }
 
-function displayTriangle(algorithm){
+function displayFaiTriangle(algorithm){
     if(!isNaN(algorithm.result.distTotal)){
     mapControl.addMarkerTo(algorithm.name, algorithm.result.startP);
     mapControl.addMarkerTo(algorithm.name, algorithm.result.endP);
@@ -36,6 +37,10 @@ function displayTriangle(algorithm){
 
     displayTriangleInfo();
     displayRuntimeInfo();
+}
+
+function displayTriangle(algorithm) {
+
 }
 
 //display markers for startpoint, endpoint and waypoints
@@ -65,7 +70,7 @@ function displayFreeFlightInfo(){
         displayDistanceBetweenPoints(results.shapeDetection.freeFlight)+
         '</tbody>' +'</table>';
     // }
-    freeFlightInfoContainer.style.display = "block";
+    freeFlightResultContainer.style.display = "block";
 
 }
 
@@ -154,7 +159,7 @@ function displayTriangleInfo(){
         '</tr>'+
         '</tbody>' +'</table>';
 
-    faiTtriangleInfoContainer.style.display = "block";
+    faiTriangleInfoContainer.style.display = "block";
 
 }
 
@@ -234,7 +239,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         storePreference("circleAlgorithm", circleAlgorithm.value);
     });
 
-    triangleAlgorithm.addEventListener('change', () => {
+    faiTriangleAlgorithm.addEventListener('change', () => {
         storePreference("faiTriangleAlgorithm", triangleAlgorithm.value);
     });
 

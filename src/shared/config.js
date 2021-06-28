@@ -19,7 +19,7 @@ let circleDiameterMaxDeviation = 0.25;
 const maxEightGapPercentage = 0.1;
 const eightDiameterMaxDeviation = 0.4; // This parameter is used for a custom circle detection in eight.js
 
-// --- Triangle parameters ---
+// --- FaiTriangle parameters ---
 const faiMinLegDistance = 0.28; //default 28% min leg distance
 const maxFastSearchPoints = 200;
 const maxIncreasedSearchPoints = 600;

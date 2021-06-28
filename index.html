@@ -143,6 +143,10 @@
                                             <label for="faiTriangle-checkbox" class="form-check-label"> Fai triangle</label>
                                         </div>
                                         <div class="form-check">
+                                            <input type="checkbox" id="triangle-checkbox" name="scales" class="form-check-input">
+                                            <label for="triangle-checkbox" class="form-check-label"> triangle </label>
+                                        </div>
+                                        <div class="form-check">
                                             <input type="checkbox" id="freeFlight-checkbox" name="scales" class="form-check-input">
                                             <label for="freeFlight-checkbox" class="form-check-label"> free flight</label>
                                         </div>
@@ -166,6 +170,17 @@
                         <div class="col-sm-6">
                             <h3>Runtime Information</h3>
                             <div id="faiTriangle-runtime-container"></div>
+                        </div>
+                    </div>
+
+                    <div id="triangle-result-container" class="row">
+                        <div class="col-sm-6">
+                            <h3>Scoring Information</h3>
+                            <div id="triangle-info-container"></div>
+                        </div>
+                        <div class="col-sm-6">
+                            <h3>Runtime Information</h3>
+                            <div id="triangle-runtime-container"></div>
                         </div>
                     </div>
 
@@ -276,6 +291,7 @@
         <script src="src/algorithms/circle.js"></script>
         <script src="src/algorithms/eight.js"></script>
         <script src="src/algorithms/faiTriangle.js"></script>
+        <script src="src/algorithms/triangle.js"></script>
         <script src="src/algorithms/thetaTurning.js"></script>
         <script src="src/displayResults.js"></script>
         <script src="src/algorithms/freeFlight.js"></script>
