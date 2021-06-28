@@ -134,8 +134,8 @@ function getPreferences() {
         if (storedCurveAlgorithm) curveAlgorithm.value = storedCurveAlgorithm;
         const storedCircleAlgorithm = localStorage.getItem('circleAlgorithm');
         if (storedCircleAlgorithm) circleAlgorithm.value = storedCircleAlgorithm;
-        const storedTriangleAlgorithm = localStorage.getItem('triangleAlgorithm');
-        if (storedTriangleAlgorithm) triangleAlgorithm.value = storedTriangleAlgorithm;
+        const storedTriangleAlgorithm = localStorage.getItem('faiTriangleAlgorithm');
+        if (storedTriangleAlgorithm) faiTriangleAlgorithm.value = storedTriangleAlgorithm;
     } catch (e) {
         // If permission is denied, ignore the error.
     }

@@ -40,7 +40,7 @@ function showInfoContainers() {
 }
 
 function hideTriangleContainer(){
-    triangleResultContainer.style.display = "none";
+    faiTriangleResultContainer.style.display = "none";
 }
 
 function setTimelineValue(timeIndex) {

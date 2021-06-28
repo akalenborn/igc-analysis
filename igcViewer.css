@@ -61,11 +61,11 @@ canvas {
     margin-bottom: 30px;
 }
 
-#triangle-info-container{
+#faiTriangle-info-container{
     display: none;
 }
 
-#triangle-result-container{
+#faiTriangle-result-container{
      display: none;
      margin-top: 30px;
  }

@@ -6,8 +6,9 @@ const runtimeModalTimeout = 4000; // The runtime info modal will be shown after 
 let defaultCurve = false; //false, optimal, theta
 let defaultCircle = false; //false, optimal, theta
 let defaultEight = false; //false, true
-let defaultTriangle = false; //false, fast, improved, experimental
+let defaultFaiTriangle = false; //false, fast, improved, experimental
 let defaultFreeFlight = false;
+let defaultTriangle = false;
 
 // --- Algorithm parameters ---
 const curveMaxDeviation = 0.1;

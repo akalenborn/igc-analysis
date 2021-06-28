@@ -9,10 +9,10 @@ async function displayResults(results) {
 
     for (const algorithm of algorithms) {
         if (algorithm.result){
-            if (algorithm.name != "triangle" && algorithm.name != "freeFlight") {
+            if (algorithm.name != "faiTriangle" && algorithm.name != "freeFlight") {
                 displayShape(algorithm);
             } else {
-                if (algorithm.name == "triangle") displayTriangle(algorithm);
+                if (algorithm.name == "faiTriangle") displayfaiTriangle(algorithm);
                 if (algorithm.name == "freeFlight") displayFreeFlight(algorithm)
             }
         }
@@ -21,7 +21,7 @@ async function displayResults(results) {
 
 function setDisabledProperty() {
     for (const algorithm of algorithms) {
-        if(algorithm.name!="triangle") {
+        if(algorithm.name!="faiTriangle") {
             algorithm.checkbox.disabled = arrayIsEmpty(algorithm.result);
         }
     }
@@ -116,72 +116,72 @@ function displayTotalDistance (distance) {
 }
 
 function displayTriangleInfo(){
-    triangleInfoContainer.innerHTML =
-        '<table id="triangleInfo" class="table table-sm">' +
+    faiTriangleInfoContainer.innerHTML =
+        '<table id="faiTriangleInfo" class="table table-sm">' +
         '<tbody>' +
         '<tr>' +
         '<th>Flight Score:</th>' +
-        '<td>' + results.shapeDetection.triangle.flightScore + '</td>'+
+        '<td>' + results.shapeDetection.faiTriangle.flightScore + '</td>'+
         '</tr>'+
         '<tr>' +
         '<tr>' +
         '<th>Type:</th>' +
-        '<td>' + results.shapeDetection.triangle.type + '</td>'+
+        '<td>' + results.shapeDetection.faiTriangle.type + '</td>'+
         '</tr>'+
         '<tr>' +
         '<th>Total Distance:</th>' +
-        '<td>' + results.shapeDetection.triangle.distTotal + "km" + '</td>'+
+        '<td>' + results.shapeDetection.faiTriangle.distTotal + "km" + '</td>'+
         '</tr>'+
         '<tr>' +
         '<tr>'
         +'<th>Leg 1:</th>' +
-        '<td>' +  + results.shapeDetection.triangle.w12+ "km" +
-        " - " + results.shapeDetection.triangle.w1prcnt+ "%" + '</td>'+
+        '<td>' +  + results.shapeDetection.faiTriangle.w12+ "km" +
+        " - " + results.shapeDetection.faiTriangle.w1prcnt+ "%" + '</td>'+
         '</tr>'+
         '<tr>'
         +'<th>Leg 2:</th>' +
-        '<td>' +  results.shapeDetection.triangle.w23 + "km" +
-        " - " + results.shapeDetection.triangle.w2prcnt+ "%" + '</td>'+
+        '<td>' +  results.shapeDetection.faiTriangle.w23 + "km" +
+        " - " + results.shapeDetection.faiTriangle.w2prcnt+ "%" + '</td>'+
         '</tr>'+
         '<tr>'
         +'<th>Leg 3:</th>' +
-        '<td>' + results.shapeDetection.triangle.w31  + "km" +
-        " - " + results.shapeDetection.triangle.w3prcnt+ "%" + '</td>'+
+        '<td>' + results.shapeDetection.faiTriangle.w31  + "km" +
+        " - " + results.shapeDetection.faiTriangle.w3prcnt+ "%" + '</td>'+
         '</tr>'+
         '<tr>'
         +'<th>Start to End Distance:</th>' +
-        '<td>' + results.shapeDetection.triangle.distStartEnd + "km" + '</td>'+
+        '<td>' + results.shapeDetection.faiTriangle.distStartEnd + "km" + '</td>'+
         '</tr>'+
         '</tbody>' +'</table>';
 
-    triangleInfoContainer.style.display = "block";
+    faiTtriangleInfoContainer.style.display = "block";
 
 }
 
 function displayRuntimeInfo(){
-    triangleRuntimeContainer.innerHTML =
-        '<table id="triangleInfo" class="table table-sm">' +
+    faiTriangleRuntimeContainer.innerHTML =
+        '<table id="faiTriangleInfo" class="table table-sm">' +
         '<tbody>' +
         '<tr>' +
         '<th>Detection finished in:</th>' +
-        '<td>' + results.shapeDetection.triangle.runtimeInfo + '</td>'+
+        '<td>' + results.shapeDetection.faiTriangle.runtimeInfo + '</td>'+
         '</tr>'+
         '<tr>' +
         '<tr>' +
         '<th>Points considered:</th>' +
-        '<td>' + results.shapeDetection.triangle.consideredPoints + '</td>'+
+        '<td>' + results.shapeDetection.faiTriangle.consideredPoints + '</td>'+
         '</tr>'+
         '<tr>' +
         '<th>Total Track Points:</th>' +
-        '<td>' + results.shapeDetection.triangle.totalPoints + '</td>'+
+        '<td>' + results.shapeDetection.faiTriangle.totalPoints + '</td>'+
         '</tr>'+
         '<tr>' +
         '<th>Radius Accuracy:</th>' +
-        '<td>' + results.shapeDetection.triangle.radiusAcc  + '</td>'+
+        '<td>' + results.shapeDetection.faiTriangle.radiusAcc  + '</td>'+
         '</tr>'+
         '</tbody>' +'</table>';
 
-    triangleResultContainer.style.display = "flex";
+    faiTriangleResultContainer.style.display = "flex";
 }
 
 
@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     triangleAlgorithm.addEventListener('change', () => {
-        storePreference("triangleAlgorithm", triangleAlgorithm.value);
+        storePreference("faiTriangleAlgorithm", triangleAlgorithm.value);
     });
 
 });
