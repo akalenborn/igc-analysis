@@ -40,7 +40,8 @@ function displayFaiTriangle(algorithm){
 }
 
 function displayTriangle(algorithm) {
-
+    displayMarkers(algorithm.name, algorithm.result.points);
+    mapControl.addFlachesDreieck(algorithm, algorithm.color);
 }
 
 //display markers for startpoint, endpoint and waypoints

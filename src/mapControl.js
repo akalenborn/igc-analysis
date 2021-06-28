@@ -170,6 +170,13 @@ function createMapControl(elementName) {
             L.polygon([triObj.result.w1, triObj.result.w2, triObj.result.w3], {color: color}).addTo(layerGroups[triObj.name]);
         },
 
+        addFlachesDreieck: (triObj, color ) => {
+            if (layerGroups[triObj.name] === undefined) {
+                layerGroups[triObj.name] = L.layerGroup().addTo(map);
+            }
+            L.polygon([triObj.result.points[0], triObj.result.points[1], triObj.result.points[2]], {color: color}).addTo(layerGroups[triObj.name]);
+        },
+
         addLine: (points, color) => {
             let firstpolyline = new L.polyline(points, {
                 color: color,
@@ -177,6 +184,8 @@ function createMapControl(elementName) {
             });
             firstpolyline.addTo(map);
         },
+
+
 
 
         addTask: (coordinates, names) => {
