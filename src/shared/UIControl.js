@@ -41,6 +41,8 @@ function showInfoContainers() {
 
 function hideTriangleContainer(){
     faiTriangleResultContainer.style.display = "none";
+    triangleResultContainer.style.display = "none";
+    freeFlightResultContainer.style.display = "none";
 }
 
 function setTimelineValue(timeIndex) {
