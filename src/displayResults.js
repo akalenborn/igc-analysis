@@ -66,6 +66,7 @@ function displayFreeFlightInfo(){
         '</tbody>' +'</table>';
     // }
     freeFlightInfoContainer.style.display = "block";
+    freeFlightResultContainer.style.display = "flex";
 
 }
 
@@ -84,12 +85,12 @@ function displayDistanceBetweenPoints (flightParameters) {
             '</tr>';
         for (let waypoint = 1; waypoint < flightParameters.waypoints.length; waypoint++) {
             output = output + '<tr><th>Distance between waypoint'+(waypoint)+
-                'and waypoint'+(waypoint+1)+':</th>' +
+                ' and waypoint'+(waypoint+1)+':</th>' +
                 '<td>' + flightParameters.distanceBetweenPoints[waypoint] + '</td>'+
                 '</tr>';
         }
         output = output + '<tr><th>Distance between waypoint'+flightParameters.waypoints.length+
-            'and end:</th>' +
+            ' and end:</th>' +
             '<td>' + flightParameters.distanceBetweenPoints[flightParameters.distanceBetweenPoints.length-1] + '</td>'+
             '</tr>';
         return output;
