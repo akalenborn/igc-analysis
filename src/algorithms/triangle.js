@@ -1,22 +1,16 @@
-let triangles = [];
-let skippedPoints = 100;
-let maxDistanceOfMissedPoints;
-let counter = 0;
-let maxTriangle ;
-let optTriangle;
+let triangles = []; //
+let skippedPoints = 70;
+let maxDistanceOfMissedPoints=0;
+let counter = 0; // only to stop the search , better solution has to be found.
+let maxTriangle = [] ; // [point1, point2, point3, start, end, startEndDistance, triangleDistance]
+let currentOptTriangle =[];//[point1, point2, point3, start, end, startEndDistance, triangleDistance]
 
 async function triangleDetection () {
-    maxDistanceOfMissedPoints = await maxDistanceBetweenPoint()*skippedPoints;
-
-
-    //Sorted array with all triangles
-    triangles = await sortTriangles(await getTriangles( await optimizePoints(skippedPoints)));
-    optTriangle = await getNextOptimalTriangle ();
+    await initializeParameter();
     await findOptimalTriangle(triangles);
-
     let maxTriangleS = {
-
-        points : [ latLong[maxTriangle[0]], latLong[maxTriangle[1]], latLong[maxTriangle[2]]]
+        points : [ latLong[maxTriangle[0]], latLong[maxTriangle[1]], latLong[maxTriangle[2]],
+            latLong[maxTriangle[3]], latLong[maxTriangle[4]] ]
     };
     console.log(maxTriangle);
 
@@ -24,19 +18,27 @@ async function triangleDetection () {
 
 }
 
+async function initializeParameter() {
+    maxDistanceOfMissedPoints = await maxDistanceBetweenPoint()*skippedPoints;
+    //Sorted array with all triangles
+    triangles = await sortTriangles(await getTriangles( await optimizePoints(skippedPoints)));
+    //first best triangle from array triangles
+    currentOptTriangle = await getNextOptimalTriangle ();
+}
+
 async function findOptimalTriangle (triangles) {
     counter++;
-    optTriangle = await searchNeighbourPoints(optTriangle);
+    currentOptTriangle = await searchNeighbourPoints(currentOptTriangle);
     if (triangles.length!=0 && counter<5){
-        if ( ((await getNextOptimalTriangle())[3] + (maxDistanceOfMissedPoints)) >= optTriangle[3]){
-            console.log(optTriangle[3]);
+        if ( ((await getNextOptimalTriangle())[3] + (maxDistanceOfMissedPoints)) >= currentOptTriangle[3]){
+            console.log(currentOptTriangle[3]);
             return await findOptimalTriangle(triangles);
         }
 
     }
 
 
-    return optTriangle;
+    return currentOptTriangle;
 }
 
 
@@ -49,18 +51,24 @@ async function getNextOptimalTriangle () {
 }
 
 
-async function searchNeighbourPoints (triangle) {
-    // reduce the startEnd distance from the triangle
-    let startEnd = await getStartAndEnd(triangle);
-  //  let currentDistance = triangle[3];
-    let distanceMinusStartEnd = triangle[3] - startEnd[2];
-    let currentDistance = distanceMinusStartEnd;
+async function searchNeighbourPoints (currentOptTriangle) {
+    // reduce the startEnd distance from the currentOptTriangle
+    if (currentOptTriangle.length < 5) {
+        let startEnd = await getStartAndEnd(currentOptTriangle);
+        currentOptTriangle[3] = startEnd[0];
+        currentOptTriangle[4] = startEnd[1];
+        currentOptTriangle[5] = startEnd[2];
+        currentOptTriangle[6] = await getTriangleDistance([currentOptTriangle[0], currentOptTriangle[1], currentOptTriangle[2]]) -
+            currentOptTriangle[5];
+    }
+    console.log(currentOptTriangle);
+    let currentDistance = currentOptTriangle[6];
     let possibleTriangleCandidate = [];
-    for (let point1 = triangle[0]; point1 < triangle[0]+skippedPoints && point1 < latLong.length; point1++ ){
-        for (let point2 = triangle[1]; point2 < triangle[1]+skippedPoints && point2 < latLong.length; point2++ ){
-            for (let point3= triangle[2]; point3 < triangle[2]+skippedPoints && point3 < latLong.length; point3++ ){
+    for (let point1 = currentOptTriangle[0]; point1 < currentOptTriangle[0]+skippedPoints && point1 < latLong.length; point1++ ){
+        for (let point2 = currentOptTriangle[1]; point2 < currentOptTriangle[1]+skippedPoints && point2 < latLong.length; point2++ ){
+            for (let point3= currentOptTriangle[2]; point3 < currentOptTriangle[2]+skippedPoints && point3 < latLong.length; point3++ ){
                 let tempDistance = await getTriangleDistance([point1, point2, point3]);
-                if ( currentDistance < tempDistance) {
+                if ( currentOptTriangle[6] < tempDistance) {
                     possibleTriangleCandidate[0] = point1;
                     possibleTriangleCandidate[1] = point2;
                     possibleTriangleCandidate[2] = point3;
@@ -70,51 +78,45 @@ async function searchNeighbourPoints (triangle) {
             }
         }
     }
-    let possibleDistance = (possibleTriangleCandidate[3] - (await getStartAndEnd(possibleTriangleCandidate))[2]);
+    return compareTriangles(currentOptTriangle, possibleTriangleCandidate);
+    /**
+    // let possibleDistance = (possibleTriangleCandidate[3] - (await getStartAndEnd(possibleTriangleCandidate))[2]);
     if ( possibleDistance >= distanceMinusStartEnd){
         possibleTriangleCandidate[3] = possibleDistance;
         maxTriangle = possibleTriangleCandidate;
         return possibleTriangleCandidate;
     }
 
-    triangle[3]= distanceMinusStartEnd;
-    maxTriangle = triangle;
+    currentOptTriangle[3]= distanceMinusStartEnd;
+    maxTriangle = currentOptTriangle;
+    return currentOptTriangle;
+**/
+
+
+}
+
+async function compareTriangles (triangle, triangleCandidate) {
+    let triangleCandidateStartEnd = await getStartAndEnd(triangleCandidate);
+    triangleCandidate[3] = triangleCandidate[3] - triangleCandidateStartEnd[2];
+    if ( triangleCandidate[3] >= triangle[3] ) {
+        maxTriangle[0] = triangleCandidate[0];
+        maxTriangle[1] = triangleCandidate[1];
+        maxTriangle[2] = triangleCandidate[2];
+        maxTriangle[3] = triangleCandidateStartEnd[0];
+        maxTriangle[4] = triangleCandidateStartEnd[1];
+        maxTriangle[5] = triangleCandidateStartEnd[2];
+        maxTriangle[6] = triangleCandidate[3];
+        return triangleCandidate
+    }
+    maxTriangle[0] = triangle[0];
+    maxTriangle[1] = triangle[1];
+    maxTriangle[2] = triangle[2];
+    maxTriangle[3] = triangle[3];
+    maxTriangle[4] = triangle[4];
+    maxTriangle[5] = triangle[5];
+    maxTriangle[6] = triangle[6];
     return triangle;
-
-
-
 }
-
-
-
-
-
-async function getOptStartAndEnd ( triangle, optStart, optEnd ) {
-    let currentMinDistance = distance(optStart, optEnd);
-    let startPoint = optStart;
-    let endPoint = optEnd;
-
-    for (let start = optStart-1; start >=0; start-- ){
-        for (let end = triangle[2]+2 ; end < latLong.length; end ++){
-            let tempDistance = distance(start, end);
-            if (currentMinDistance > tempDistance){
-                currentMinDistance = tempDistance;
-                startPoint = start;
-                endPoint = end;
-            }
-
-        }
-    }
-    let startEndPoint = {
-        startEndDistance : currentMinDistance,
-        startPoint : startPoint,
-        endPoint : endPoint
-    }
-    return startEndPoint;
-}
-
-
-
 
 
 async function optimizePoints (skippedPoints) {
@@ -161,10 +163,6 @@ async function getStartAndEnd ( triangle ) {
 
 
 
-
-
-
-
 async function getFlightScore (score, distance) {
     return score*distance;
 }
@@ -194,14 +192,7 @@ async function getTriangleDistance (points) {
 
     return triangleDistance;
 }
-async function getTriangleDistanceWithLatLong (points) {
-    let triangleDistance = 0;
-    triangleDistance = distanceBetweenCoordinates(points[0],points[1]);
-    triangleDistance = triangleDistance + distanceBetweenCoordinates(points[1], points[2]);
-    triangleDistance = triangleDistance + distanceBetweenCoordinates(points[0], points[2]);
 
-    return triangleDistance;
-}
 
 
 
@@ -245,6 +236,32 @@ async function getMaxTriangle () {
 
     return maxTriangle;
 }
+
+
+async function getOptStartAndEnd ( triangle, optStart, optEnd ) {
+    let currentMinDistance = distance(optStart, optEnd);
+    let startPoint = optStart;
+    let endPoint = optEnd;
+
+    for (let start = optStart-1; start >=0; start-- ){
+        for (let end = triangle[2]+2 ; end < latLong.length; end ++){
+            let tempDistance = distance(start, end);
+            if (currentMinDistance > tempDistance){
+                currentMinDistance = tempDistance;
+                startPoint = start;
+                endPoint = end;
+            }
+
+        }
+    }
+    let startEndPoint = {
+        startEndDistance : currentMinDistance,
+        startPoint : startPoint,
+        endPoint : endPoint
+    }
+    return startEndPoint;
+}
+
 
 /**
  *
