@@ -124,7 +124,17 @@
                                     <div class="col-sm-9 input-group">
                                         <select id="select-freeFlight-algorithm" autocomplete="off" class="form-control">
                                             <option value="optimal">100% Precision</option>
-                                            <option value="fast search">Speed up calculation</option>
+                                            <option value="fast search">Fast Search</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="select-flatTriangle-algorithm" class="col-sm-3 control-label"><strong>Flat Triangle</strong></label>
+                                    <div class="col-sm-9 input-group">
+                                        <select id="select-flatTriangle-algorithm" autocomplete="off" class="form-control">
+                                            <option value="fast search">Fast Search</option>
+                                            <option value="fast search">Optimized</option>
                                         </select>
                                     </div>
                                 </div>
@@ -156,6 +166,10 @@
                                             <input type="checkbox" id="freeFlight-checkbox" name="scales" class="form-check-input">
                                             <label for="freeFlight-checkbox" class="form-check-label"> free flight</label>
                                         </div>
+                                        <div class="form-check">
+                                            <input type="checkbox" id="flatTriangle-checkbox" name="scales" class="form-check-input">
+                                            <label for="flatTriangle-checkbox" class="form-check-label">Flat Triangle</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="mt-4 text-center"><button id="startAnalysis" type="button" class="btn btn-primary">Start Analysis</button></div>
@@ -166,6 +180,12 @@
                         <div class="col-sm-6">
                             <h3>Scoring Information</h3>
                             <div id="freeFlight-info-container"></div>
+                        </div>
+                    </div>
+                    <div id="flatTriangle-result-container" class="row">
+                        <div class="col-sm-6">
+                            <h3>Scoring Information</h3>
+                            <div id="flatTriangle-info-container"></div>
                         </div>
                     </div>
                     <div id="triangle-result-container" class="row">
@@ -289,6 +309,7 @@
         <script src="src/algorithms/thetaTurning.js"></script>
         <script src="src/displayResults.js"></script>
         <script src="src/algorithms/freeFlight.js"></script>
+        <script src="src/algorithms/flatTriangle.js"></script>
         <!--<script src="index.js"></script>-->
     </body>
 </html>

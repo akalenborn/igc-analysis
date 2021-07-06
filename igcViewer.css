@@ -74,6 +74,14 @@ canvas {
     display: none;
     margin-top: 30px;
 }
+#flatTriangle-result-container{
+    display: none;
+    margin-top: 30px;
+}
+
+#flatTriangle-info-container{
+    display: none;
+}
 
 
 #preferences{

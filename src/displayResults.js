@@ -9,11 +9,12 @@ async function displayResults(results) {
 
     for (const algorithm of algorithms) {
         if (algorithm.result){
-            if (algorithm.name != "triangle" && algorithm.name != "freeFlight") {
+            if (algorithm.name != "triangle" && algorithm.name != "freeFlight" && algorithm.name != "flatTriangle") {
                 displayShape(algorithm);
             } else {
                 if (algorithm.name == "triangle") displayTriangle(algorithm);
-                if (algorithm.name == "freeFlight") displayFreeFlight(algorithm)
+                if (algorithm.name == "freeFlight") displayFreeFlight(algorithm);
+                if (algorithm.name == "flatTriangle") displayFlatTriangle(algorithm);
             }
         }
     }
@@ -45,6 +46,11 @@ function displayFreeFlight (algorithm){
     displayMarkers(algorithm.name, algorithm.result.points);
     mapControl.addLine(algorithm.result.points, algorithm.color);
     displayFreeFlightInfo();
+}
+
+function displayFlatTriangle(algorithm){
+    displayMarkers(algorithm.name, algorithm.result.points);
+    mapControl.addFlachesDreieck(algorithm, algorithm.color);
 }
 
 // displays the markers for the given points
