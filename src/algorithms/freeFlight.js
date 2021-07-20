@@ -4,31 +4,38 @@
 let latLongCoordinates = [];
 let distanceTable =[];
 let numberOfTurnpoints = 3;
-let optimizeFactor =20;
+let optimizeFactor =5;
 async function freeFlightDetection() {
 
 
     switch (freeFlightAlgorithm.value) {
         case "optimal":
             await setParameter();
+            console.log(latLongCoordinates);
             await getFreeFlight();
             return await getLongestPath( );
             break;
         case "fast search":
            await  setOptimizedParameter(optimizeFactor);
            await getFreeFlight();
+           console.log(latLongCoordinates);
+           console.log(distanceTable);
            return await getOptimalPath();
            break;
     }
 }
 
 async function getOptimalPath() {
+
     console.log("optimalPath");
     let flight = await getLongestPath();
+    console.log(flight);
     await resetParameters();
     latLongCoordinates = await getNeighbourPoints(flight.indices);
     await initDistanceTable();
+
     await getFreeFlight();
+    console.log(distanceTable);
     if (flight.totalDistance < (await getLongestPath()).totalDistance) return await getOptimalPath();
     console.log(flight.indices);
     return flight;
@@ -62,28 +69,44 @@ async function getMaxDistanceBetweenPoint() {
 
 async function getAverageDistanceBetweenPoint(){
     let distance=0;
+    let length=0;
     for (let i = 0; i < distances.length; i++) {
-        distance = distance+ distances[i];
+        if(distances[i]!==0) {
+            distance = distance + distances[i];
+            length++;
+        }
     }
 
-    return distance/distances.length;
+    return distance/length;
+
+}
+
+async function getMinDistanceBetweenPoint(){
+    let minDistance = Number.MAX_VALUE;
+    for (let i = 0; i < distances.length; i++) {
+        if( minDistance > distances[i] && distances[i]!==0) minDistance = distances[i];
+    }
+    console.log(minDistance);
+
+    return minDistance;
 
 }
 
 async function getNeighbourPoints (points) {
-    let puffer = 30;// await getSkippedPoints();
+    let puffer =  await getSkippedPoints(); //+ 30;
     console.log(puffer);
     let neighbourPoints = [];
     for ( let pointIndex = 0; pointIndex < points.length; pointIndex++ ){
         // check if point has index 0
-        let latlongIndex = points[pointIndex] - optimizeFactor-puffer;
+        let latlongIndex = points[pointIndex] -puffer;
         if (latlongIndex<=0) latlongIndex=0;
         for ( latlongIndex;
-              latlongIndex <= (points[pointIndex] + optimizeFactor+puffer ) && latlongIndex >=0 && latlongIndex < latLong.length;
+              latlongIndex <= (points[pointIndex] +puffer ) && latlongIndex >=0 && latlongIndex < latLong.length;
               latlongIndex++) {
             neighbourPoints.push(latlongIndex);
         }
     }
+    console.log(neighbourPoints);
 
 
     return await sort(await removeDuplicates(neighbourPoints));
@@ -102,7 +125,8 @@ async function setParameter () {
     for (let latlong = 0; latlong < latLong.length; latlong++ ){
         latLongCoordinates.push(latlong);
     }
-    await initDistanceTable();
+    console.log(latLongCoordinates);
+     await initDistanceTable();
 }
 
 async  function getFreeFlight() {
