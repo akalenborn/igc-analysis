@@ -51,6 +51,8 @@ function displayFreeFlight (algorithm){
 function displayFlatTriangle(algorithm){
     displayMarkers(algorithm.name, algorithm.result.points);
     mapControl.addFlachesDreieck(algorithm, algorithm.color);
+    displayFlatTriangleInfo();
+
 }
 
 // displays the markers for the given points
@@ -60,6 +62,20 @@ function displayMarkers ( name , points ) {
     }
 }
 
+
+
+function displayFlatTriangleInfo(){
+    flatTriangleInfoContainer.innerHTML =
+        '<table id="flatTriangleInfo" class="table table-sm">' +
+        '<tbody>'+
+        displayFlightscore(results.shapeDetection.flatTriangle.flightScore)+
+        displayFlightType(results.shapeDetection.flatTriangle.type)+
+        displayTotalDistance(results.shapeDetection.flatTriangle.totalDistance)+
+        '</tbody>' +'</table>';
+    // }
+    flatTriangleInfoContainer.style.display = "block";
+    flatTriangleResultContainer.style.display = "flex";
+}
 function displayFreeFlightInfo(){
     // if (results.shapeDetection.freeFlight.waypoints.length == 0) {
     freeFlightInfoContainer.innerHTML =

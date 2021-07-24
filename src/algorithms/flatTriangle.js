@@ -1,4 +1,10 @@
 let start, end;
+let flatTriangles = [];
+let sortedTriangles = [];
+let neighboursDetected = true;
+let checkedWaypoints1 =[];
+let checkedWaypoints2 = [];
+let checkedWaypoints3 = [];
 async function flatTriangleDetection () {
     let triangleResult = [];
     switch (flatTriangleAlgorithm.value) {
@@ -6,70 +12,166 @@ async function flatTriangleDetection () {
             triangleResult = await getInitFlatTriangle();
             console.log(triangleResult);
             start = triangleResult.index[3]; end = triangleResult.index[4];
-            triangleResult = await getAccurateFlatTriangle(triangleResult);
+            triangleResult = await getAccurateFlatTriangle(triangleResult, 3);
             console.log(triangleResult);
             return triangleResult;
             break;
         case "optimized":
+            let triangles = [];
+            let currentBestTriangle = [];
             triangleResult = await getInitFlatTriangle();
-            triangleResult = await getFastFlatTriangle(triangleResult);
-            start = triangleResult.index[3];
-            end = triangleResult.index[4];
-           triangleResult =  await getAccurateFlatTriangle(triangleResult)
             console.log(triangleResult);
-            return triangleResult;
+            triangleResult = await getAccurateFlatTriangle(triangleResult, 3);
+            currentBestTriangle = triangleResult;
+            let count = 0;
+            while (true) {
+
+                let nextTriangleCandidate =  await getNextPossibleTriangleCandidate(currentBestTriangle);
+                if (neighboursDetected === false ) break;
+                let nextTriangleCandidateResult = await getAccurateFlatTriangle(nextTriangleCandidate, 3);
+                if (nextTriangleCandidateResult.totalDistance >= currentBestTriangle.totalDistance){
+                    currentBestTriangle = nextTriangleCandidateResult;
+                    flatTriangles.push(currentBestTriangle);
+                }
+                if (nextTriangleCandidateResult.totalDistance < currentBestTriangle.totalDistance ) {
+                    flatTriangles.push(currentBestTriangle);
+                    currentBestTriangle = nextTriangleCandidate;
+                }
+            }
+            currentBestTriangle = await getBestFlatTriangle(flatTriangles);
+            currentBestTriangle = await getAccurateFlatTriangle(currentBestTriangle, 1);
+            console.log(flatTriangles);
+            return currentBestTriangle;
             break;
     }
 }
 
-async function getAccurateFlatTriangle ( triangleResult) {
-   let waypoints1 = [];
-   let waypoints2 = [];
-   let waypoints3 = [];
-   let triangles =  [];
-   let maxFlatTriangle = [];
-   waypoints1 = await getLocalPoints(triangleResult.index[0]);
-   waypoints2 = await getLocalPoints(triangleResult.index[1]);
-   waypoints3 = await getLocalPoints(triangleResult.index[2]);
-   for (let point1 = 0; point1 < waypoints1.length ; point1++) {
-        for (let point2 = 0; point2 < waypoints2.length ; point2++) {
-            for (let point3 = 0; point3 < waypoints3.length; point3++) {
-                if (waypoints1[point1] < waypoints2[point2] && waypoints2[point2]<waypoints3[point3]) {
-                    let distanceSum = await getTriangleDistance([waypoints1[point1], waypoints2[point2], waypoints3[point3]]);
-                    let triangle = [waypoints1[point1], waypoints2[point2], waypoints3[point3], distanceSum];
-                    triangles.push(triangle);
-                }
+async function getBestFlatTriangle(triangles){
+    let maxDistance = Number.MIN_VALUE;
+    let bestTriangle = [];
+    for ( let triangle = 0; triangle < triangles.length; triangle++ ){
+        if (triangles[triangle].totalDistance > maxDistance) {
+            maxDistance = triangles[triangle].totalDistance;
+            bestTriangle = triangles[triangle];
+        }
+    }
+    return bestTriangle;
+}
+async function getNextPossibleTriangleCandidate (currentTriangle) {
+    console.log("---------------------------------------------------------------------")
+    while (sortedTriangles.length !==0){
+        let tempTriangle = sortedTriangles.pop();
+        if(tempTriangle[3]< (await getBestFlatTriangle(flatTriangles)).totalDistance) break;
+        let nextTriangle = {index: [tempTriangle[4], tempTriangle[5], tempTriangle[6]]};
+        if (distance(currentTriangle.index[0], nextTriangle.index[0]) >= 4) {
+            if (await checkWaypoint(nextTriangle.index[0], checkedWaypoints1)){
+                checkedWaypoints1.push(nextTriangle.index[0]);
+                return nextTriangle;
+            }
+        }
+        if (distance(currentTriangle.index[1], nextTriangle.index[1]) >= 3){
+            if (await checkWaypoint(nextTriangle.index[1], checkedWaypoints2)){
+                checkedWaypoints2.push(nextTriangle.index[1]);
+                return nextTriangle;
+            }
+        }
+        if (distance(currentTriangle.index[2], nextTriangle.index[2]) >= 3){
+            if (await checkWaypoint(nextTriangle.index[2], checkedWaypoints3)) {
+                checkedWaypoints3.push(nextTriangle.index[2]);
+                return nextTriangle;
+            }
+        }
 
+    }
+    neighboursDetected=false;
+}
+async function checkWaypoint (wayPoint , wayPoints) {
+    if (wayPoints.length!==0){
+        for ( let waypointIndex =0 ; waypointIndex<wayPoints.length; waypointIndex++){
+            if (distance(wayPoint, wayPoints[waypointIndex]) < 3) {
+                return false;
             }
         }
     }
+    return true;
+}
+async function getAccurateFlatTriangle ( triangleResult, radius) {
+   if (radius>0) {
+       let waypoints1 = [];
+       let waypoints2 = [];
+       let waypoints3 = [];
+       let triangles = [];
+       let maxFlatTriangle = [];
+       waypoints1 = await getLocalPoints(triangleResult.index[0], radius);
+       waypoints2 = await getLocalPoints(triangleResult.index[1], radius);
+       waypoints3 = await getLocalPoints(triangleResult.index[2], radius);
+       for ( let i = 0 ; i < waypoints1.length; i++){
+           checkedWaypoints1.push(waypoints1[i]);
+       }
+       for ( let i = 0 ; i < waypoints2.length; i++){
+           checkedWaypoints2.push(waypoints2[i]);
+       }
+       for ( let i = 0 ; i < waypoints3.length; i++){
+           checkedWaypoints3.push(waypoints3[i]);
+       }
+       for (let point1 = 0; point1 < waypoints1.length; point1++) {
+           for (let point2 = 0; point2 < waypoints2.length; point2++) {
+               for (let point3 = 0; point3 < waypoints3.length; point3++) {
+                   if (waypoints1[point1] < waypoints2[point2] && waypoints2[point2] < waypoints3[point3]) {
+                       let distanceSum = await getTriangleDistance([waypoints1[point1], waypoints2[point2], waypoints3[point3]]);
+                       let triangle = [waypoints1[point1], waypoints2[point2], waypoints3[point3], distanceSum];
+                       triangles.push(triangle);
+                   }
 
-    let sortedTriangles = await sortTriangles(triangles);
-    maxFlatTriangle = {
-        points:[],
-        index:[sortedTriangles[sortedTriangles.length-1][0],sortedTriangles[sortedTriangles.length-1][1],sortedTriangles[sortedTriangles.length-1][2]],
-        distance:0
-    }
-    maxFlatTriangle = await getFastFlatTriangleEndStart(sortedTriangles);
-    maxFlatTriangle = await getBestStartEnd(maxFlatTriangle);
-    maxFlatTriangle = await getTotalTriangleDistance(maxFlatTriangle);
-    maxFlatTriangle.points = await getLatlong(maxFlatTriangle.index);
-    return maxFlatTriangle;
+               }
+           }
+       }
+
+       let sortedTriangles = await sortTriangles(triangles);
+       console.log(sortedTriangles);
+       maxFlatTriangle = await getFastFlatTriangleEndStart(sortedTriangles);
+       maxFlatTriangle = await getBestStartEnd(maxFlatTriangle);
+       maxFlatTriangle = await getTotalTriangleDistance(maxFlatTriangle);
+       flatTriangles.push(maxFlatTriangle);
+       if (radius <= 0.1) return getAccurateFlatTriangle(maxFlatTriangle, radius-0.01);
+       if (radius <= 0.6) return getAccurateFlatTriangle(maxFlatTriangle, radius-0.1);
+       return getAccurateFlatTriangle(maxFlatTriangle, radius-0.3);
+   } else {
+       triangleResult.points = await getLatlong(triangleResult.index);
+       console.log(flatTriangles);
+       triangleResult.flightScore = await getFlightScore(triangleResult.totalDistance, 1.4);
+       return triangleResult;
+   }
+   // maxFlatTriangle = await getTotalTriangleDistance(maxFlatTriangle);
+
+
 
 
 
 }
-async function getLocalPoints(latlongIndex){
+async function optimizeWaypoints (waypoints,latlongIndex) {
+    let optimizedWaypoints = [];
+    let maxPoints = Math.min(100, waypoints.length);
+    let latlongInt = Math.round(waypoints.length / maxPoints);
+    for (let index  = 0; index<waypoints.length; index += latlongInt){
+        optimizedWaypoints.push(waypoints[index]);
+    }
+    optimizedWaypoints.push(latlongIndex);
+    return optimizedWaypoints.sort(function(a, b){return a - b});
+
+}
+
+async function getLocalPoints(latlongIndex, radius){
     let neighbourPoints = [];
-    for (let index = 0; index < latLong.length; index+=4){
+    for (let index = 0; index < latLong.length; index++){
         let tempDistance = distance(index, latlongIndex);
         if (index == latlongIndex)neighbourPoints.push(index);
         else
-            if(tempDistance <= 1 && tempDistance>0) {
+            if(tempDistance <= radius && tempDistance>0) {
                 neighbourPoints.push(index);
             }
         }
-    return neighbourPoints;
+    return await optimizeWaypoints(neighbourPoints, latlongIndex);
 }
 
 async function getInitFlatTriangle() {
@@ -80,7 +182,7 @@ async function getInitFlatTriangle() {
     optimizedLatLong = await getOptimizedLatLong(Math.min(230, latLong.length));
     await getTriangles(optimizedLatLong, triangles);
     if (triangles.length !== 0) {
-        let sortedTriangles = await sortTriangles(triangles);
+        sortedTriangles = await sortTriangles(triangles);
         console.log(sortedTriangles);
         maxFlatTriangle = await getFastFlatTriangleStartEnd(sortedTriangles, optimizedLatLong);
         maxFlatTriangle = await getBestStartEnd(maxFlatTriangle);
@@ -113,7 +215,7 @@ async function getFastFlatTriangle(initTriangle){
             for (let point3 = point2 + 1; point3 < optimizedLatLong.length; point3++) {
                 let distanceSum = await getTriangleDistance([optimizedLatLong[point1], optimizedLatLong[point2], optimizedLatLong[point3]]);
                 let triangle = [point1, point2, point3, distanceSum];
-                if (distanceSum > initTriangle.distance) triangles.push(triangle);
+                if (distanceSum > initTriangle.totalDistance) triangles.push(triangle);
             }
         }
     }
@@ -160,24 +262,30 @@ async function getFastFlatTriangleEndStart(sortedTriangles){
     let maxFlatTriangle ;
     let minDistance = Number.MAX_VALUE;
     let count = 0;
-    let bestStart = Number.MAX_VALUE, bestEnd = Number.MIN_VALUE;
-    for ( let triangle = sortedTriangles.length-1; triangle >= 0; triangle-- ){
+    for ( let triangle = sortedTriangles.length-1; triangle >= 0; triangle -= 2 ){
         count++;
-        if (count > 200) break;
+        if (maxFlatTriangle !== undefined) break;
         if (sortedTriangles[triangle][3] < currentMaxFlatTriangle) break;
-            for ( let start = sortedTriangles[triangle][0] - 1; start>=0; start--){
-                for (let end = sortedTriangles[triangle][2] + 1; end <latLong.length; end++){
+        //if (maxFlatTriangle !== undefined) break;
+            for ( let start = sortedTriangles[triangle][0] - 1; start>=0; start -=5){
+                if (triangle< sortedTriangles.length-2){
+                    if (sortedTriangles[triangle][0] < sortedTriangles[triangle+1][0]
+                        && sortedTriangles[triangle][2] > sortedTriangles[triangle+1][2]){
+                        break;
+                    }
+                }
+                for (let end = sortedTriangles[triangle][2] + 1; end <latLong.length; end += 5){
                     let tempStartEnd = distance(start, end);
                     if (tempStartEnd < minDistance){
                         minDistance = tempStartEnd;
                         let distance = sortedTriangles[triangle][3] - minDistance;
-                        if (minDistance<=sortedTriangles[triangle][3]*0.2){
+                        if (minDistance<=sortedTriangles[triangle][3]*0.2 && distance>currentMaxFlatTriangle){
                             currentMaxFlatTriangle = distance;
-                            bestEnd = end; bestStart = start;
                             maxFlatTriangle= {
                                 points:[],
                                 index: [sortedTriangles[triangle][0], sortedTriangles[triangle][1], sortedTriangles[triangle][2],start, end],
-                                distance: distance
+                                totalDistance: distance,
+                                type: "flat triangle"
                             }
 
                         }
@@ -198,23 +306,24 @@ async function getFastFlatTriangleStartEnd(sortedTriangles, latLongs){
     let triangle;
     for ( triangle = sortedTriangles.length-1; triangle >= 0; triangle-- ){
         if (sortedTriangles[triangle][3] < currentMaxFlatTriangle) break;
-        for ( let start = sortedTriangles[triangle][0] - 1; start>=0; start--){
-            for (let end = sortedTriangles[triangle][2] + 1; end <latLongs.length; end++){
+        for ( let start = sortedTriangles[triangle][0] - 1; start>=0; start -= 1){
+            for (let end = sortedTriangles[triangle][2] + 1; end <latLongs.length; end+= 1){
                 let tempStartEnd = distance(latLongs[start], latLongs[end]);
                 if (tempStartEnd < minDistance){
                     minDistance = tempStartEnd;
                     let distance = sortedTriangles[triangle][3] - minDistance;
-                    if (minDistance<=sortedTriangles[triangle][3]*0.2){
+                    if (minDistance<=sortedTriangles[triangle][3]*0.2 && distance>currentMaxFlatTriangle){
                         currentMaxFlatTriangle = distance;
                         maxFlatTriangle= {
                             points:[],
                             index: [latLongs[sortedTriangles[triangle][0]], latLongs[sortedTriangles[triangle][1]], latLongs[sortedTriangles[triangle][2]],latLongs[start], latLongs[end]],
-                            distance: distance
+                            totalDistance: distance
                         }
                     }
                 }
             }
         }
+        sortedTriangles.pop();
     }
     return maxFlatTriangle;
 }
@@ -232,6 +341,7 @@ async function getBestStartEnd (triangle){
 
         }
     }
+    console.log(distance(triangle.index[3], triangle.index[4]));
     return triangle;
 }
 
@@ -241,7 +351,7 @@ async function getTotalTriangleDistance(triangle) {
     totalDistance = totalDistance + distance(triangle.index[1], triangle.index[2]);
     totalDistance = totalDistance + distance(triangle.index[0], triangle.index[2]);
     totalDistance = totalDistance - distance(triangle.index[3], triangle.index[4]);
-    triangle.distance = totalDistance;
+    triangle.totalDistance = totalDistance;
 
     return triangle;
 }
