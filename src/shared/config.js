@@ -8,6 +8,7 @@ let defaultCircle = false; //false, optimal, theta
 let defaultEight = false; //false, true
 let defaultTriangle = false; //false, fast, improved, experimental
 let defaultFreeFlight = false;
+let defaultFlatTriangle = false;
 
 // --- Algorithm parameters ---
 const curveMaxDeviation = 0.1;
@@ -26,6 +27,15 @@ const maxImprovedSearchPoints = 4000;
 const maxRadius = 1000;
 const maxBucketSize = 100;
 const timeLimit = 15;
+
+//--- Free Flight parameters ---
+const freeFlightScore = 1;
+const freeFlightTurnpoints = 3;
+const freeFlightOptimizeFactor = 5;
+
+//--- Flat Triangle parameters ---
+const flatTriangleScore = 1.4;
+let maxRadiusFlatTriangle = 3;
 
 // The angle θ between two subsequent vectors in a turn needs to fit between the below defined min and max angles.
 // e.g. for a circle of 10 vectors (11 different points) the average angle should be 36° (360 / 10)

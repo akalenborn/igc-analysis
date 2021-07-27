@@ -9,11 +9,12 @@ async function displayResults(results) {
 
     for (const algorithm of algorithms) {
         if (algorithm.result){
-            if (algorithm.name != "triangle" && algorithm.name != "freeFlight") {
+            if (algorithm.name != "triangle" && algorithm.name != "freeFlight" && algorithm.name != "flatTriangle") {
                 displayShape(algorithm);
             } else {
                 if (algorithm.name == "triangle") displayTriangle(algorithm);
-                if (algorithm.name == "freeFlight") displayFreeFlight(algorithm)
+                if (algorithm.name == "freeFlight") displayFreeFlight(algorithm);
+                if (algorithm.name == "flatTriangle") displayFlatTriangle(algorithm);
             }
         }
     }
@@ -29,9 +30,9 @@ function setDisabledProperty() {
 
 function displayTriangle(algorithm){
     if(!isNaN(algorithm.result.distTotal)){
-    mapControl.addMarkerTo(algorithm.name, algorithm.result.startP);
-    mapControl.addMarkerTo(algorithm.name, algorithm.result.endP);
-    mapControl.addTriangle(algorithm, algorithm.color);
+        mapControl.addMarkerTo(algorithm.name, algorithm.result.startP);
+        mapControl.addMarkerTo(algorithm.name, algorithm.result.endP);
+        mapControl.addTriangle(algorithm, algorithm.color);
     }
 
     displayTriangleInfo();
@@ -41,10 +42,16 @@ function displayTriangle(algorithm){
 //display markers for startpoint, endpoint and waypoints
 //display a line between all the points
 function displayFreeFlight (algorithm){
-    console.log(algorithm.result.points);
     displayMarkers(algorithm.name, algorithm.result.points);
-    mapControl.addLine(algorithm.result.points, algorithm.color);
+    mapControl.addLine(algorithm, algorithm.color);
     displayFreeFlightInfo();
+}
+
+function displayFlatTriangle(algorithm){
+    displayMarkers(algorithm.name, algorithm.result.points);
+    mapControl.addFlachesDreieck(algorithm, algorithm.color);
+    displayFlatTriangleInfo();
+
 }
 
 // displays the markers for the given points
@@ -54,6 +61,20 @@ function displayMarkers ( name , points ) {
     }
 }
 
+
+
+function displayFlatTriangleInfo(){
+    flatTriangleInfoContainer.innerHTML =
+        '<table id="flatTriangleInfo" class="table table-sm">' +
+        '<tbody>'+
+        displayFlightscore(results.shapeDetection.flatTriangle.flightScore)+
+        displayFlightType(results.shapeDetection.flatTriangle.type)+
+        displayTotalDistance(results.shapeDetection.flatTriangle.totalDistance)+
+        '</tbody>' +'</table>';
+    // }
+    flatTriangleInfoContainer.style.display = "block";
+    flatTriangleResultContainer.style.display = "flex";
+}
 function displayFreeFlightInfo(){
     // if (results.shapeDetection.freeFlight.waypoints.length == 0) {
     freeFlightInfoContainer.innerHTML =
@@ -187,11 +208,11 @@ function displayRuntimeInfo(){
 
 
 function displayShape(algorithm) {
-        for (const shape of algorithm.result) {
-            mapControl.addMarkerTo(algorithm.name, latLong[shape[0]]);
-            const points = latLong.slice(shape[0], lastElementOfArray(shape) + 1);
-            mapControl.addShape(points, algorithm.color);
-        }
+    for (const shape of algorithm.result) {
+        mapControl.addMarkerTo(algorithm.name, latLong[shape[0]]);
+        const points = latLong.slice(shape[0], lastElementOfArray(shape) + 1);
+        mapControl.addShape(points, algorithm.color);
+    }
 }
 
 function initCheckboxes(algorithms){
@@ -214,11 +235,12 @@ function handleCheckboxes(algorithm){
 
     if (algorithm.checkbox.checked) {
         if(algorithm.result){
-            if(algorithm.name!="triangle"){
+            if (algorithm.name != "triangle" && algorithm.name != "freeFlight" && algorithm.name != "flatTriangle") {
                 displayShape(algorithm);
-            }
-            else{
-                displayTriangle(algorithm);
+            } else {
+                if (algorithm.name == "triangle") displayTriangle(algorithm);
+                if (algorithm.name == "freeFlight") displayFreeFlight(algorithm);
+                if (algorithm.name == "flatTriangle") displayFlatTriangle(algorithm);
             }
         }
     } else {

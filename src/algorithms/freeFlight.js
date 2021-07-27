@@ -1,47 +1,164 @@
+//let puffer muss kalibiriert werden
+// optimizefactor muss kalibriert werden
+
+let latLongCoordinates = [];
+let distanceTable =[];
 
 async function freeFlightDetection() {
-
-    let numberOfTurnpoints = 3;
-    let distTable =  await initDistanceTable(numberOfTurnpoints);
-    await getFreeFlight(numberOfTurnpoints, distTable);
-
-    return await getLongestPath(distTable, numberOfTurnpoints);
+    switch (freeFlightAlgorithm.value) {
+        case "optimal":
+            await setParameter();
+            console.log(latLongCoordinates);
+            await getFreeFlight();
+            return await getLongestPath( );
+            break;
+        case "fast search":
+            await  setOptimizedParameter(freeFlightOptimizeFactor);
+            await getFreeFlight();
+            console.log(latLongCoordinates);
+            console.log(distanceTable);
+            return await getOptimalPath();
+            break;
+    }
 }
 
+async function getOptimalPath() {
 
-async  function getFreeFlight(numberOfTurnpoints, distTable) {
-    for (let currentTurnpoint = 0; currentTurnpoint <= numberOfTurnpoints; currentTurnpoint++ ){
-        await createAllFreeFlights(currentTurnpoint, distTable);
+    console.log("optimalPath");
+    let flight = await getLongestPath();
+    console.log(flight);
+    await resetParameters();
+    latLongCoordinates = await getNeighbourPoints(flight.indices);
+    await initDistanceTable();
+
+    await getFreeFlight();
+    console.log(distanceTable);
+    if (flight.totalDistance < (await getLongestPath()).totalDistance) return await getOptimalPath();
+    console.log(flight.indices);
+    return flight;
+
+}
+
+async function resetParameters() {
+    latLongCoordinates.length = 0;
+    distanceTable.length = 0;
+}
+
+async function setOptimizedParameter (optimizeFactor) {
+    for ( let latlongIndex = 0; latlongIndex < latLong.length; latlongIndex = latlongIndex + optimizeFactor) {
+        latLongCoordinates.push(latlongIndex);
+    }
+    await initDistanceTable();
+
+}
+async function getSkippedPoints(){
+
+    return Math.ceil((freeFlightOptimizeFactor * await getMaxDistanceBetweenPoint())/await getAverageDistanceBetweenPoint());
+}
+async function getMaxDistanceBetweenPoint() {
+    let maxDistance = 0;
+    for (let i = 0; i < distances.length; i++) {
+        if( maxDistance < distances[i]) maxDistance = distances[i];
+    }
+    console.log(maxDistance);
+    return maxDistance;
+}
+
+async function getAverageDistanceBetweenPoint(){
+    let distance=0;
+    let length=0;
+    for (let i = 0; i < distances.length; i++) {
+        if(distances[i]!==0) {
+            distance = distance + distances[i];
+            length++;
+        }
+    }
+
+    return distance/length;
+
+}
+
+async function getMinDistanceBetweenPoint(){
+    let minDistance = Number.MAX_VALUE;
+    for (let i = 0; i < distances.length; i++) {
+        if( minDistance > distances[i] && distances[i]!==0) minDistance = distances[i];
+    }
+    console.log(minDistance);
+
+    return minDistance;
+
+}
+
+async function getNeighbourPoints (points) {
+    let puffer =  await getSkippedPoints(); //+ 30;
+    console.log(puffer);
+    let neighbourPoints = [];
+    for ( let pointIndex = 0; pointIndex < points.length; pointIndex++ ){
+        // check if point has index 0
+        let latlongIndex = points[pointIndex] -puffer;
+        if (latlongIndex<=0) latlongIndex=0;
+        for ( latlongIndex;
+              latlongIndex <= (points[pointIndex] +puffer ) && latlongIndex >=0 && latlongIndex < latLong.length;
+              latlongIndex++) {
+            neighbourPoints.push(latlongIndex);
+        }
+    }
+    console.log(neighbourPoints);
+
+
+    return await sort(await removeDuplicates(neighbourPoints));
+
+
+}
+
+async function removeDuplicates (points) {
+    return points.filter((value,index) => points.indexOf(value)===index);
+}
+async function sort(points){
+    return points.sort(function(a, b){return a - b});
+}
+
+async function setParameter () {
+    for (let latlong = 0; latlong < latLong.length; latlong++ ){
+        latLongCoordinates.push(latlong);
+    }
+    console.log(latLongCoordinates);
+    await initDistanceTable();
+}
+
+async  function getFreeFlight() {
+    for (let currentTurnpoint = 0; currentTurnpoint <= freeFlightTurnpoints; currentTurnpoint++ ){
+        await createAllFreeFlights(currentTurnpoint);
     }
 
 }
 
 
 // calculates the longest freeFlight with #turnpoints.
-async function createAllFreeFlights ( turnpoints, distTable ) {
-    for (let latlongIndex =0; latlongIndex < latLong.length; latlongIndex++) {
+async function createAllFreeFlights ( turnpoints ) {
+    for (let latlongIndex =0; latlongIndex < latLongCoordinates.length; latlongIndex++) {
         let maxDistance = 0;
         let predecessor = "null";
         let tempDistance = -1;
         for ( let j = 0; j<latlongIndex; j++ ) {
-            if ( turnpoints == 0 )   tempDistance= distanceBetweenCoordinates(latLong[latlongIndex],latLong[j]);
-            if ( turnpoints != 0 )   tempDistance= distanceBetweenCoordinates(latLong[latlongIndex],latLong[j]) + distTable[turnpoints-1][j][1];
+            if ( turnpoints == 0 )   tempDistance= distance(latLongCoordinates[latlongIndex],latLongCoordinates[j]);
+            if ( turnpoints != 0 )   tempDistance= distance(latLongCoordinates[latlongIndex],latLongCoordinates[j]) + distanceTable[turnpoints-1][j][1];
             if (maxDistance < tempDistance) {
                 maxDistance = tempDistance;
                 predecessor = j;
             }
         }
         if (maxDistance != 0) {
-            await updateTable(turnpoints, latlongIndex, predecessor, maxDistance);
+            await updateTable(turnpoints, latlongIndex, predecessor, maxDistance );
         }
     }
 }
 
 
 // update distTable with predecessor and maxDistance
-async function updateTable(turnpoints, latlongIndex, predecessor, maxDistance) {
-    distTable[turnpoints][latlongIndex][0] = predecessor;
-    distTable[turnpoints][latlongIndex][1] = maxDistance;
+async function updateTable(turnpoints, latlongIndex, predecessor, maxDistance ) {
+    distanceTable[turnpoints][latlongIndex][0] = predecessor;
+    distanceTable[turnpoints][latlongIndex][1] = maxDistance;
 }
 
 
@@ -49,34 +166,35 @@ async function updateTable(turnpoints, latlongIndex, predecessor, maxDistance) {
 // a table contains entrys for every latlong with currently data = (predecessor, distance)
 // distTable[0] contains a table for freeFlights with 0 turnpoints
 // distTable[1] contains a table for freeFlights with 1 turnpoint
-async function initDistanceTable(numberOfTurnpoints) {
-    for (let currentTurnpoint = 0; currentTurnpoint <= numberOfTurnpoints; currentTurnpoint++){
+async function initDistanceTable() {
+    for (let currentTurnpoint = 0; currentTurnpoint <= freeFlightTurnpoints; currentTurnpoint++){
         let table = [];
-        for ( let latlongIndex = 0 ; latlongIndex < latLong.length; latlongIndex++) {
+        for ( let latlongIndex = 0 ; latlongIndex < latLongCoordinates.length; latlongIndex++) {
             let data = [0, "null"];
             table.push(data);
         }
-        distTable[currentTurnpoint] = table;
+        distanceTable[currentTurnpoint]= table;
     }
-    return distTable;
 }
 
 
 // get the longest Path from distTable with given turnpoints
-async function getLongestPath (distTable, turnpoints) {
-    let endPoint =  await getEndpoint(turnpoints);
-    let wayPoints = await getWaypoints(endPoint, turnpoints);
-    let startPoint = await getStartpoint(turnpoints, endPoint, wayPoints);
+async function getLongestPath () {
+    let endPoint =  await getEndpoint(freeFlightTurnpoints);
+    let wayPoints = await getWaypoints(endPoint, freeFlightTurnpoints);
+    let startPoint = await getStartpoint(freeFlightTurnpoints, endPoint, wayPoints);
     let points = await getAllPoints( startPoint, wayPoints, endPoint );
+
     let freeFlight ={
         type: "Free Flight",
-        startP : latLong[startPoint],
-        endP : latLong[endPoint],
+        startP : latLongCoordinates[startPoint],
+        endP : latLongCoordinates[endPoint],
         waypoints: await getLatlong(wayPoints),
         totalDistance: await getTotalDist(points),
-        flightScore: await getFlightScore(await getTotalDist(points), 1.5),
+        flightScore: await getFlightScore(await getTotalDist(points), freeFlightScore),
         distanceBetweenPoints: await getAllDistancesBetweenPoints(points),
-        points: points
+        points: points,
+        indices: await getAllIndices ( startPoint, wayPoints, endPoint )
     };
 
     return freeFlight;
@@ -92,13 +210,23 @@ async function getLongestPath (distTable, turnpoints) {
  */
 async function getAllPoints ( startPoint, wayPoints, endPoint ) {
     let points = [];
-    points.push(startPoint);
+    points.push(latLongCoordinates[startPoint]);
     for ( let wayPoint = 0; wayPoint < wayPoints.length; wayPoint++ ){
-        points.push(wayPoints[wayPoint]);
+        points.push(latLongCoordinates[wayPoints[wayPoint]]);
     }
-    points.push(endPoint);
+    points.push(latLongCoordinates[endPoint]);
 
     return getLatlong(points);
+}
+
+async function getAllIndices (startPoint, wayPoints, endPoint) {
+    let indices = [];
+    indices.push(latLongCoordinates[startPoint]);
+    for ( let wayPoint = 0; wayPoint < wayPoints.length; wayPoint++ ){
+        indices.push(latLongCoordinates[wayPoints[wayPoint]]);
+    }
+    indices.push(latLongCoordinates[endPoint]);
+    return indices;
 }
 
 /**
@@ -132,9 +260,9 @@ async function getFlightScore ( distance, scoringFactor ) {
 async function getEndpoint ( turnpoints ) {
     let endpoint;
     let maxDistance = 0;
-    for ( let i = 0; i < distTable[turnpoints].length; i++ ) {
-        if ( distTable[turnpoints][i][1] > maxDistance ) {
-            maxDistance = distTable[turnpoints][i][1];
+    for ( let i = 0; i < distanceTable[turnpoints].length; i++ ) {
+        if ( distanceTable[turnpoints][i][1] > maxDistance ) {
+            maxDistance = distanceTable[turnpoints][i][1];
             endpoint = i;
         }
     }
@@ -152,7 +280,7 @@ async function getWaypoints ( endpoint , turnpoints, ) {
     let successor = endpoint;
     for ( let turnpoint = turnpoints; turnpoint > 0 ; turnpoint-- ) {
 
-        waypoints[turnpoint-1] = distTable[turnpoint][successor][0];
+        waypoints[turnpoint-1] = distanceTable[turnpoint][successor][0];
         successor = waypoints[turnpoint-1];
     }
     return waypoints;
@@ -181,8 +309,8 @@ async function getLatlong ( points ) {
  * @returns {Promise<*>} the index of the startpoint
  */
 async function getStartpoint (turnpoints, endPoint, waypoints ) {
-    if ( turnpoints == 0) return  distTable[0][endPoint][0];
-    if ( turnpoints != 0) return distTable[0][waypoints[0]][0];
+    if ( turnpoints == 0) return  distanceTable[0][endPoint][0];
+    if ( turnpoints != 0) return distanceTable[0][waypoints[0]][0];
 }
 
 /**

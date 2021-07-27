@@ -42,6 +42,7 @@ function showInfoContainers() {
 function hideTriangleContainer(){
     triangleResultContainer.style.display = "none";
     freeFlightResultContainer.style.display ="none";
+    flatTriangleResultContainer.style.display = "none";
 }
 
 function setTimelineValue(timeIndex) {
