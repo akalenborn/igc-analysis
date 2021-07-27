@@ -42,9 +42,8 @@ function displayTriangle(algorithm){
 //display markers for startpoint, endpoint and waypoints
 //display a line between all the points
 function displayFreeFlight (algorithm){
-    console.log(algorithm.result.points);
     displayMarkers(algorithm.name, algorithm.result.points);
-    mapControl.addLine(algorithm.result.points, algorithm.color);
+    mapControl.addLine(algorithm, algorithm.color);
     displayFreeFlightInfo();
 }
 
@@ -236,11 +235,12 @@ function handleCheckboxes(algorithm){
 
     if (algorithm.checkbox.checked) {
         if(algorithm.result){
-            if(algorithm.name!="triangle"){
+            if (algorithm.name != "triangle" && algorithm.name != "freeFlight" && algorithm.name != "flatTriangle") {
                 displayShape(algorithm);
-            }
-            else{
-                displayTriangle(algorithm);
+            } else {
+                if (algorithm.name == "triangle") displayTriangle(algorithm);
+                if (algorithm.name == "freeFlight") displayFreeFlight(algorithm);
+                if (algorithm.name == "flatTriangle") displayFlatTriangle(algorithm);
             }
         }
     } else {

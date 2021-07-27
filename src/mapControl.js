@@ -177,12 +177,15 @@ function createMapControl(elementName) {
             L.polygon([triObj.result.points[0], triObj.result.points[1], triObj.result.points[2]], {color: color}).addTo(layerGroups[triObj.name]);
         },
 
-        addLine: (points, color) => {
-            let firstpolyline = new L.polyline(points, {
+        addLine: (freeFlight, color) => {
+            if (layerGroups[freeFlight.name] === undefined) {
+                layerGroups[freeFlight.name] = L.layerGroup().addTo(map);
+            }
+            let firstpolyline = new L.polyline(freeFlight.result.points, {
                 color: color,
                 weight: 3
             });
-            firstpolyline.addTo(map);
+            firstpolyline.addTo(layerGroups[freeFlight.name]);
         },
 
 

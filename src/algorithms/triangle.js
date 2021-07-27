@@ -185,7 +185,7 @@ async function getFastFaiTriangleStartEnd(faiArray){
                             w31: faiArray[s][6].toFixed(2),
                             w3prcnt: (faiArray[s][6]/faiArray[s][3]*100).toFixed(2),
                             endP: optLatLong[j],
-                            distTotal: faiArray[s][3].toFixed(2),
+                            distTotal: faiArray[s][3],
                             distStartEnd: minDistance.toFixed(2),
                             flightScore: (currMaxFaiTriangle * 2).toFixed(2),
                             consideredPoints: maxIncreasedSearchPoints,
@@ -271,6 +271,7 @@ async function getAccurateFaiTriangle(initTriangleResult, radius){
         sortedArr =  await sortArr(finalFaiTriangle);
     }
     else{
+        console.log(initTriangleResult);
         return initTriangleResult;
     }
 
@@ -313,7 +314,7 @@ async function getAccurateFaiTriangle(initTriangleResult, radius){
         w31: maxTri[6],
         w3prcnt: (maxTri[6]/maxTri[3]*100).toFixed(2),
         endP: accTriangle[4][startEndIndex[1]].point,
-        distTotal: maxTri[3].toFixed(2),
+        distTotal: maxTri[3],
         distStartEnd: startEndDistance.toFixed(2),
         flightScore: ((maxTri[3] - startEndDistance) * 2).toFixed(2),
         runtimeInfo: runtime.toFixed(2) + " seconds",
@@ -321,7 +322,7 @@ async function getAccurateFaiTriangle(initTriangleResult, radius){
         totalPoints: latLong.length,
         radiusAcc: radius + "m"
     };
-
+    console.log(resultTriangle);
     return resultTriangle;
 }
 
@@ -500,7 +501,7 @@ function getTriangleType(distAll, triangleDistance){
         }
     });
 
-    return isFai;
+    return true;
 }
 
 async function getOptLatLong(maxPoints){

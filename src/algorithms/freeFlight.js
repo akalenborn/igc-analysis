@@ -3,11 +3,8 @@
 
 let latLongCoordinates = [];
 let distanceTable =[];
-let numberOfTurnpoints = 3;
-let optimizeFactor =5;
+
 async function freeFlightDetection() {
-
-
     switch (freeFlightAlgorithm.value) {
         case "optimal":
             await setParameter();
@@ -16,7 +13,7 @@ async function freeFlightDetection() {
             return await getLongestPath( );
             break;
         case "fast search":
-           await  setOptimizedParameter(optimizeFactor);
+           await  setOptimizedParameter(freeFlightOptimizeFactor);
            await getFreeFlight();
            console.log(latLongCoordinates);
            console.log(distanceTable);
@@ -56,7 +53,7 @@ async function setOptimizedParameter (optimizeFactor) {
 }
 async function getSkippedPoints(){
 
-    return Math.ceil((optimizeFactor * await getMaxDistanceBetweenPoint())/await getAverageDistanceBetweenPoint());
+    return Math.ceil((freeFlightOptimizeFactor * await getMaxDistanceBetweenPoint())/await getAverageDistanceBetweenPoint());
 }
 async function getMaxDistanceBetweenPoint() {
     let maxDistance = 0;
@@ -130,7 +127,7 @@ async function setParameter () {
 }
 
 async  function getFreeFlight() {
-    for (let currentTurnpoint = 0; currentTurnpoint <= numberOfTurnpoints; currentTurnpoint++ ){
+    for (let currentTurnpoint = 0; currentTurnpoint <= freeFlightTurnpoints; currentTurnpoint++ ){
         await createAllFreeFlights(currentTurnpoint);
     }
 
@@ -170,7 +167,7 @@ async function updateTable(turnpoints, latlongIndex, predecessor, maxDistance ) 
 // distTable[0] contains a table for freeFlights with 0 turnpoints
 // distTable[1] contains a table for freeFlights with 1 turnpoint
 async function initDistanceTable() {
-    for (let currentTurnpoint = 0; currentTurnpoint <= numberOfTurnpoints; currentTurnpoint++){
+    for (let currentTurnpoint = 0; currentTurnpoint <= freeFlightTurnpoints; currentTurnpoint++){
         let table = [];
         for ( let latlongIndex = 0 ; latlongIndex < latLongCoordinates.length; latlongIndex++) {
             let data = [0, "null"];
@@ -183,9 +180,9 @@ async function initDistanceTable() {
 
 // get the longest Path from distTable with given turnpoints
 async function getLongestPath () {
-    let endPoint =  await getEndpoint(numberOfTurnpoints);
-    let wayPoints = await getWaypoints(endPoint, numberOfTurnpoints);
-    let startPoint = await getStartpoint(numberOfTurnpoints, endPoint, wayPoints);
+    let endPoint =  await getEndpoint(freeFlightTurnpoints);
+    let wayPoints = await getWaypoints(endPoint, freeFlightTurnpoints);
+    let startPoint = await getStartpoint(freeFlightTurnpoints, endPoint, wayPoints);
     let points = await getAllPoints( startPoint, wayPoints, endPoint );
 
     let freeFlight ={
@@ -194,7 +191,7 @@ async function getLongestPath () {
         endP : latLongCoordinates[endPoint],
         waypoints: await getLatlong(wayPoints),
         totalDistance: await getTotalDist(points),
-        flightScore: await getFlightScore(await getTotalDist(points), 1.5),
+        flightScore: await getFlightScore(await getTotalDist(points), freeFlightScore),
         distanceBetweenPoints: await getAllDistancesBetweenPoints(points),
         points: points,
         indices: await getAllIndices ( startPoint, wayPoints, endPoint )
