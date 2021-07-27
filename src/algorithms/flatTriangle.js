@@ -8,6 +8,7 @@ let endTuple = new Map;
 async function flatTriangleDetection () {
     setStartTime();
     runtime = 0;
+    count = 1;
     let triangleResult = [];
     switch (flatTriangleAlgorithm.value) {
         case "fast search":
@@ -17,6 +18,7 @@ async function flatTriangleDetection () {
             flatTriangles.push(triangleResult);
             triangleResult.points = await getLatlong(triangleResult.index);
             triangleResult.flightScore = await getFlightScore(triangleResult.totalDistance, flatTriangleScore);
+            console.log(triangleResult);
             return triangleResult;
             break;
 
@@ -36,6 +38,7 @@ async function flatTriangleDetection () {
             currentBestFlatTriangle.points = await getLatlong(currentBestFlatTriangle.index);
             currentBestFlatTriangle.flightScore = await getFlightScore(currentBestFlatTriangle.totalDistance, flatTriangleScore);
            console.log(flatTriangles);
+           console.log(currentBestFlatTriangle);
             return currentBestFlatTriangle;
             break;
     }
@@ -186,9 +189,13 @@ async function getFastFlatTriangleStartEnd(sortedTriangles){
     let minDistance = Number.MAX_VALUE;
     let triangle;
     for ( triangle = sortedTriangles.length-1; triangle >= 0; triangle-- ){
+        if (getCurrentRuntimeMilliseconds() > domUpdateInterval*count){
+            await domUpdate();
+            count++;
+        }
         if (sortedTriangles[triangle][3] < currentMaxFlatTriangle) break;
-        for ( let start = sortedTriangles[triangle][0] - 1; start>=0; start -= 3){
-            for (let end = sortedTriangles[triangle][2] + 1; end <latLong.length; end+= 3){
+        for ( let start = sortedTriangles[triangle][0] - 1; start>=0; start -= 10){
+            for (let end = sortedTriangles[triangle][2] + 1; end <latLong.length; end+= 10){
                 let tempStartEnd = distance(start, end);
                 if (tempStartEnd < minDistance){
                     minDistance = tempStartEnd;
