@@ -35,7 +35,7 @@ const freeFlightOptimizeFactor = 5;
 
 //--- Flat Triangle parameters ---
 const flatTriangleScore = 1.4;
-let maxRadiusFlatTriangle = 3;
+let maxRadiusFlatTriangle = 2;
 
 // The angle θ between two subsequent vectors in a turn needs to fit between the below defined min and max angles.
 // e.g. for a circle of 10 vectors (11 different points) the average angle should be 36° (360 / 10)
