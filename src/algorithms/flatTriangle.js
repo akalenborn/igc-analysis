@@ -44,10 +44,13 @@ async function setFlatTrianglesAttributes (flatTriangle) {
     flatTriangle.points = await getLatlong(flatTriangle.index);
     flatTriangle.totalDistance =await getTotalTriangleDistance(flatTriangle);
     flatTriangle.flightScore = await getFlightScore(flatTriangle.totalDistance, flatTriangleScore);
-    flatTriangle.type = "flat triangle";
+    flatTriangle.startEndDistance = await getStartEndDistance(flatTriangle);
+    flatTriangle.type = "Flat triangle";
     return flatTriangle;
 }
-
+async function getStartEndDistance (flatTriangle) {
+    return distance(flatTriangle.index[3], flatTriangle.index[4]);
+}
 async function getBestFlatTriangle(triangles){
     let maxDistance = Number.MIN_VALUE;
     let bestTriangle = [];
