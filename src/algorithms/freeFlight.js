@@ -7,16 +7,16 @@ let distanceTable =[];
 async function freeFlightDetection() {
     switch (freeFlightAlgorithm.value) {
         case "optimal":
+            await resetParameters();
             await setParameter();
             console.log(latLongCoordinates);
             await getFreeFlight();
             return await getLongestPath( );
             break;
         case "fast search":
+            await resetParameters();
             await  setOptimizedParameter(freeFlightOptimizeFactor);
             await getFreeFlight();
-            console.log(latLongCoordinates);
-            console.log(distanceTable);
             return await getOptimalPath();
             break;
     }
