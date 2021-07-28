@@ -13,11 +13,7 @@ async function flatTriangleDetection () {
     switch (flatTriangleAlgorithm.value) {
         case "fast search":
             triangleResult = await getInitFlatTriangle();
-            console.log(triangleResult);
-            triangleResult = await getTotalTriangleDistance(triangleResult);
-            flatTriangles.push(triangleResult);
-            triangleResult.points = await getLatlong(triangleResult.index);
-            triangleResult.flightScore = await getFlightScore(triangleResult.totalDistance, flatTriangleScore);
+            triangleResult = await setFlatTrianglesAttributes(triangleResult);
             console.log(triangleResult);
             return triangleResult;
             break;
@@ -27,21 +23,29 @@ async function flatTriangleDetection () {
             triangleResult = await getInitFlatTriangle();
             triangleResult = await getAccurateFlatTriangle(triangleResult, 0.01);
             currentBestFlatTriangle = await getBestFlatTriangle(flatTriangles);
-            triangleResult = await getBestFlatTriangle(flatTriangles);
-           // maxRadiusFlatTriangle = 1;
+            //triangleResult = await getBestFlatTriangle(flatTriangles);
+            maxRadiusFlatTriangle = 1;
             while (true){
-                triangleResult = await getAccurateFlatTriangle(triangleResult, 0.01);
+                console.log("while part");
+                triangleResult = await getAccurateFlatTriangle(currentBestFlatTriangle, 0.01);
                 triangleResult = await getBestFlatTriangle(flatTriangles);
                 if (triangleResult.totalDistance>currentBestFlatTriangle.totalDistance) currentBestFlatTriangle = triangleResult;
                 else if (triangleResult.totalDistance<=currentBestFlatTriangle.totalDistance) break;
             }
-            currentBestFlatTriangle.points = await getLatlong(currentBestFlatTriangle.index);
-            currentBestFlatTriangle.flightScore = await getFlightScore(currentBestFlatTriangle.totalDistance, flatTriangleScore);
-           console.log(flatTriangles);
-           console.log(currentBestFlatTriangle);
+            currentBestFlatTriangle = await setFlatTrianglesAttributes(currentBestFlatTriangle);
+            console.log(flatTriangles);
+            console.log(currentBestFlatTriangle);
             return currentBestFlatTriangle;
             break;
     }
+}
+
+async function setFlatTrianglesAttributes (flatTriangle) {
+    flatTriangle.points = await getLatlong(flatTriangle.index);
+    flatTriangle.totalDistance =await getTotalTriangleDistance(flatTriangle);
+    flatTriangle.flightScore = await getFlightScore(flatTriangle.totalDistance, flatTriangleScore);
+    flatTriangle.type = "flat triangle";
+    return flatTriangle;
 }
 
 async function getBestFlatTriangle(triangles){
@@ -112,7 +116,7 @@ async function getAccurateFlatTriangle ( triangleResult, radius) {
         let sortedTriangles = await sortTriangles(triangles);
         maxFlatTriangle = await getFastFlatTriangleEndStart(sortedTriangles);
         maxFlatTriangle = await getBestStartEnd(maxFlatTriangle);
-        maxFlatTriangle = await getTotalTriangleDistance(maxFlatTriangle);
+        maxFlatTriangle.totalDistance = await getTotalTriangleDistance(maxFlatTriangle);
         flatTriangles.push(maxFlatTriangle);
         if (radius < 0.1) return getAccurateFlatTriangle(maxFlatTriangle, radius+0.01);
         if (radius <=  1) return getAccurateFlatTriangle(maxFlatTriangle, radius+0.1);
@@ -173,10 +177,8 @@ async function getInitFlatTriangle() {
     triangles = await getTriangles(optimizedLatLong, optimizedLatLong, optimizedLatLong);
     if (triangles.length !== 0) {
         sortedTriangles = await sortTriangles(triangles);
-        console.log(sortedTriangles);
         maxFlatTriangle = await getFastFlatTriangleStartEnd(sortedTriangles);
         maxFlatTriangle = await getBestStartEnd(maxFlatTriangle);
-        console.log(maxFlatTriangle);
         //maxFlatTriangle = await getTotalTriangleDistance(maxFlatTriangle);
         //maxFlatTriangle.points = await getLatlong(maxFlatTriangle.index);
         return maxFlatTriangle;
@@ -366,7 +368,7 @@ async function getTotalTriangleDistance(triangle) {
     totalDistance = totalDistance + distance(triangle.index[1], triangle.index[2]);
     totalDistance = totalDistance + distance(triangle.index[0], triangle.index[2]);
     totalDistance = totalDistance - distance(triangle.index[3], triangle.index[4]);
-    triangle.totalDistance = totalDistance;
+    //triangle.totalDistance = totalDistance;
 
-    return triangle;
+    return totalDistance;
 }
