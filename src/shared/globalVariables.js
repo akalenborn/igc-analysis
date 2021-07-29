@@ -15,6 +15,8 @@ const triangleRuntimeContainer = document.querySelector('#triangle-runtime-conta
 const flatTriangleCheckbox = document.querySelector('#flatTriangle-checkbox');
 const flatTriangleResultContainer = document.querySelector('#flatTriangle-result-container');
 const flatTriangleInfoContainer = document.querySelector('#flatTriangle-info-container');
+const bestFLightCheckbox = document.querySelector('#bestFlight-checkbox');
+
 //const outputContainer = document.querySelector('#analysis-output');
 //const circleDetectionContainer = document.querySelector('.circle-detection');
 //const dragAndDropParagraph = document.querySelector('#drag-and-drop-paragraph');
@@ -71,5 +73,6 @@ let algorithms = [
     {name: "eight", result: results.shapeDetection.eight, checkbox: eightCheckbox, default: defaultEight, color: "yellow"},
     {name: "triangle", result: results.shapeDetection.triangle, checkbox: triangleCheckbox, default: defaultTriangle, alg: triangleAlgorithm, color: "green"},
     {name: "freeFlight", result: results.shapeDetection.freeFlight, checkbox: freeFlightCheckbox, default: defaultFreeFlight, alg: freeFlightAlgorithm, color:"black"},
-    {name: "flatTriangle", result: results.shapeDetection.flatTriangle, checkbox: flatTriangleCheckbox, default: defaultFlatTriangle, alg: flatTriangleAlgorithm, color:"red"}
+    {name: "flatTriangle", result: results.shapeDetection.flatTriangle, checkbox: flatTriangleCheckbox, default: defaultFlatTriangle, alg: flatTriangleAlgorithm, color:"red"},
+    {name: "bestFlight", checkbox: bestFLightCheckbox}
 ];
