@@ -14,13 +14,19 @@ async function freeFlightDetection() {
             return await getLongestPath( );
             break;
         case "fast search":
-            await resetParameters();
-            await  setOptimizedParameter(freeFlightOptimizeFactor);
-            await getFreeFlight();
-            return await getOptimalPath();
+            return await fastFreeFlightSearch();
             break;
     }
 }
+
+async function fastFreeFlightSearch() {
+    await resetParameters();
+    await  setOptimizedParameter(freeFlightOptimizeFactor);
+    await getFreeFlight();
+    return await getOptimalPath();
+}
+
+
 
 async function getOptimalPath() {
 
