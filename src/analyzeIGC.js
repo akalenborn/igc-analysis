@@ -44,9 +44,6 @@ async function runAlgorithms(track, activeAlgorithms) {
                 results.shapeDetection.flatTriangle = await flatTriangleDetection();
                 algorithms[6].result = results.shapeDetection.flatTriangle;
                 break;
-            case "bestFlight":
-                await bestFlightDetection();
-                break;
             default:
         }
     }

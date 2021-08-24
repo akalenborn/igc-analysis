@@ -58,8 +58,8 @@ async function setOptimizedParameter (optimizeFactor) {
 
 }
 async function getSkippedPoints(){
-
-    return Math.ceil((freeFlightOptimizeFactor * await getMaxDistanceBetweenPoint())/await getAverageDistanceBetweenPoint());
+    return freeFlightOptimizeFactor*2;
+    //return Math.ceil((freeFlightOptimizeFactor * await getMaxDistanceBetweenPoint())/await getAverageDistanceBetweenPoint());
 }
 async function getMaxDistanceBetweenPoint() {
     let maxDistance = 0;
@@ -202,7 +202,7 @@ async function getLongestPath () {
         points: points,
         indices: await getAllIndices ( startPoint, wayPoints, endPoint )
     };
-
+    console.log(freeFlight);
     return freeFlight;
 
 }
@@ -272,6 +272,7 @@ async function getEndpoint ( turnpoints ) {
             endpoint = i;
         }
     }
+    console.log(distanceTable);
     return endpoint;
 }
 
