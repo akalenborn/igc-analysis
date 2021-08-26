@@ -578,8 +578,6 @@ async function getBucketItem(point, index){
     let currMaxNTriangle = 0;
     let maxNTriangle;
     let n;
-
-
     for(n=0; n < nArray.length; n++){
         //loop stops when the current MaxTriangleScore is bigger or equal than the TotalDist of current loop entry
         if(nArray[n][3]<currMaxNTriangle){
@@ -618,10 +616,8 @@ async function getBucketItem(point, index){
                 }
             }
         }
-
     }
     maxNTriangle.lastIndex = n;
-
     return new Promise( resolve => {
         resolve(maxNTriangle);
     });
@@ -635,13 +631,11 @@ async function getBucketItem(point, index){
     let tempMaxEnd=0;
     let currMaxFreeTrack = 0;
     let maxTrack;
-
     let now = Date.now();
     for(let i = 0; i<frTrArr.length; i++){
         tempMaxFreeTrack=0;
         tempMaxStart=0;
         tempMaxEnd=0;
-
         for(let j = frTrArr[i][0]; j>=0; j--){
             let tempJ = distanceBetween(alllatLong[frTrArr[i][0]], alllatLong[j]);
             if(tempJ > tempMaxStart){
@@ -657,7 +651,6 @@ async function getBucketItem(point, index){
                 tempEndIndex = k;
             }
         }
-
         if(tempMaxFreeTrack>currMaxFreeTrack){
             currMaxFreeTrack = tempMaxFreeTrack;
             maxTrack = {
@@ -671,17 +664,9 @@ async function getBucketItem(point, index){
                 flightScore: currMaxFreeTrack * 1.5
             };
         }
-
     }
-
     return new Promise( resolve => {
         alert((Date.now()-now)/1000);
         resolve(maxTrack);
     });
 }*/
-
-
-
-
-
-
