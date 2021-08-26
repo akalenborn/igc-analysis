@@ -31,7 +31,7 @@ const timeLimit = 15;
 //--- Free Flight parameters ---
 const freeFlightScore = 1;
 const freeFlightTurnpoints = 3;
-const freeFlightOptimizeFactor = 5;
+const freeFlightMaxSearchpoints = 6000;
 
 //--- Flat Triangle parameters ---
 const flatTriangleScore = 1.4;
