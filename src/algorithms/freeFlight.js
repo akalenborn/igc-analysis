@@ -7,7 +7,7 @@ async function freeFlightDetection() {
     runtime = 0;
 
     switch (freeFlightAlgorithm.value) {
-        case "optimal":
+        case "100% Precision":
 
             await resetParameters();
             await setParameter();
