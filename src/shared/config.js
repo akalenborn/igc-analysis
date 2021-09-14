@@ -1,6 +1,6 @@
 // --- CPU usage ---
 let domUpdateInterval = 200; // At least every n milliseconds, the DOM needs to be updated. Example: 100
-const runtimeModalTimeout = 4000; // The runtime info modal will be shown after this timeout, if the algorithms are still running
+const runtimeModalTimeout = 40; // The runtime info modal will be shown after this timeout, if the algorithms are still running
 
 // --- Default Algorithms --- // defines algorithms that are run by default after loading a igc file
 let defaultCurve = false; //false, optimal, theta
@@ -29,14 +29,16 @@ const maxBucketSize = 100;
 const timeLimit = 15;
 
 //--- Free Flight parameters ---
-const freeFlightScore = 1;
-const freeFlightTurnpoints = 3;
+const freeFlightScore = 1.5;
+const freeFlightWaypoints = 3;
 const freeFlightMaxSearchpoints = 6000;
 
 //--- Flat Triangle parameters ---
-const flatTriangleScore = 1.4;
-let maxRadiusFlatTriangle = 1;
+const flatTriangleScore = 1.75;
 const flatTriangleMaxSearchpoints = 200;
+const flatTriangleMaxLocalSearchpoints = 20;
+const flatTriangleRadiusFactor = 3;
+let flatTriangleImprovedPuffer = 0.1;
 
 // The angle θ between two subsequent vectors in a turn needs to fit between the below defined min and max angles.
 // e.g. for a circle of 10 vectors (11 different points) the average angle should be 36° (360 / 10)

@@ -48,16 +48,36 @@ function displayFreeFlight (algorithm){
 }
 
 function displayFlatTriangle(algorithm){
-    displayMarkers(algorithm.name, algorithm.result.points);
-    mapControl.addFlachesDreieck(algorithm, algorithm.color);
-    displayFlatTriangleInfo();
+    if (algorithm.result.points.length==0)displayFailedDetection();
+    if( algorithm.result.points.length>0){
+        displayMarkers(algorithm.name, algorithm.result.points);
+        mapControl.addFlachesDreieck(algorithm, algorithm.color);
+        displayFlatTriangleInfo();
+    }
 
+
+}
+
+function displayFailedDetection(){
+
+    flatTriangleInfoContainer.innerHTML =
+        '<table id="flatTriangleInfo" class="table table-sm">' +
+        '<tbody>'+
+        '<tr><th>Detection Result:</th>' +
+        '<td> No flat triangle detected</td>'+
+        '</tr>'+
+        '</tbody>' +'</table>';
+    // }
+    flatTriangleInfoContainer.style.display = "block";
+    flatTriangleResultContainer.style.display = "flex";
 }
 
 // displays the markers for the given points
 function displayMarkers ( name , points ) {
     for ( let point = 0; point < points.length; point++ ) {
-        mapControl.addMarkerTo(name, points[point]);
+        if(point == 0) mapControl.addMarkerTo(name, points[point], "Start");
+        if(point == points.length-1) mapControl.addMarkerTo(name, points[point], "End");
+        if(point!=0 && point!=points.length-1)mapControl.addMarkerTo(name, points[point], "waypoint".concat( [ " " + point]));
     }
 }
 
@@ -71,7 +91,7 @@ function displayFlatTriangleInfo(){
         displayFlightScoreCoeficient(flatTriangleScore)+
         displayFlightType(results.shapeDetection.flatTriangle.type)+
         displayTotalDistance(results.shapeDetection.flatTriangle.totalDistance.toFixed(2))+
-        displayLegDistances(results.shapeDetection.flatTriangle.points)+
+        displayLegDistances(results.shapeDetection.flatTriangle)+
         displayStartEndDistance(results.shapeDetection.flatTriangle.startEndDistance.toFixed(2))+
         '</tbody>' +'</table>';
     // }
@@ -98,7 +118,7 @@ function displayFreeFlightInfo(){
 function displayDistanceBetweenPoints (flightParameters) {
     if ( flightParameters.waypoints.length == 0){
         return ('<tr><th>Distance between start and end:</th>' +
-            '<td>' + flightParameters.distanceBetweenPoints[0].toFixed(2) + '</td>'+
+            '<td>' + flightParameters.distanceBetweenPoints[0].toFixed(2) + 'km</td>'+
             '</tr>');
     }
 
@@ -106,17 +126,17 @@ function displayDistanceBetweenPoints (flightParameters) {
 
         let output ="";
         output = '<tr><th>Distance between start and waypoint1:</th>' +
-            '<td>' + flightParameters.distanceBetweenPoints[0].toFixed(2) + '</td>'+
+            '<td>' + flightParameters.distanceBetweenPoints[0].toFixed(2) + 'km</td>'+
             '</tr>';
         for (let waypoint = 1; waypoint < flightParameters.waypoints.length; waypoint++) {
             output = output + '<tr><th>Distance between waypoint'+(waypoint)+
                 ' and waypoint'+(waypoint+1)+':</th>' +
-                '<td>' + flightParameters.distanceBetweenPoints[waypoint].toFixed(2) + '</td>'+
+                '<td>' + flightParameters.distanceBetweenPoints[waypoint].toFixed(2) + 'km</td>'+
                 '</tr>';
         }
         output = output + '<tr><th>Distance between waypoint'+flightParameters.waypoints.length+
             ' and end:</th>' +
-            '<td>' + flightParameters.distanceBetweenPoints[flightParameters.distanceBetweenPoints.length-1].toFixed(2) + '</td>'+
+            '<td>' + flightParameters.distanceBetweenPoints[flightParameters.distanceBetweenPoints.length-1].toFixed(2) + 'km</td>'+
             '</tr>';
         return output;
     }
@@ -142,23 +162,21 @@ function displayTotalDistance (distance) {
 }
 
 function displayFlightScoreCoeficient(score) {
-    return ('<tr><th>Flight score coeficient:</th>' +
+    return ('<tr><th>Flight score coefficient:</th>' +
         '<td>' + score + "p" + '</td>'+
         '</tr>');
 }
 
-function displayLegDistances (points) {
-    let leg1 = distanceBetweenCoordinates(points[0], points[1]).toFixed(2);
-    let leg2 = distanceBetweenCoordinates(points[1], points[2]).toFixed(2);
-    let leg3 = distanceBetweenCoordinates(points[0], points[2]).toFixed(2);
+function displayLegDistances (flatTriangle) {
+
     return ('<tr><th>Leg 1:</th>' +
-        '<td>' + leg1 + "km" + '</td>'+
+        '<td>' + flatTriangle.leg1.toFixed(2) + "km" + '</td>'+
         '</tr>'+
         '<tr><th>Leg 2:</th>' +
-            '<td>' + leg2 + "km" + '</td>'+
+            '<td>' + flatTriangle.leg2.toFixed(2) + "km" + '</td>'+
         '</tr>'+
         '<tr><th>Leg 3:</th>' +
-            '<td>' + leg3 + "km" + '</td>'+
+            '<td>' + flatTriangle.leg3.toFixed(2) + "km" + '</td>'+
         '</tr>');
 }
 

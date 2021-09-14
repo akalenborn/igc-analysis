@@ -174,7 +174,7 @@ function createMapControl(elementName) {
             if (layerGroups[triObj.name] === undefined) {
                 layerGroups[triObj.name] = L.layerGroup().addTo(map);
             }
-            L.polygon([triObj.result.points[0], triObj.result.points[1], triObj.result.points[2]], {color: color}).addTo(layerGroups[triObj.name]);
+            L.polygon([triObj.result.points[1], triObj.result.points[2], triObj.result.points[3]], {color: color}).addTo(layerGroups[triObj.name]);
         },
 
         addLine: (freeFlight, color) => {
@@ -250,11 +250,14 @@ function createMapControl(elementName) {
             L.marker(markerLatLng).addTo(layerGroup);
         },
 
-        addMarkerTo: (layerName, markerLatLng) => {
+        addMarkerTo: (layerName, markerLatLng, pointName) => {
             if (layerGroups[layerName] === undefined) {
                 layerGroups[layerName] = L.layerGroup().addTo(map);
             }
-            L.marker(markerLatLng).addTo(layerGroups[layerName]);
+            if (pointName!=undefined) L.marker(markerLatLng).addTo(layerGroups[layerName])
+                .bindPopup(pointName+": "+markerLatLng)
+                .openPopup();
+            if (pointName==undefined) L.marker(markerLatLng).addTo(layerGroups[layerName]);
         },
     };
 }
