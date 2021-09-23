@@ -1,6 +1,6 @@
 let latLongCoordinates = [];
 let distanceTable = [];
-let freeFlightOptimizeFactor;
+
 
 
 async function freeFlightDetection() {
@@ -57,7 +57,7 @@ async function getFreeFlightResult(freeFlight){
 async function getOptimalPath() {
 
     let flight = await getLongestPath();
-    if( freeFlightOptimizeFactor == 1 ) return flight;
+    if(optRadius==0) return flight;
     await resetParameters();
     latLongCoordinates = await getNeighbourPoints(flight.indices);
     await initDistanceTable();
@@ -78,16 +78,6 @@ async function setOptimizedParameter () {
 
 }
 
-/**
- * get the amount of reduced tracklogs
- * @returns {Promise<number>}
- */
-async function getReducedPoints(){
-
-    return freeFlightOptimizeFactor*2;
-
-}
-
 
 /**
  * get all local tracklogs from the flight
@@ -95,7 +85,6 @@ async function getReducedPoints(){
  * @returns {Promise<number[]>} array of new local points
  */
 async function getNeighbourPoints (points) {
-    let puffer =  await getReducedPoints();
     let neighbourPoints = [];
     for ( let pointIndex = 0; pointIndex < points.length; pointIndex++ ){
         for ( let latlongIndex = 0; latlongIndex < latLong.length; latlongIndex++ ) {
