@@ -38,7 +38,7 @@ const flatTriangleScore = 1.75;
 const flatTriangleMaxSearchpoints = 200;
 const flatTriangleMaxLocalSearchpoints = 20;
 const flatTriangleRadiusFactor = 3;
-let flatTriangleImprovedPuffer = 0.1;
+let flatTriangleImprovedSearchBuffer = 0.1;
 
 // The angle θ between two subsequent vectors in a turn needs to fit between the below defined min and max angles.
 // e.g. for a circle of 10 vectors (11 different points) the average angle should be 36° (360 / 10)
