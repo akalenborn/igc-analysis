@@ -85,11 +85,11 @@ function displayMarkers ( name , points ) {
 
 function displayFlatTriangleInfo(){
     flatTriangleInfoContainer.innerHTML =
-        '<table id="flatTriangleInfo" class="table table-sm">' +
+        '<table id="flatTriangleInfo" class="table table-bordered">' +
         '<tbody>'+
-        displayFlightscore(results.shapeDetection.flatTriangle.flightScore.toFixed(2))+
         displayFlightScoreCoeficient(flatTriangleScore)+
-        displayFlightType(results.shapeDetection.flatTriangle.type)+
+        displayFlightscore(results.shapeDetection.flatTriangle.flightScore.toFixed(2))+
+        //displayFlightType(results.shapeDetection.flatTriangle.type)+
         displayTotalDistance(results.shapeDetection.flatTriangle.totalDistance.toFixed(2))+
         displayLegDistances(results.shapeDetection.flatTriangle)+
         displayStartEndDistance(results.shapeDetection.flatTriangle.startEndDistance.toFixed(2))+
@@ -101,13 +101,14 @@ function displayFlatTriangleInfo(){
 function displayFreeFlightInfo(){
     // if (results.shapeDetection.freeFlight.waypoints.length == 0) {
     freeFlightInfoContainer.innerHTML =
-        '<table id="freeFlightInfo" class="table table-sm">' +
+
+        '<table id="freeFlightInfo" class="table table-bordered">' +
         '<tbody>'+
-        displayFlightscore(results.shapeDetection.freeFlight.flightScore.toFixed(2))+
         displayFlightScoreCoeficient(freeFlightScore)+
-        displayFlightType(results.shapeDetection.freeFlight.type)+
+        displayFlightscore(results.shapeDetection.freeFlight.flightScore.toFixed(2))+
+        //displayFlightType(results.shapeDetection.freeFlight.type)+
         displayTotalDistance(results.shapeDetection.freeFlight.totalDistance.toFixed(2))+
-        displayDistanceBetweenPoints(results.shapeDetection.freeFlight)+
+        //displayDistanceBetweenPoints(results.shapeDetection.freeFlight)+
         '</tbody>' +'</table>';
     // }
     freeFlightInfoContainer.style.display = "block";
@@ -144,7 +145,7 @@ function displayDistanceBetweenPoints (flightParameters) {
 
 
 function displayFlightscore (score) {
-    return ('<tr><th>Flight score:</th>' +
+    return ('<tr><th width="50%">Punkte:</th>' +
         '<td>' + score + "p" + '</td>'+
         '</tr>');
 }
@@ -156,71 +157,67 @@ function displayFlightType (type) {
 }
 
 function displayTotalDistance (distance) {
-    return ('<tr><th>Total distance:</th>' +
+    return ('<tr><th width="50%">Gesamtstrecke:</th>' +
         '<td>' + distance + "km" + '</td>'+
         '</tr>');
 }
 
 function displayFlightScoreCoeficient(score) {
-    return ('<tr><th>Flight score coefficient:</th>' +
+    return ('<tr><th width="50%">Scoring Faktor:</th>' +
         '<td>' + score + "p" + '</td>'+
         '</tr>');
 }
 
 function displayLegDistances (flatTriangle) {
 
-    return ('<tr><th>Leg 1:</th>' +
+    return ('<tr><th width="50%">Leg 1:</th>' +
         '<td>' + flatTriangle.leg1.toFixed(2) + "km" + '</td>'+
         '</tr>'+
-        '<tr><th>Leg 2:</th>' +
+        '<tr><th width="50%">Leg 2:</th>' +
             '<td>' + flatTriangle.leg2.toFixed(2) + "km" + '</td>'+
         '</tr>'+
-        '<tr><th>Leg 3:</th>' +
+        '<tr><th width="50%">Leg 3:</th>' +
             '<td>' + flatTriangle.leg3.toFixed(2) + "km" + '</td>'+
         '</tr>');
 }
 
 function displayStartEndDistance (distance) {
-    return ('<tr><th> Distance between start and end:</th>' +
+    return ('<tr><th width="50%">Distanz zwischen Start- und Endpunkt:</th>' +
         '<td>' + distance + "km" + '</td>'+
         '</tr>');
 }
 
 function displayTriangleInfo(){
     triangleInfoContainer.innerHTML =
-        '<table id="triangleInfo" class="table table-sm">' +
+        '<table id="triangleInfo" class="table table-bordered">' +
         '<tbody>' +
         '<tr>' +
-        '<th>Flight Score:</th>' +
+        '<th width="50%">Scoring Faktor:</th>' +
         '<td>' + results.shapeDetection.triangle.flightScore + '</td>'+
         '</tr>'+
         '<tr>' +
         '<tr>' +
-        '<th>Type:</th>' +
-        '<td>' + results.shapeDetection.triangle.type + '</td>'+
-        '</tr>'+
-        '<tr>' +
-        '<th>Total Distance:</th>' +
+        '<th width="50%">Gesamtstrecke:</th>' +
         '<td>' + results.shapeDetection.triangle.distTotal + "km" + '</td>'+
         '</tr>'+
         '<tr>' +
         '<tr>'
-        +'<th>Leg 1:</th>' +
+        +'<th width="50%">Leg 1:</th>' +
         '<td>' +  + results.shapeDetection.triangle.w12+ "km" +
         " - " + results.shapeDetection.triangle.w1prcnt+ "%" + '</td>'+
         '</tr>'+
         '<tr>'
-        +'<th>Leg 2:</th>' +
+        +'<th width="50%">Leg 2:</th>' +
         '<td>' +  results.shapeDetection.triangle.w23 + "km" +
         " - " + results.shapeDetection.triangle.w2prcnt+ "%" + '</td>'+
         '</tr>'+
         '<tr>'
-        +'<th>Leg 3:</th>' +
+        +'<th width="50%">Leg 3:</th>' +
         '<td>' + results.shapeDetection.triangle.w31  + "km" +
         " - " + results.shapeDetection.triangle.w3prcnt+ "%" + '</td>'+
         '</tr>'+
         '<tr>'
-        +'<th>Start to End Distance:</th>' +
+        +'<th width="50%">Distanz zwischen Start- und Endpunkt:</th>' +
         '<td>' + results.shapeDetection.triangle.distStartEnd + "km" + '</td>'+
         '</tr>'+
         '</tbody>' +'</table>';
